@@ -18,6 +18,8 @@
         <Grid Grid.Row="2" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -35,6 +37,32 @@
                 
                 
             </StackPanel>
+
+
+            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                <Button Content="Add File" Name="AddFile" Tag="0" Click="AddFile_Click"  />
+                <Button Content="Read File" Name="ReadFile" Click="ReadFile_Click" />
+                <TextBlock Text="valami" Name="result" />
+                <TextBox Name="Filename" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical" >
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Selected File:"/>
+                    <TextBlock Name="SelectedFile" Margin="0,4,0,0" />
+                </StackPanel>
+                <TextBlock Text="File input" />
+                <TextBox Name="TextForFile" />
+                <Button Content="Save text" Name="SaveText" Click="SaveText_Click" />
+                <Button Content="Read file" Name="ReadText" Click="ReadFile_Click_1" />
+                <TextBlock Text="result" Name="FileContents" />
+                <Button Content="Encrypt" Name="EncFile" Click="EncFile_Click" />
+                <Button Content="Decrypt" Name="DecFile" Click="DecFile_Click" />
+                <Button Content="Save file on Computer" Name="saveFileOnPc" Click="SaveFileOnPc_Click" />
+                <Button Content="AES encrypt" Click="Button_Click" />
+                <TextBlock Text="eredmény" Name="aesresult" />
+            </StackPanel>
+            
         </Grid>
         
     </Grid>
