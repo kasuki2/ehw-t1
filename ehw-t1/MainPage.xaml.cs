@@ -278,49 +278,115 @@ namespace ehw_t1
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            char[] elv = { ' ', '.', '!', '?', ':', ';', ',' };
+            string[] elv = { " " };
             string[] words1 = rawSentence.Text.ToString().Split(elv, StringSplitOptions.None);
 
-            for(int i = 0; i < words1.Length; i++)
+            char[] sepas = { '.', ',', ':', '?', '!' };
+            char[] textChars = rawSentence.Text.ToCharArray();
+
+            List<string> processedText = new List<string>();
+            processedText.Clear();
+
+            string temp = "";
+            for (int z = 0; z < textChars.Length; z++)
             {
-                string theWord = words1[i];
+                // írásjeleket külön hozzáadni
+                if (Array.Exists(sepas, element => element == textChars[z])) {
 
-                TextBlock tb = new TextBlock();
-                tb.Text = theWord;
+                    processedText.Add(temp);
+                    temp = "";
 
-
-                var padding = new Thickness(0, 0, 0, 0);
-                var abg = new SolidColorBrush(Color.FromArgb(255, 48, 179, 221));
-
-
-                if (theWord == " " || theWord == "," || theWord == "?" || theWord == ";" || theWord == ":" || theWord == ".")
-                {
-
-                    // var abg = new SolidColorBrush(Color.FromArgb(255, 48, 179, 221));
-                    abg = new SolidColorBrush(Colors.AliceBlue);
-
-                } else
-                {
-                    padding = new Thickness(2, 0, 0, 0);
-                    abg = new SolidColorBrush(Colors.White);
+                    processedText.Add(textChars[z].ToString());
+                    continue;
                 }
-               
+
+
+                if (textChars[z] == ' ')
+                {
+                    processedText.Add(temp);
+                    temp = "";
+                }
+
+                temp += textChars[z];
+            }
+
+
+            
+            for (int k = 0; k < processedText.Count; k++)
+            {
+                TextBlock tb = new TextBlock();
+                tb.Text = processedText[k];
+
+                var padding = new Thickness(2, 0, 0, 0);
+                var abg = new SolidColorBrush(Colors.White);
+
+                var needTap = true;
+                if (processedText[k] == "," || processedText[k] == "?" || processedText[k] == ";" || processedText[k] == ":" || processedText[k] == ".")
+                {
+
+                    abg = new SolidColorBrush(Color.FromArgb(255, 48, 179, 221));
+                    padding = new Thickness(0, 0, 0, 0);
+                    needTap = false;
+
+                }
+              
+
 
                 ListBoxItem lb = new ListBoxItem();
                 lb.Content = tb;
                 lb.Padding = padding;
                 lb.Background = abg;
-
+                if (needTap)
+                {
+                    lb.Tag = "0";
+                    lb.Tapped += Lb_Tapped;
+                }
+                else
+                {
+                    lb.Tag = "x";
+                }
+               
                 wrapWords.Children.Add(lb);
+
+               
+
             }
-
-            
-
-
-
-
 
 
         }
+
+        private void Lb_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            ListBoxItem tappedLb = sender as ListBoxItem;
+
+            if(tappedLb.Tag.ToString() == "0")
+            {
+                tappedLb.Tag = "1";
+            }
+            else
+            {
+                tappedLb.Tag = "0";
+            }
+
+            for (int i = 0; i < wrapWords.Children.Count; i++)
+            {
+                ListBoxItem item = wrapWords.Children[i] as ListBoxItem;
+                if (item.Tag.ToString() == "1")
+                {
+                    item.Background = new SolidColorBrush(Colors.LightGreen);
+                }
+                else if (item.Tag.ToString() == "0")
+                {
+                    item.Background = new SolidColorBrush(Colors.White);
+                }
+            }
+
+
+        }
+
+
+
+
+
     }
-}
+    }
