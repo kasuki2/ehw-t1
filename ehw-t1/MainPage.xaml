@@ -9,6 +9,33 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
+        <Grid Grid.Row="2" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0"  Orientation="Vertical" Name="outerWrapper" >
+                <StackPanel Orientation="Vertical" Name="Wrapper" >
+                    <StackPanel Orientation="Horizontal" Name="Head">
+                        <TextBlock Text="FolderName" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Name="Body">
+                        
+                    </StackPanel>
+                </StackPanel>
+                
+                
+            </StackPanel>
+        </Grid>
+        
     </Grid>
 </Page>
