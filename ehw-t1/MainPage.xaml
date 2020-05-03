@@ -5,7 +5,9 @@
     xmlns:local="using:ehw_t1"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
+   
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
@@ -17,6 +19,7 @@
 
         <Grid Grid.Row="2" >
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -56,12 +59,33 @@
                 <Button Content="Save text" Name="SaveText" Click="SaveText_Click" />
                 <Button Content="Read file" Name="ReadText" Click="ReadFile_Click_1" />
                 <TextBlock Text="result" Name="FileContents" />
-                <Button Content="Encrypt" Name="EncFile" Click="EncFile_Click" />
-                <Button Content="Decrypt" Name="DecFile" Click="DecFile_Click" />
+          
                 <Button Content="Save file on Computer" Name="saveFileOnPc" Click="SaveFileOnPc_Click" />
                 <Button Content="AES encrypt" Click="Button_Click" />
                 <TextBlock Text="eredmény" Name="aesresult" />
             </StackPanel>
+
+
+            <Grid Grid.Row="3" Grid.Column="1" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="1"  Text="Write or paste a sentence here. Then press PROCESS"/>
+                <TextBox Grid.Row="2" x:Name="rawSentence" TextWrapping="Wrap" Height="50" />
+                <Button Grid.Row="3" Content="PROCESS" Click="Button_Click_1" />
+                <controls:WrapPanel Grid.Row="4" x:Name="wrapWords" >
+                  
+                </controls:WrapPanel>
+            </Grid>
+            
             
         </Grid>
         
