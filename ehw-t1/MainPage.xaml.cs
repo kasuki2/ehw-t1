@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -276,8 +277,16 @@ namespace ehw_t1
 
         }
 
+      
+
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+          
+
+
+
+            // PROCESS button
+
             string[] elv = { " " };
             string[] words1 = rawSentence.Text.ToString().Split(elv, StringSplitOptions.None);
 
@@ -310,10 +319,19 @@ namespace ehw_t1
                 temp += textChars[z];
             }
 
+            wrapWords.Children.Clear();
 
-            
+            // contains all the words without puncutations
+
+          
+
+
+
             for (int k = 0; k < processedText.Count; k++)
             {
+              
+                
+
                 TextBlock tb = new TextBlock();
                 tb.Text = processedText[k];
 
@@ -339,11 +357,13 @@ namespace ehw_t1
                 if (needTap)
                 {
                     lb.Tag = "0";
+                    lb.Name = (1000 + k).ToString(); // max 1000 words!
                     lb.Tapped += Lb_Tapped;
                 }
                 else
                 {
                     lb.Tag = "x";
+                    lb.Name = (1000 + k).ToString();
                 }
                
                 wrapWords.Children.Add(lb);
@@ -353,20 +373,46 @@ namespace ehw_t1
             }
 
 
+
+
+            chosenWords.Children.Clear();
+
         }
+
+
+        public class Lexi
+        {
+            public string id { get; set; }
+            public int id5 { get; set; }
+            public string word { get; set; }
+        }
+
+        List<Lexi> globLexi = new List<Lexi>();
+
+       
+
+
 
         private void Lb_Tapped(object sender, TappedRoutedEventArgs e)
         {
+           
+
             ListBoxItem tappedLb = sender as ListBoxItem;
+
+          
 
             if(tappedLb.Tag.ToString() == "0")
             {
+                // új kiválasztás
                 tappedLb.Tag = "1";
             }
             else
             {
                 tappedLb.Tag = "0";
+                // delete only this box
             }
+
+
 
             for (int i = 0; i < wrapWords.Children.Count; i++)
             {
@@ -382,7 +428,210 @@ namespace ehw_t1
             }
 
 
+
+            List<string> lexicalItems = new List<string>();
+            lexicalItems.Clear();
+            globLexi.Clear();
+
+            string temp = String.Empty;
+            StringBuilder sb = new StringBuilder();
+            string ids = "";
+            for (int z = 0; z < wrapWords.Children.Count; z++)
+            {
+                ListBoxItem theItem = wrapWords.Children[z] as ListBoxItem;
+                TextBlock atb = theItem.Content as TextBlock;
+
+                if (theItem.Tag.ToString() == "1")
+                {
+
+                    sb.Append(atb.Text);
+                    temp += atb.Text.ToString();
+                    ids += theItem.Name.ToString();
+                  
+                    
+                }
+                else
+                {
+                    if(temp != String.Empty)
+                    {
+                        lexicalItems.Add(temp);
+                        Lexi egylexi = new Lexi();
+                      //  egylexi.word = temp;
+                        egylexi.word = sb.ToString();
+                        egylexi.id = ids;
+                        egylexi.id5 = Convert.ToInt32(ids.Substring(0, 4));
+                        globLexi.Add(egylexi);
+                        sb.Clear();
+                        temp = String.Empty;
+                        ids = "";
+                    }
+                }
+
+
+            }
+          
+            // collect ids
+            List<int> ides = new List<int>();
+            ides.Clear();
+            string minden = "";
+            for (int c = 0; c < globLexi.Count; c++)
+            {
+                ides.Add(globLexi[c].id5);
+                minden += globLexi[c].word + " - ";
+            }
+            
+            // remove unused edit boxex
+
+            for(int u = 0;u < chosenWords.Children.Count; u++)
+            {
+                StackPanel aWrap = chosenWords.Children[u] as StackPanel;
+                if (!ides.Contains(Convert.ToInt32( aWrap.Tag)))
+                {
+                    // ez az id box nem kell
+                    chosenWords.Children.RemoveAt(u);
+                }
+                
+            }
+
+            // globLexi = globLexi.OrderBy(p => p.id5).ToList();
+
+
+
+            // chosenWords distractor boxes 
+           
+         
+
+            for (int c = 0;c < globLexi.Count; c++)
+            {
+             
+                StackPanel wrapper = new StackPanel();
+                wrapper.Orientation = Orientation.Vertical;
+                wrapper.Tag = globLexi[c].id5;
+                
+                int currid = globLexi[c].id5;
+              
+                Button plus = new Button();
+                plus.Content = "+";
+                plus.Click += Plus_Click;
+                Button minus = new Button();
+                minus.Content = "-";
+                Button connected = new Button();
+                connected.Content = "c";
+
+                StackPanel head = new StackPanel();
+                head.Orientation = Orientation.Horizontal;
+             
+                head.Children.Add(plus);
+                head.Children.Add(minus);
+                head.Children.Add(connected);
+
+                wrapper.Children.Add(head);
+
+
+                // distractors
+                StackPanel distWrapper = new StackPanel();
+                distWrapper.Orientation = Orientation.Horizontal;
+
+                TextBox tb1 = new TextBox();
+                tb1.Width = 100;
+                tb1.Text = globLexi[c].word;
+
+
+
+                Button corr = new Button();
+                corr.Content = "p";
+
+
+                distWrapper.Children.Add(tb1);
+                distWrapper.Children.Add(corr);
+
+                TextBox tb2 = new TextBox();
+                tb2.Text = "";
+
+                StackPanel distWrapper2 = new StackPanel();
+                distWrapper2.Orientation = Orientation.Horizontal;
+
+                Button corr2 = new Button();
+                corr2.Content = "p";
+                distWrapper2.Children.Add(tb2);
+                distWrapper2.Children.Add(corr2);
+
+                StackPanel dists = new StackPanel();
+                dists.Orientation = Orientation.Vertical;
+
+                dists.Children.Add(distWrapper);
+                dists.Children.Add(distWrapper2);
+
+                wrapper.Children.Add(dists);
+
+                // Add the current box if there's no such and id
+
+                // currid
+
+                var van = false;
+                for (int a = 0; a < chosenWords.Children.Count; a++)
+                {
+                    StackPanel theWrapper = chosenWords.Children[a] as StackPanel;
+                    if (Convert.ToInt16(theWrapper.Tag) == currid)
+                    {
+                        van = true;
+                        break;
+                    }
+                }
+                    
+
+                // ha nincs ilyen, akkor beletenni
+                if (van == false)
+                {
+                                   
+                      chosenWords.Children.Add(wrapper);
+                }
+
+                
+
+
+            }
+
+           
+
+
+          
         }
+
+      
+
+
+        private void Plus_Click(object sender, RoutedEventArgs e)
+        {
+            Button plusButton = sender as Button;
+            StackPanel headWrap = plusButton.Parent as StackPanel;
+            StackPanel allWrap = headWrap.Parent as StackPanel;
+
+            StackPanel contentWrap = allWrap.Children[1] as StackPanel;
+
+
+
+            TextBox tb1 = new TextBox();
+            tb1.Text = "";
+
+            Button corr = new Button();
+            corr.Content = "p";
+
+            StackPanel kisWrap = new StackPanel();
+            kisWrap.Orientation = Orientation.Horizontal;
+            kisWrap.Children.Add(tb1);
+            kisWrap.Children.Add(corr);
+
+            contentWrap.Children.Add(kisWrap);
+           
+
+           // int kids = contentWrap.Children.Count;
+           // kids.ToString().Show();
+        }
+
+
+
+
 
 
 

@@ -79,10 +79,14 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Row="1"  Text="Write or paste a sentence here. Then press PROCESS"/>
-                <TextBox Grid.Row="2" x:Name="rawSentence" TextWrapping="Wrap" Height="50" />
+                <TextBox Grid.Row="2" x:Name="rawSentence" Text="When they see us, will they say hello?" TextWrapping="Wrap" Height="50" />
                 <Button Grid.Row="3" Content="PROCESS" Click="Button_Click_1" />
+
                 <controls:WrapPanel Grid.Row="4" x:Name="wrapWords" >
-                  
+                </controls:WrapPanel>
+
+                <controls:WrapPanel Grid.Row="5" x:Name="chosenWords">
+                    
                 </controls:WrapPanel>
             </Grid>
             
