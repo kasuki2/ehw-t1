@@ -88,6 +88,10 @@
                 <controls:WrapPanel Grid.Row="5" x:Name="chosenWords">
                     
                 </controls:WrapPanel>
+                <StackPanel Grid.Row="6" Orientation="Horizontal">
+                    <TextBlock Text="globlexi: "/>
+                    <TextBlock x:Name="globlexiNum" />
+                </StackPanel>
             </Grid>
             
             

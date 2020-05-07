@@ -357,13 +357,13 @@ namespace ehw_t1
                 if (needTap)
                 {
                     lb.Tag = "0";
-                    lb.Name = (1000 + k).ToString(); // max 1000 words!
+                    lb.Name =  k.ToString(); // max 1000 words!
                     lb.Tapped += Lb_Tapped;
                 }
                 else
                 {
                     lb.Tag = "x";
-                    lb.Name = (1000 + k).ToString();
+                    lb.Name = k.ToString();
                 }
                
                 wrapWords.Children.Add(lb);
@@ -383,7 +383,7 @@ namespace ehw_t1
         public class Lexi
         {
             public string id { get; set; }
-            public int id5 { get; set; }
+            public int idsor { get; set; }
             public string word { get; set; }
         }
 
@@ -434,7 +434,7 @@ namespace ehw_t1
             globLexi.Clear();
 
             string temp = String.Empty;
-            StringBuilder sb = new StringBuilder();
+          
             string ids = "";
             for (int z = 0; z < wrapWords.Children.Count; z++)
             {
@@ -444,7 +444,7 @@ namespace ehw_t1
                 if (theItem.Tag.ToString() == "1")
                 {
 
-                    sb.Append(atb.Text);
+                   
                     temp += atb.Text.ToString();
                     ids += theItem.Name.ToString();
                   
@@ -456,12 +456,11 @@ namespace ehw_t1
                     {
                         lexicalItems.Add(temp);
                         Lexi egylexi = new Lexi();
-                      //  egylexi.word = temp;
-                        egylexi.word = sb.ToString();
+                        egylexi.word = temp;
                         egylexi.id = ids;
-                        egylexi.id5 = Convert.ToInt32(ids.Substring(0, 4));
+                        egylexi.idsor = z;
                         globLexi.Add(egylexi);
-                        sb.Clear();
+                       
                         temp = String.Empty;
                         ids = "";
                     }
@@ -471,44 +470,45 @@ namespace ehw_t1
             }
           
             // collect ids
-            List<int> ides = new List<int>();
+            List<string> ides = new List<string>();
             ides.Clear();
-            string minden = "";
+            string mindides = "";
             for (int c = 0; c < globLexi.Count; c++)
             {
-                ides.Add(globLexi[c].id5);
-                minden += globLexi[c].word + " - ";
+                ides.Add(globLexi[c].id);
+                mindides += globLexi[c].id.ToString() + " -";
             }
-            
-            // remove unused edit boxex
 
-            for(int u = 0;u < chosenWords.Children.Count; u++)
+            string marbeirt = "";
+            for (int u = 0; u < chosenWords.Children.Count; u++)
             {
                 StackPanel aWrap = chosenWords.Children[u] as StackPanel;
-                if (!ides.Contains(Convert.ToInt32( aWrap.Tag)))
-                {
-                    // ez az id box nem kell
-                    chosenWords.Children.RemoveAt(u);
-                }
-                
+                marbeirt += aWrap.Tag.ToString() + " -";
+
             }
 
-            // globLexi = globLexi.OrderBy(p => p.id5).ToList();
+                // remove unused edit boxex
 
+          
 
+            // globLexi = globLexi.OrderBy(p => p.idsor).ToList();
+
+            globlexiNum.Text = globLexi.Count.ToString() + " ides: " + mindides;
 
             // chosenWords distractor boxes 
-           
-         
+
+
 
             for (int c = 0;c < globLexi.Count; c++)
             {
              
                 StackPanel wrapper = new StackPanel();
                 wrapper.Orientation = Orientation.Vertical;
-                wrapper.Tag = globLexi[c].id5;
+                wrapper.Tag = globLexi[c].id;
+                wrapper.Name = globLexi[c].idsor.ToString();
                 
-                int currid = globLexi[c].id5;
+                
+                string currid = globLexi[c].id;
               
                 Button plus = new Button();
                 plus.Content = "+";
@@ -539,7 +539,7 @@ namespace ehw_t1
 
 
                 Button corr = new Button();
-                corr.Content = "p";
+                corr.Content = globLexi[c].id.ToString();
 
 
                 distWrapper.Children.Add(tb1);
@@ -572,34 +572,157 @@ namespace ehw_t1
                 for (int a = 0; a < chosenWords.Children.Count; a++)
                 {
                     StackPanel theWrapper = chosenWords.Children[a] as StackPanel;
-                    if (Convert.ToInt16(theWrapper.Tag) == currid)
+                    int asor = Convert.ToInt16(theWrapper.Tag);
+                    if (theWrapper.Tag.ToString() == currid)
                     {
                         van = true;
                         break;
                     }
                 }
                     
+                // insert swhere
 
-                // ha nincs ilyen, akkor beletenni
+               
+
+
+                // ha nincs ilyen, akkor beletenni, de hova
                 if (van == false)
                 {
+
+                    if(chosenWords.Children.Count > 0)
+                    {
+                        bool inserted = false;
+                        for (int i = 0; i < chosenWords.Children.Count; i++)
+                        {
+                            StackPanel theWrapper = chosenWords.Children[i] as StackPanel;
+
+                            if (Convert.ToInt16(theWrapper.Name) > Convert.ToInt16(wrapper.Name))
+                            {
+                                chosenWords.Children.Insert(i, wrapper);
+                                inserted = true;
+                               
+                                break;
+                            }
+
+                        }
+
+                        if(inserted == false)
+                        {
+                          
+                            for (int i = 0; i < chosenWords.Children.Count; i++)
+                            {
+                                StackPanel theWrapper = chosenWords.Children[i] as StackPanel;
+
+                                if (Convert.ToInt16(theWrapper.Name) < Convert.ToInt16(wrapper.Name))
+                                {
+                                    //chosenWords.Children.RemoveAt(i);
+                                  
+                                    chosenWords.Children.Insert(i, wrapper);
+                                    inserted = true;
+                                    break;
                                    
-                      chosenWords.Children.Add(wrapper);
+                                   
+                                }
+
+                            }
+                        }
+
+
+                    }
+                    else
+                    {
+                        chosenWords.Children.Add(wrapper);
+                    }
+
+
+
+                    //chosenWords.Children.Add(wrapper);
                 }
-
-                
-
-
             }
 
-           
+            
+
+            // remove boxes
+            List<string> beirtIds = new List<string>();
+            beirtIds.Clear();
+            for (int u = 0; u < chosenWords.Children.Count; u++)
+            {
+                StackPanel aWrap = chosenWords.Children[u] as StackPanel;
+                beirtIds.Add(aWrap.Tag.ToString());
+            }
+
+            for(int u = 0; u < beirtIds.Count; u++)
+            {
+                bool vanez = false;
+               
+                for (int f = 0; f < ides.Count; f++)
+                {
+
+                    if (ides[f] == beirtIds[u])
+                    {
+                        vanez = true;
+
+                    }
+                }
+                if(vanez == false)
+                {
+                    removeEditBox(beirtIds[u]);
+                }
+            }
+
+            // order boxes 
+            //List<int> beirtIDs = new List<int>();
+            //ides.Clear();
+            
+            //for (int c = 0; c < chosenWords.Children.Count; c++)
+            //{
+            //    StackPanel theWrap = chosenWords.Children[c] as StackPanel;
+
+            //    beirtIDs.Add(Convert.ToInt16(theWrap.Name));
+                
+            //}
+            //beirtIds.Sort();
+            //string sortedsor = "";
 
 
-          
+            //for(int o = 0;o < beirtIds.Count; o++)
+            //{
+            //    sortedsor += beirtIds[o].ToString() + " -";
+            //}
+
+            //globlexiNum.Text = "sorted: " + sortedsor.ToString();
+            //// add the sorted elements
+            //for (int i = 0; i < beirtIDs.Count; i++)
+            //{
+            //    for (int c = 0; c < chosenWords.Children.Count; c++)
+            //    {
+            //        StackPanel theWrap = chosenWords.Children[c] as StackPanel;
+
+            //        if( Convert.ToInt16(theWrap.Name) == beirtIDs[i])
+            //        {
+            //            chosenWords.Children.RemoveAt(c);
+            //            chosenWords.Children.Add(theWrap);
+            //        }
+
+            //    }
+            //}
+            // és kitörölni az első néhány boxot
+
+           // chosenWords.Children = chosenWords.Children.OrderBy(x => x.Tag.toSring()).toList()
+
         }
 
-      
-
+        private void removeEditBox(string azid)
+        {
+            for (int u = 0; u < chosenWords.Children.Count; u++)
+            {
+                StackPanel aWrap = chosenWords.Children[u] as StackPanel;
+                if(aWrap.Tag.ToString() == azid)
+                {
+                    chosenWords.Children.RemoveAt(u);
+                }
+            }
+        }
 
         private void Plus_Click(object sender, RoutedEventArgs e)
         {
