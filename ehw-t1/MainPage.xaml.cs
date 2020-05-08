@@ -608,23 +608,9 @@ namespace ehw_t1
 
                         if(inserted == false)
                         {
-                          
-                            for (int i = 0; i < chosenWords.Children.Count; i++)
-                            {
-                                StackPanel theWrapper = chosenWords.Children[i] as StackPanel;
 
-                                if (Convert.ToInt16(theWrapper.Name) < Convert.ToInt16(wrapper.Name))
-                                {
-                                    //chosenWords.Children.RemoveAt(i);
-                                  
-                                    chosenWords.Children.Insert(i, wrapper);
-                                    inserted = true;
-                                    break;
-                                   
-                                   
-                                }
-
-                            }
+                            chosenWords.Children.Add(wrapper);
+                           
                         }
 
 
@@ -636,7 +622,7 @@ namespace ehw_t1
 
 
 
-                    //chosenWords.Children.Add(wrapper);
+                   
                 }
             }
 
@@ -670,46 +656,7 @@ namespace ehw_t1
                 }
             }
 
-            // order boxes 
-            //List<int> beirtIDs = new List<int>();
-            //ides.Clear();
-            
-            //for (int c = 0; c < chosenWords.Children.Count; c++)
-            //{
-            //    StackPanel theWrap = chosenWords.Children[c] as StackPanel;
-
-            //    beirtIDs.Add(Convert.ToInt16(theWrap.Name));
-                
-            //}
-            //beirtIds.Sort();
-            //string sortedsor = "";
-
-
-            //for(int o = 0;o < beirtIds.Count; o++)
-            //{
-            //    sortedsor += beirtIds[o].ToString() + " -";
-            //}
-
-            //globlexiNum.Text = "sorted: " + sortedsor.ToString();
-            //// add the sorted elements
-            //for (int i = 0; i < beirtIDs.Count; i++)
-            //{
-            //    for (int c = 0; c < chosenWords.Children.Count; c++)
-            //    {
-            //        StackPanel theWrap = chosenWords.Children[c] as StackPanel;
-
-            //        if( Convert.ToInt16(theWrap.Name) == beirtIDs[i])
-            //        {
-            //            chosenWords.Children.RemoveAt(c);
-            //            chosenWords.Children.Add(theWrap);
-            //        }
-
-            //    }
-            //}
-            // és kitörölni az első néhány boxot
-
-           // chosenWords.Children = chosenWords.Children.OrderBy(x => x.Tag.toSring()).toList()
-
+          
         }
 
         private void removeEditBox(string azid)
