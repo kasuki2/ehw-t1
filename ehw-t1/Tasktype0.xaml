@@ -1,0 +1,91 @@
+﻿<Page
+    x:Class="ehw_t1.Tasktype0"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ehw_t1"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+
+        <Grid Grid.Row="0" x:Name="MainGrid" Padding="32,16" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Create Multiple Choise Task With Popups" />
+
+            </Grid>
+
+            <Grid Grid.Row="1" x:Name="First_line" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Write or paste a sentence here, then press PROCESS." />
+                <TextBox Grid.Row="1" x:Name="rawSentence" />
+                <Button Grid.Row="2" x:Name="Process" Click="Process_Click" >
+                    <TextBlock Text="PROCESS" />
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="2" x:Name="Second_line" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Click on the words you want to select." />
+                <controls:WrapPanel Grid.Row="1" x:Name="wrapWords" >
+                </controls:WrapPanel>
+
+
+            </Grid>
+
+            <Grid Grid.Row="3" x:Name="Third_line" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                
+                <TextBlock Grid.Row="0" Text="Add distractors." />
+                <controls:WrapPanel Grid.Row="1" x:Name="chosenWords">
+                    
+                </controls:WrapPanel>
+
+                <TextBlock Grid.Row="2" Text="Provide short explanations for why a particular solution is incorrect." />
+                <controls:WrapPanel Grid.Row="3" x:Name="explanationBoxes">
+
+                </controls:WrapPanel>
+
+            </Grid>
+        </Grid>
+
+    </Grid>
+</Page>

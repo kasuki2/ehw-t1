@@ -5,6 +5,8 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Security.Cryptography;
+using Windows.Security.Cryptography.Core;
 using Windows.UI.Popups;
 
 namespace ehw_t1
@@ -17,10 +19,29 @@ namespace ehw_t1
             await dialog.ShowAsync();
         }
 
+
+
+        private const int KeySize = 256; // in bits
+
         public static string EncryptStr(this String plainText)
         {
-            var base64Key = "+CffHxKmykUvCrrCILd4rZDBcrIoe3w89jnPNXYi0rg=";
-            var Key = Convert.FromBase64String(base64Key);
+            var utf8 = new UTF8Encoding();
+
+          //  var base64Key = "+CffHxKmykUvCrrCILd4rZDBcrIoe3w89jnPNXYi0rg=";
+            var base64Key = "1234567812345678";
+            var Key2 = Convert.FromBase64String(base64Key);
+            var Key = utf8.GetBytes(base64Key.Substring(0,16));
+
+          
+           // byte[] Key = utf8.GetBytes(aKey);
+
+            string aIv = "1234567812345678";
+            byte[] iv = utf8.GetBytes(aIv.Substring(0,16));
+           
+
+            byte[] ivArr = { 1, 2, 3, 4, 5, 6, 6, 5, 4, 3, 2, 1, 7, 7, 7, 7 };
+            byte[] IVBytes16Value = new byte[16];
+            Array.Copy(ivArr, IVBytes16Value, Math.Min(ivArr.Length, IVBytes16Value.Length));
 
             // Check arguments. 
             if (Key == null || Key.Length <= 0)
@@ -28,10 +49,14 @@ namespace ehw_t1
             byte[] returnValue;
             using (var aes = Aes.Create())
             {
-                aes.KeySize = KeySize;
-                aes.GenerateIV();
+                aes.KeySize = 128;
+                aes.BlockSize = 128;
+                aes.Padding = PaddingMode.PKCS7;
+                aes.IV = IVBytes16Value;
+              //  aes.GenerateIV();
                 aes.Mode = CipherMode.CBC;
-                var iv = aes.IV;
+              //  var iv = aes.IV;
+              
                 if (string.IsNullOrEmpty(plainText))
                     return Convert.ToBase64String(iv);
                 var encryptor = aes.CreateEncryptor(Key, iv);
@@ -60,12 +85,30 @@ namespace ehw_t1
             // return encrypted bytes converted to Base64String
             return Convert.ToBase64String(returnValue);
         }
-        private const int KeySize = 256; // in bits
+
+       
+
         public static string DecryptStr(this String cipherText)
         {
-            var base64Key = "+CffHxKmykUvCrrCILd4rZDBcrIoe3w89jnPNXYi0rg=";
-            var Key = Convert.FromBase64String(base64Key);
+            var utf8 = new UTF8Encoding();
 
+
+            //  var base64Key = "+CffHxKmykUvCrrCILd4rZDBcrIoe3w89jnPNXYi0rg=";
+            var base64Key = "1234567812345678";
+            var Key2 = Convert.FromBase64String(base64Key);
+            var Key = utf8.GetBytes(base64Key.Substring(0,16));
+         
+        
+           
+            string aIv = "1234567812345678";
+            byte[] iv = utf8.GetBytes(aIv.Substring(0, 16));
+           
+
+            byte[] ivArr = { 1, 2, 3, 4, 5, 6, 6, 5, 4, 3, 2, 1, 7, 7, 7, 7 };
+            byte[] IVBytes16Value = new byte[16];
+            Array.Copy(ivArr, IVBytes16Value, Math.Min(ivArr.Length, IVBytes16Value.Length));
+
+            //    byte[] Key = utf8.GetBytes(aKey);
             // Check arguments. 
             if (string.IsNullOrEmpty(cipherText))
                 return string.Empty;
@@ -78,11 +121,14 @@ namespace ehw_t1
 
             using (var aes = Aes.Create())
             {
-                aes.KeySize = KeySize;
+                aes.KeySize = 128;
+                aes.BlockSize = 128;
+                aes.Padding = PaddingMode.PKCS7;
                 aes.Mode = CipherMode.CBC;
+                aes.IV = IVBytes16Value;
 
                 // get our IV that we pre-pended to the data
-                byte[] iv = new byte[aes.BlockSize / 8];
+                //  byte[] iv = new byte[aes.BlockSize / 8];
                 if (allBytes.Length < iv.Length)
                     throw new ArgumentException("Message was less than IV size.");
                 Array.Copy(allBytes, iv, iv.Length);
@@ -110,6 +156,12 @@ namespace ehw_t1
 
             return plaintext;
         }
+
+
+  
+
+
+
 
     }
 
