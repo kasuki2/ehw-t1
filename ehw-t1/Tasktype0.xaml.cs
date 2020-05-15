@@ -221,7 +221,9 @@ namespace ehw_t1
                 wrapper.Padding = new Thickness(4);
                 wrapper.Background = new SolidColorBrush(Color.FromArgb(255, 200, 200, 200));
                 wrapper.Margin = new Thickness(0, 0, 8, 8);
-                wrapper.Width = 140;
+                wrapper.Width = 200;
+                wrapper.BorderThickness = new Thickness(2, 2, 2, 2);
+                wrapper.BorderBrush = new SolidColorBrush(Colors.Transparent);
 
                 StackPanel expWrap = new StackPanel();
                 expWrap.Orientation = Orientation.Vertical;
@@ -231,7 +233,7 @@ namespace ehw_t1
                 expWrap.Padding = new Thickness(4, 4, 4, 4);
                 expWrap.Padding = new Thickness(4);
                 expWrap.Margin = new Thickness(0, 0, 8, 8);
-                expWrap.Width = 140;
+                expWrap.Width = 200;
 
 
                 string currid = globLexi[c].id;
@@ -239,14 +241,17 @@ namespace ehw_t1
                 Button plus = new Button();
                 plus.Content = "+";
                 plus.Click += Plus_Click;
+                plus.IsTabStop = false;
 
                 Button minus = new Button();
                 minus.Content = "-";
                 minus.Click += Minus_Click;
+                minus.IsTabStop = false;
 
                 Button connected = new Button();
                 connected.Content = "c";
                 connected.HorizontalAlignment = HorizontalAlignment.Right;
+                connected.IsTabStop = false;
 
               
                 
@@ -499,6 +504,8 @@ namespace ehw_t1
                 };
                 okbutt.Tag = 0;
             }
+
+            WrapReset();
         }
 
         private void removeEditBox(string azid)
@@ -629,6 +636,103 @@ namespace ehw_t1
 
 
         }
+
+        private void Finish_Click(object sender, RoutedEventArgs e)
+        {
+
+            // collect the sentence
+            List<string> sentence = new List<string>();
+            sentence.Clear();
+
+            string temp = "";
+            for (int i = 0;i < wrapWords.Children.Count; i++)
+            {
+                
+                ListBoxItem lbitem = wrapWords.Children[i] as ListBoxItem;
+
+                if(lbitem.Tag.ToString() != "1") // ha nem zöld
+                {
+                    TextBlock lbcontent = lbitem.Content as TextBlock;
+                    if(lbitem.Tag.ToString() == "x")
+                    {
+                        temp += lbcontent.Text;
+                    }
+                    else
+                    {
+                        temp += " " + lbcontent.Text;
+                    }
+                  
+                }
+                else
+                {
+                    sentence.Add(temp.Trim());
+                    temp = "";
+                }
+            }
+            sentence.Add(temp);
+
+            string minden = "";
+            for(int i = 0; i < sentence.Count; i++)
+            {
+                minden += sentence[i] + "--- ";
+            }
+
+            result.Text = minden;
+
+
+
+
+            checkCheckMarks();
+
+        }
+
+
+        private void checkCheckMarks()
+        {
+            // 2. check if boxes have at leas one solution marked as correct
+            bool problems = false;
+            for (int u = 0; u < chosenWords.Children.Count; u++)
+            {
+                StackPanel aWrap = chosenWords.Children[u] as StackPanel;
+                Grid contentGrid = aWrap.Children[1] as Grid;
+                bool hasTick = false;
+
+                for(int i = 0;i < contentGrid.Children.Count; i++)
+                {
+                    if( contentGrid.Children[i] is Button)
+                    {
+                        Button okbutt = contentGrid.Children[i] as Button;
+                        if((int)okbutt.Tag == 1)
+                        {
+                            hasTick = true;
+                        }
+                    }
+                }
+
+                if(hasTick == false)
+                {
+                    aWrap.BorderBrush = new SolidColorBrush(Colors.Red);
+                    problems = true;
+                }
+
+            }
+            if (problems)
+            {
+                ("You need to mark at least one solution as correct in the boxes.").Show();
+            }
+
+
+        }
+
+        private void WrapReset()
+        {
+            for (int u = 0; u < chosenWords.Children.Count; u++)
+            {
+                StackPanel aWrap = chosenWords.Children[u] as StackPanel;
+                aWrap.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            }
+        }
+
 
 
 
