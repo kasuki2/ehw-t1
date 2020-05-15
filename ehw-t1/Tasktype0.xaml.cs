@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
+
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace ehw_t1
@@ -296,6 +297,7 @@ namespace ehw_t1
                 Button corr = new Button();
                 corr.Click += Corr_Click;
                 corr.Tag = 0;
+                corr.IsTabStop = false;
 
                 corr.Content = new FontIcon
                 {
@@ -313,6 +315,7 @@ namespace ehw_t1
                 };
                 corr2.Tag = 0;
                 corr2.Click += Corr_Click;
+                corr2.IsTabStop = false;
 
 
                 Grid distGrid = new Grid();
@@ -559,6 +562,7 @@ namespace ehw_t1
             TextBox tbuj = new TextBox();
             Button okbutt = new Button();
             okbutt.Tag = 0;
+            okbutt.IsTabStop = false;
             okbutt.Content = new FontIcon
             {
                 FontFamily = new FontFamily("Segoe MDL2 Assets"),
@@ -637,8 +641,15 @@ namespace ehw_t1
 
         }
 
+
+        Item azitem = new Item();
+
+       
+
+
         private void Finish_Click(object sender, RoutedEventArgs e)
         {
+            azitem.id = 0;
 
             // collect the sentence
             List<string> sentence = new List<string>();
@@ -670,14 +681,21 @@ namespace ehw_t1
                 }
             }
             sentence.Add(temp);
+            azitem.sentence = sentence;
 
-            string minden = "";
-            for(int i = 0; i < sentence.Count; i++)
-            {
-                minden += sentence[i] + "--- ";
-            }
+         
 
-            result.Text = minden;
+          
+
+
+            // write in the sentence
+            List<string> solu = new List<string>();
+            solu.Add("GGG"); solu.Add("GGG");
+            azitem.solutions = solu;
+
+
+
+           
 
 
 
@@ -690,38 +708,155 @@ namespace ehw_t1
         private void checkCheckMarks()
         {
             // 2. check if boxes have at leas one solution marked as correct
-            bool problems = false;
+            bool markCorrect = false;
+            bool distrContent = false;
+
+            List<List<string>> distra = new List<List<string>>();
+            List<string> sol = new List<string>();
+            string s = "";
+            string so = "";
+
             for (int u = 0; u < chosenWords.Children.Count; u++)
             {
+
                 StackPanel aWrap = chosenWords.Children[u] as StackPanel;
                 Grid contentGrid = aWrap.Children[1] as Grid;
                 bool hasTick = false;
+                int filledTb = 0;
+                int buttonCount = 0;
+
+                List<string> dist = new List<string>();
 
                 for(int i = 0;i < contentGrid.Children.Count; i++)
                 {
+
                     if( contentGrid.Children[i] is Button)
                     {
                         Button okbutt = contentGrid.Children[i] as Button;
                         if((int)okbutt.Tag == 1)
                         {
                             hasTick = true;
+                            so += buttonCount.ToString(); // solu 0-1-1-0
+                        }
+                        buttonCount++;
+                    }
+
+                    if( contentGrid.Children[i] is TextBox)
+                    {
+                        TextBox tbcont = contentGrid.Children[i] as TextBox;
+                        dist.Add(tbcont.Text.Trim());
+                        if(tbcont.Text.Trim().Length > 0)
+                        {
+                            filledTb++;
                         }
                     }
                 }
 
+                if(u < chosenWords.Children.Count - 1)
+                {
+                    so += "-";
+                }
+               
+                distra.Add(dist);
+              
+                if(filledTb < 2)
+                {
+                    aWrap.BorderBrush = new SolidColorBrush(Colors.Red);
+                    distrContent = true;
+                }
                 if(hasTick == false)
                 {
                     aWrap.BorderBrush = new SolidColorBrush(Colors.Red);
-                    problems = true;
+                    markCorrect = true;
                 }
 
             }
-            if (problems)
+
+           
+            azitem.distractors = distra;
+
+            sol.Add(so);
+            azitem.solu = sol;
+
+            string errorMessage = "";
+
+            if (markCorrect)
             {
-                ("You need to mark at least one solution as correct in the boxes.").Show();
+                errorMessage = "You need to mark at least one solution as correct in the boxes.";
+            }
+
+            if (distrContent)
+            {
+                errorMessage = "You need to fill in at least two distractors.";
+            }
+
+            if(errorMessage != "")
+            {
+                errorMessage.Show();
             }
 
 
+            createJson();
+
+        }
+
+        private void createJson()
+        {
+            List<List<string>> explanations = new List<List<string>>();
+
+            for (int i = 0; i < explanationBoxes.Children.Count; i++)
+            {
+                StackPanel explWrap = explanationBoxes.Children[i] as StackPanel;
+                List<string> expl = new List<string>();
+
+                for(int e = 0; e < explWrap.Children.Count; e++)
+                {
+                    TextBox exp = explWrap.Children[e] as TextBox;
+                    expl.Add(exp.Text);
+                }
+                explanations.Add(expl);
+            }
+
+
+          
+
+            azitem.remarks = explanations;
+
+            FullFile fullfile = new FullFile();
+            fullfile.path = "FELADATOK/valami/path";
+            fullfile.title = "Past simple structures - 1";
+            List<Item> egyitem = new List<Item>();
+            egyitem.Add(azitem);
+            fullfile.contents = egyitem;
+
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(fullfile);
+            result.Text = json;
+
+        }
+
+        public class FullFile
+        {
+            public string path { get; set; }
+            public string title { get; set; }
+            public List<Item> contents { get; set; }
+        }
+
+        public class Item
+        {
+            public int id { get; set; }
+            public List<string> sentence { get; set; }
+            public List<string> solutions { get; set; }
+            public List<List<string>> distractors { get; set; }
+            public List<string> solu { get; set; }
+            public List<List<string>> remarks { get; set; }
+
+        }
+
+        public class WeatherForecast
+        {
+            public string Date { get; set; }
+            public int TemperatureCelsius { get; set; }
+            public string Summary { get; set; }
         }
 
         private void WrapReset()
