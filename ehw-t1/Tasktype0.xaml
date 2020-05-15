@@ -43,7 +43,7 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Row="0" Text="Write or paste a sentence here, then press PROCESS." />
-                <TextBox Grid.Row="1" x:Name="rawSentence" />
+                <TextBox Grid.Row="1" x:Name="rawSentence" Text="If we didn't have so many things to do, we could spend more time outside." />
                 <Button Grid.Row="2" x:Name="Process" Click="Process_Click" >
                     <TextBlock Text="PROCESS" />
                 </Button>
