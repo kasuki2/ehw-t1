@@ -88,7 +88,7 @@ namespace ehw_t1
             public string Summary { get; set; }
         }
 
-        public class RegisterUser
+        public class UserObject
         {
             public int code { get; set; }
             public string username { get; set; }
@@ -102,11 +102,13 @@ namespace ehw_t1
             string Email = email.Text.Trim();
             string Password = password.Password.ToString();
 
-            RegisterUser regi = new RegisterUser();
+            UserData regi = new UserData();
+           
             regi.code = 1;
             regi.username = Username;
             regi.email = Email;
             regi.pw = Password;
+            
 
             string thejson = Newtonsoft.Json.JsonConvert.SerializeObject(regi);
           
@@ -124,6 +126,7 @@ namespace ehw_t1
             {
                 response.Text = "Successful registration.";
                 string loginDate = Newtonsoft.Json.JsonConvert.SerializeObject(regi);
+              
                 loginDate.SaveMe("logindata");
             }
             else
@@ -134,6 +137,8 @@ namespace ehw_t1
           
 
         }
+
+       
 
         private void ShowLogin_Click(object sender, RoutedEventArgs e)
         {
