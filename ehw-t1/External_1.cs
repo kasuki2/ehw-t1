@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
+using Windows.Storage;
 using Windows.UI.Popups;
 
 namespace ehw_t1
@@ -158,7 +159,31 @@ namespace ehw_t1
         }
 
 
-  
+        public static void SaveMe(this String value, String key)
+        {
+            ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+
+            localSettings.Values[key] = value;
+        }
+
+
+        public static string GetStore(this String key)
+        {
+            ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+
+            if (localSettings.Values.ContainsKey(key))
+            {
+                return localSettings.Values[key].ToString();
+            }
+            else
+            {
+                return null;
+            }
+
+
+        }
 
 
 

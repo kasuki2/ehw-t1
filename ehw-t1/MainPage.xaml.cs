@@ -708,5 +708,10 @@ namespace ehw_t1
         {
             this.Frame.Navigate(typeof(Register));
         }
+
+        private void ManageFiles_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(FileManagement1));
+        }
     }
     }

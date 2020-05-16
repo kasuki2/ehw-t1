@@ -25,6 +25,9 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="1" Text="REGISTER" />
@@ -41,7 +44,8 @@
             <Button Grid.Row="8" Content="REGISTER" x:Name="register" Click="Register_Click" />
 
             <TextBlock Grid.Row="9" x:Name="response" Text="response" />
-
+            <Button Grid.Row="10" Content="show login data" x:Name="showLogin" Click="ShowLogin_Click" />
+            <TextBlock Grid.Row="11" Text="login data" x:Name="logindata" />
         </Grid>
 
     </Grid>

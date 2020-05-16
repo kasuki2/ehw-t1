@@ -49,6 +49,7 @@
                 <TextBox Name="Filename" />
                 <Button Content="Type 0 Task " x:Name="pageNavi" Click="PageNavi_Click" />
                 <Button Content="Register" x:Name="regiButt" Click="RegiButt_Click" />
+                <Button Content="File manage" x:Name="manageFiles" Click="ManageFiles_Click" />
             </StackPanel>
 
             <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical" >

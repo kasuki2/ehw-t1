@@ -90,8 +90,9 @@ namespace ehw_t1
 
         public class RegisterUser
         {
+            public int code { get; set; }
             public string username { get; set; }
-            public string azemail { get; set; }
+            public string email { get; set; }
             public string pw { get; set; }
         }
 
@@ -102,8 +103,9 @@ namespace ehw_t1
             string Password = password.Password.ToString();
 
             RegisterUser regi = new RegisterUser();
+            regi.code = 1;
             regi.username = Username;
-            regi.azemail = Email;
+            regi.email = Email;
             regi.pw = Password;
 
             string thejson = Newtonsoft.Json.JsonConvert.SerializeObject(regi);
@@ -115,9 +117,33 @@ namespace ehw_t1
             pairs.Add("json", thejson);
 
             //string valasz = await TryPostJsonAsync(pairs);
-            string valasz = await pairs.PostJsonAsync("http://kashusoft.org/uwpehw/resp.php");
-            response.Text = valasz;
+            string valasz = await pairs.PostJsonAsync("http://kashusoft.org/uwpehw/src/client_teacher.php");
+            regi.code = 2; // this is what we send when sending data to server
 
+            if(valasz == "0")
+            {
+                response.Text = "Successful registration.";
+                string loginDate = Newtonsoft.Json.JsonConvert.SerializeObject(regi);
+                loginDate.SaveMe("logindata");
+            }
+            else
+            {
+                response.Text = valasz;
+            }
+
+          
+
+        }
+
+        private void ShowLogin_Click(object sender, RoutedEventArgs e)
+        {
+            string logindat = ("logindata").GetStore();
+
+            if (logindat != null)
+            {
+                response.Text = logindat;
+
+            }
         }
     }
 }
