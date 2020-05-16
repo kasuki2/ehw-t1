@@ -1,0 +1,48 @@
+﻿<Page
+    x:Class="ehw_t1.Register"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ehw_t1"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" x:Name="MainGrid" Padding="32,16" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="1" Text="REGISTER" />
+            
+            <TextBlock Grid.Row="2" Text="Username:"/>
+            <TextBox Grid.Row="3" x:Name="username"/>
+
+            <TextBlock Grid.Row="4" Text="E-mail:"/>
+            <TextBox Grid.Row="5" x:Name="email"/>
+
+            <TextBlock Grid.Row="6" Text="Password:"/>
+            <PasswordBox Grid.Row="7" x:Name="password"/>
+
+            <Button Grid.Row="8" Content="REGISTER" x:Name="register" Click="Register_Click" />
+
+            <TextBlock Grid.Row="9" x:Name="response" Text="response" />
+
+        </Grid>
+
+    </Grid>
+</Page>

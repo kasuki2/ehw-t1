@@ -703,5 +703,10 @@ namespace ehw_t1
         {
             this.Frame.Navigate(typeof(Tasktype0));
         }
+
+        private void RegiButt_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(Register));
+        }
     }
     }

@@ -47,7 +47,8 @@
                 <Button Content="Read File" Name="ReadFile" Click="ReadFile_Click" />
                 <TextBlock Text="valami" Name="result" />
                 <TextBox Name="Filename" />
-                <Button Content="Next page" x:Name="pageNavi" Click="PageNavi_Click" />
+                <Button Content="Type 0 Task " x:Name="pageNavi" Click="PageNavi_Click" />
+                <Button Content="Register" x:Name="regiButt" Click="RegiButt_Click" />
             </StackPanel>
 
             <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical" >
