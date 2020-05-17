@@ -36,7 +36,11 @@ namespace ehw_t1
         }
 
        
-        
+        public class FolderResponse
+        {
+            public string name { get; set; }
+            public int code { get; set; }
+        }
         
 
 
@@ -84,11 +88,13 @@ namespace ehw_t1
         private void DrawFilesAndFolders(List<DirContent> FilesAndFolders, StackPanel contentSt)
         {
          //   contentSt.Children.Clear();
-            if(FilesAndFolders.Count == 0)
-            {
-                ("Empty folder").Show();
-                return;
-            }
+            //if(FilesAndFolders.Count == 0)
+            //{
+            //    ("Empty folder").Show();
+            //    return;
+            //}
+
+            
 
             contentSt.Children.Clear();
             for (int i = 0; i < FilesAndFolders.Count; i++)
@@ -130,7 +136,8 @@ namespace ehw_t1
 
                     Button addFolder = new Button();
                     addFolder.Content = "(+)";
-                    addFolder.Tag = FilesAndFolders[i].path;
+                    addFolder.Tag = FilesAndFolders[i].path + "/" + FilesAndFolders[i].name; 
+                    addFolder.Tapped += AddFolder_Tapped;
                     Grid.SetColumn(addFolder, 2);
 
                     headGrid.Children.Add(addFolder);
@@ -143,6 +150,7 @@ namespace ehw_t1
 
                     // content stackpanel
                     StackPanel contentStack = new StackPanel();
+                    contentStack.Margin = new Thickness(24, 0, 0, 0);
                     Grid.SetRow(contentStack, 1);
 
 
@@ -157,6 +165,7 @@ namespace ehw_t1
                 else
                 {
                     ListBoxItem egydir = new ListBoxItem();
+                    egydir.Padding = new Thickness(0);
                     egydir.Background = new SolidColorBrush(Windows.UI.Colors.Yellow);
                     egydir.Content = FilesAndFolders[i].name + " path: " + FilesAndFolders[i].path;
                     contentSt.Children.Add(egydir);
@@ -165,6 +174,28 @@ namespace ehw_t1
                 
             }
         }
+
+        private StackPanel globContentSt;
+        private void AddFolder_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Button addFoldButt = sender as Button;
+            string apath = addFoldButt.Tag.ToString();
+            file_name.Tag = apath; // give over the folder name in which we create the new folder
+
+            Grid headGr = addFoldButt.Parent as Grid;
+            Grid wrapGr = headGr.Parent as Grid;
+
+            globContentSt = wrapGr.Children[1] as StackPanel;
+
+            popup.Visibility = Visibility.Visible;
+        }
+        private void ClosePopup_Click(object sender, RoutedEventArgs e)
+        {
+            popup.Visibility = Visibility.Collapsed;
+        }
+
+
+        // folder tapped
 
         private async void NameTb_Tapped(object sender, TappedRoutedEventArgs e)
         {
@@ -183,7 +214,7 @@ namespace ehw_t1
                 contentStack.Children.Clear();
                 return;
             }
-            contentStack.Margin = new Thickness(4, 0, 0, 0);
+         //   contentStack.Margin = new Thickness(12, 0, 0, 0);
 
             string logindat = ("logindata").GetStore();
             if (logindat != null)
@@ -193,7 +224,7 @@ namespace ehw_t1
                 userdata.code = 3;
                 userdata.path = apath;
 
-                result.Text = apath;
+             //   result.Text = apath;
 
                 string thejson = JsonConvert.SerializeObject(userdata);
 
@@ -213,6 +244,72 @@ namespace ehw_t1
 
         }
 
-      
+       
+
+        private async void AddFolderPopup_Click(object sender, RoutedEventArgs e)
+        {
+            string ujFolderName = file_name.Text.Trim();
+            string apath = file_name.Tag.ToString();
+
+            if(ujFolderName.Length < 1 || ujFolderName.Length > 16)
+            {
+                ("Folder name is too long.").Show();
+                return;
+            }
+
+            string logindat = ("logindata").GetStore();
+            if (logindat != null)
+            {
+
+                UserData userdata = JsonConvert.DeserializeObject<UserData>(logindat);
+                userdata.code = 4;
+                userdata.path = apath + "/" + ujFolderName;
+                userdata.foldername = ujFolderName;
+              
+                result.Text = apath;
+
+                string thejson = JsonConvert.SerializeObject(userdata);
+
+                Dictionary<string, string> pairs = new Dictionary<string, string>();
+
+                pairs.Add("json", thejson);
+
+                //string valasz = await TryPostJsonAsync(pairs);
+                string valasz = await pairs.PostJsonAsync("http://kashusoft.org/uwpehw/src/client_teacher.php");
+
+                //  DirContent[] globDirContents = JsonConvert.Deserialize <DirContent>(valasz);
+                FolderResponse folderResponse = JsonConvert.DeserializeObject<FolderResponse>(valasz);
+                result.Text = valasz;
+               // valasz.Show();
+
+
+                // update file tree - only the one needed to update
+
+               
+                userdata.code = 3;
+                userdata.path = apath;
+
+
+                //   result.Text = apath;
+
+                string thejson2 = JsonConvert.SerializeObject(userdata);
+
+                Dictionary<string, string> pairs2 = new Dictionary<string, string>();
+
+                pairs2.Add("json", thejson2);
+
+                //string valasz = await TryPostJsonAsync(pairs);
+                string valasz2 = await pairs2.PostJsonAsync("http://kashusoft.org/uwpehw/src/client_teacher.php");
+
+                //  DirContent[] globDirContents = JsonConvert.Deserialize <DirContent>(valasz);
+                List<DirContent> globDirContents = JsonConvert.DeserializeObject<List<DirContent>>(valasz2);
+                result.Text = valasz2;
+                globContentSt.Children.Clear();
+                DrawFilesAndFolders(globDirContents, globContentSt);
+
+             
+            }
+
+        }
     }
 }

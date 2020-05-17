@@ -42,6 +42,35 @@
             <StackPanel Grid.Row="1" x:Name="forFiles" Orientation="Vertical" />
         </Grid>
 
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="#7C767676" x:Name="popup" Visibility="Collapsed"  >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            
+            <Grid Grid.Row="1" Grid.Column="1"  Padding="32" Background="White" MinWidth="400"   >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Give a name to the folder:" />
+                <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Tag="" x:Name="file_name" />
+                <Button Grid.Row="2" Grid.Column="0" Content="Cancel" x:Name="closePopup" Click="ClosePopup_Click" HorizontalAlignment="Stretch" Margin="0,0,1,0" />
+                <Button Grid.Row="2" Grid.Column="1" Content="OK" x:Name="addFolderPopup" Click="AddFolderPopup_Click"  HorizontalAlignment="Stretch" Margin="1,0,0,0" />
 
+            </Grid>
+            
+        </Grid>
     </Grid>
 </Page>

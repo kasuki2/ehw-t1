@@ -13,6 +13,6 @@ namespace ehw_t1
         public string email { get; set; }
         public string pw { get; set; }
         public string path { get; set; }
-       
+        public string foldername { get; set; }
     }
 }
