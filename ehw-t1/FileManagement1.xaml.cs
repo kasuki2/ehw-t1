@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -126,16 +127,26 @@ namespace ehw_t1
                     headGrid.ColumnDefinitions.Add(col3);
                     headGrid.ColumnDefinitions.Add(col4);
 
+                    //E188
+                    FontIcon onlyFolder = new FontIcon();
+                    onlyFolder.FontFamily = new FontFamily("Segoe MDL2 Assets");
+                    onlyFolder.Glyph = "\xE188";
+                    onlyFolder.Foreground = new SolidColorBrush(Color.FromArgb(255,30,30,30));
+                    Grid.SetColumn(onlyFolder, 0);
+                    headGrid.Children.Add(onlyFolder);
+
                     TextBlock nameTb = new TextBlock();
                     nameTb.Text = FilesAndFolders[i].name;
                     nameTb.Tag = FilesAndFolders[i].path;
+                    nameTb.Margin = new Thickness(4, 0, 0, 0);
                     nameTb.Tapped += NameTb_Tapped;
                     Grid.SetColumn(nameTb, 1);
 
                     headGrid.Children.Add(nameTb);
 
                     Button addFolder = new Button();
-                    addFolder.Content = "(+)";
+                    addFolder.Content = "[+]";
+
                     addFolder.Tag = FilesAndFolders[i].path + "/" + FilesAndFolders[i].name; 
                     addFolder.Tapped += AddFolder_Tapped;
                     Grid.SetColumn(addFolder, 2);
