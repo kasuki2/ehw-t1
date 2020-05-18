@@ -64,7 +64,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Give a name to the folder:" />
+                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="popupText" Text="Give a name to the folder:" />
                 <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Tag="" x:Name="file_name" />
                 <Button Grid.Row="2" Grid.Column="0" Content="Cancel" x:Name="closePopup" Click="ClosePopup_Click" HorizontalAlignment="Stretch" Margin="0,0,1,0" />
                 <Button Grid.Row="2" Grid.Column="1" Content="OK" x:Name="addFolderPopup" Click="AddFolderPopup_Click"  HorizontalAlignment="Stretch" Margin="1,0,0,0" />

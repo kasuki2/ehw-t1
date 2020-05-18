@@ -88,11 +88,11 @@ namespace ehw_t1
         private void DrawFilesAndFolders(List<DirContent> FilesAndFolders, StackPanel contentSt)
         {
          //   contentSt.Children.Clear();
-            //if(FilesAndFolders.Count == 0)
-            //{
-            //    ("Empty folder").Show();
-            //    return;
-            //}
+            if(FilesAndFolders.Count == 0)
+            {
+                ("Empty folder").Show();
+                return;
+            }
 
             
 
@@ -144,7 +144,8 @@ namespace ehw_t1
 
                     Button addFile = new Button();
                     addFile.Content = "+f";
-                    addFile.Tag = FilesAndFolders[i].path;
+                    addFile.Tag = FilesAndFolders[i].path + "/" + FilesAndFolders[i].name;
+                    addFile.Tapped += AddFile_Tapped;
                     Grid.SetColumn(addFile, 3);
                     headGrid.Children.Add(addFile);
 
@@ -175,9 +176,27 @@ namespace ehw_t1
             }
         }
 
+        private void AddFile_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            popupText.Text = "Give a name to the file:";
+            addFolderPopup.Tag = "file";
+            Button addFoldButt = sender as Button;
+            string apath = addFoldButt.Tag.ToString();
+            file_name.Tag = apath; // give over the folder name in which we create the new folder
+
+            Grid headGr = addFoldButt.Parent as Grid;
+            Grid wrapGr = headGr.Parent as Grid;
+
+            globContentSt = wrapGr.Children[1] as StackPanel;
+
+            popup.Visibility = Visibility.Visible;
+        }
+
         private StackPanel globContentSt;
         private void AddFolder_Tapped(object sender, TappedRoutedEventArgs e)
         {
+            popupText.Text = "Give a name to the folder:";
+            addFolderPopup.Tag = "folder";
             Button addFoldButt = sender as Button;
             string apath = addFoldButt.Tag.ToString();
             file_name.Tag = apath; // give over the folder name in which we create the new folder
@@ -248,12 +267,21 @@ namespace ehw_t1
 
         private async void AddFolderPopup_Click(object sender, RoutedEventArgs e)
         {
+
+            Button okbutt = sender as Button;
+
+            int foldOrfile = 4; // folder
+            if(okbutt.Tag.ToString() == "file")
+            {
+                foldOrfile = 5;
+            }
+
             string ujFolderName = file_name.Text.Trim();
             string apath = file_name.Tag.ToString();
 
-            if(ujFolderName.Length < 1 || ujFolderName.Length > 16)
+            if(ujFolderName.Length < 1 || ujFolderName.Length > 20)
             {
-                ("Folder name is too long.").Show();
+                ("Invalid folder name. Min. 1 max. 20 characters.").Show();
                 return;
             }
 
@@ -262,8 +290,10 @@ namespace ehw_t1
             {
 
                 UserData userdata = JsonConvert.DeserializeObject<UserData>(logindat);
-                userdata.code = 4;
+                userdata.code = foldOrfile; // 4 folder, 5 file
+
                 userdata.path = apath + "/" + ujFolderName;
+              
                 userdata.foldername = ujFolderName;
               
                 result.Text = apath;
@@ -274,7 +304,7 @@ namespace ehw_t1
 
                 pairs.Add("json", thejson);
 
-                //string valasz = await TryPostJsonAsync(pairs);
+             
                 string valasz = await pairs.PostJsonAsync("http://kashusoft.org/uwpehw/src/client_teacher.php");
 
                 //  DirContent[] globDirContents = JsonConvert.Deserialize <DirContent>(valasz);
@@ -298,12 +328,12 @@ namespace ehw_t1
 
                 pairs2.Add("json", thejson2);
 
-                //string valasz = await TryPostJsonAsync(pairs);
+             
                 string valasz2 = await pairs2.PostJsonAsync("http://kashusoft.org/uwpehw/src/client_teacher.php");
 
-                //  DirContent[] globDirContents = JsonConvert.Deserialize <DirContent>(valasz);
+              
                 List<DirContent> globDirContents = JsonConvert.DeserializeObject<List<DirContent>>(valasz2);
-                result.Text = valasz2;
+             //   result.Text = valasz2;
                 globContentSt.Children.Clear();
                 DrawFilesAndFolders(globDirContents, globContentSt);
 
