@@ -29,7 +29,11 @@
                 <RowDefinition Height="Auto" />
               
             </Grid.RowDefinitions>
-            <Button Grid.Row="1" Content="Get Files" x:Name="getFiles" Click="GetFiles_Click" />
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <Button Grid.Row="1" Content="Get Files" x:Name="getFiles" Click="GetFiles_Click" />
+                <Button Grid.Row="2" Content="Draw task" x:Name="drawtext" Click="Drawtext_Click" />
+            </StackPanel>
+           
             <TextBlock Grid.Row="2" Text="valami" x:Name="result" />
 
 
@@ -58,12 +62,13 @@
                 </StackPanel>
                 <TextBlock Grid.Row="3" Text="Select level:" />
                 <StackPanel Grid.Row="4" Orientation="Horizontal">
-                    <RadioButton Content="Elementary" Tag="Green" />
-                    <RadioButton Content="Pre-intermediate" Tag="Yellow" />
-                    <RadioButton Content="Intermediate" Tag="Blue" />
-                    <RadioButton Content="Upper-intermediate" Tag="White"  />
-                    <RadioButton Content="Advanced" Tag="White"  />
-                  
+                    <RadioButton Content="Elementary" x:Name="Level0" Tag="Green" />
+                    <RadioButton Content="Pre-intermediate" x:Name="Level1" Tag="Yellow" />
+                    <RadioButton Content="Intermediate" x:Name="Level2" Tag="Blue" />
+                    <RadioButton Content="Upper-intermediate" x:Name="Level3" Tag="White"  />
+                    <RadioButton Content="Advanced" x:Name="Level4" Tag="White"  />
+                    <RadioButton Content="Legend" x:Name="Level5" Tag="White"  />
+
                 </StackPanel>
                 <TextBlock Grid.Row="5" Text="Select task type:" />
                 <controls:WrapPanel Grid.Row="6" >
@@ -78,6 +83,21 @@
                 
             </Grid>
 
+
+            <Grid Grid.Row="4" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" x:Name="taskContent" TextWrapping="Wrap" />
+                <TextBlock Grid.Row="1" x:Name="taskProp" />
+            </Grid>
+
+            <controls:WrapPanel Grid.Row="5" x:Name="textFrame" >
+                
+            </controls:WrapPanel>
+            
         </Grid>
 
         <Grid Grid.Row="0" Grid.Column="0" Background="#FFEAE7E7" Padding="12" >

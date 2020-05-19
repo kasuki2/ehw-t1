@@ -11,6 +11,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
@@ -178,13 +179,113 @@ namespace ehw_t1
                 {
                     ListBoxItem egydir = new ListBoxItem();
                     egydir.Padding = new Thickness(0);
-                    egydir.Background = new SolidColorBrush(Windows.UI.Colors.Yellow);
+                    egydir.Background = new SolidColorBrush(Windows.UI.Colors.AliceBlue);
                     egydir.Content = FilesAndFolders[i].name + " path: " + FilesAndFolders[i].path;
+                    egydir.Tag = FilesAndFolders[i].path + "/" + FilesAndFolders[i].name;
+                    egydir.Tapped += Egydir_Tapped;
                     contentSt.Children.Add(egydir);
                 }
 
                 
             }
+        }
+
+        public class TaskFrame
+        {
+            public string title { get; set; }
+            public string uid { get; set; }
+            public string instructions { get; set; }
+            public int type { get; set; }
+            public object[] contents { get; set; }
+            public string weight;
+        }
+
+        public class Tasktype0
+        {
+            public int id { get; set; }
+            public List<string> sentence { get; set; }
+            public List<List<string>> distractors { get; set; }
+            public List<string> solu { get; set; }
+            public List<List<string>> remarks { get; set; }
+        }
+
+        private async void Egydir_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            ListBoxItem fileTapped = sender as ListBoxItem;
+            string filePath = fileTapped.Tag.ToString();
+
+            string logindat = ("logindata").GetStore();
+            if (logindat != null)
+            {
+
+                UserData userdata = JsonConvert.DeserializeObject<UserData>(logindat);
+                userdata.code = 6;
+                userdata.path = filePath;
+
+                //   result.Text = apath;
+
+                string thejson = JsonConvert.SerializeObject(userdata);
+
+                Dictionary<string, string> pairs = new Dictionary<string, string>();
+
+                pairs.Add("json", thejson);
+
+                //string valasz = await TryPostJsonAsync(pairs);
+                string valasz = await pairs.PostJsonAsync("http://kashusoft.org/uwpehw/src/client_teacher.php");
+
+               TaskFrame taskFrame = JsonConvert.DeserializeObject<TaskFrame>(valasz);
+                //  List<DirContent> globDirContents = JsonConvert.DeserializeObject<List<DirContent>>(valasz);
+                if(taskFrame != null)
+                {
+                    Task_title.Text = taskFrame.title;
+                    Task_instructions.Text = taskFrame.instructions;
+
+                    if( taskFrame.weight == "0")
+                    {
+                        Level0.IsChecked = true;
+                    }
+                    else if(taskFrame.weight == "1")
+                    {
+                        Level1.IsChecked = true;
+                    }
+                    else if(taskFrame.weight == "2")
+                    {
+                        Level2.IsChecked = true;
+                    }
+                    else if(taskFrame.weight == "3")
+                    {
+                        Level3.IsChecked = true;
+                    }
+                    else if(taskFrame.weight == "4")
+                    {
+                        Level4.IsChecked = true;
+                    }
+                    else if(taskFrame.weight == "5")
+                    {
+                        Level5.IsChecked = true;
+                    }
+
+
+                }
+                else
+                {
+                    ("Empty file").Show();
+                   
+                }
+
+                // taskContent.Text = valasz;
+                string contentObj = JsonConvert.SerializeObject(taskFrame.contents);
+                if(taskFrame.type == 0)
+                {
+                    List<Tasktype0> taskContents = JsonConvert.DeserializeObject<List<Tasktype0>>(contentObj);
+                    taskProp.Text = taskContents.Count.ToString();
+                }
+               
+                taskContent.Text = contentObj;
+            }
+
+
+
         }
 
         private void AddFile_Tapped(object sender, TappedRoutedEventArgs e)
@@ -351,6 +452,45 @@ namespace ehw_t1
              
             }
 
+        }
+
+
+
+        private void drawType0(List<Tasktype0> contents)
+        {
+            Run run1 = new Run();
+            run1.Text = "Hello majom.";
+            Paragraph pari = new Paragraph();
+            pari.Inlines.Add(run1);
+            
+
+            RichTextBlock rtb = new RichTextBlock();
+            rtb.Blocks.Add(pari);
+
+            textFrame.Children.Add(rtb);
+        }
+
+        private void drawSg()
+        {
+            var helpLinkButton = new HyperlinkButton();
+            helpLinkButton.Content = "Help";
+            helpLinkButton.Tapped += HelpLinkButton_Tapped;
+
+
+
+
+
+            textFrame.Children.Add(helpLinkButton);
+        }
+
+        private void HelpLinkButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Drawtext_Click(object sender, RoutedEventArgs e)
+        {
+            drawSg();
         }
     }
 }
