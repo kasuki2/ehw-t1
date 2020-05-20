@@ -472,25 +472,36 @@ namespace ehw_t1
 
         private void drawSg()
         {
-            var helpLinkButton = new HyperlinkButton();
-            helpLinkButton.Content = "Help";
-            helpLinkButton.Tapped += HelpLinkButton_Tapped;
+
+
+            ("not implemented").Show();
 
 
 
-
-
-            textFrame.Children.Add(helpLinkButton);
+           
         }
 
-        private void HelpLinkButton_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+      
 
         private void Drawtext_Click(object sender, RoutedEventArgs e)
         {
             drawSg();
+        }
+
+        private void FillWeb_Click(object sender, RoutedEventArgs e)
+        {
+
+            string logindat = ("logindata").GetStore();
+            if (logindat != null)
+            {
+
+                UserData userdata = JsonConvert.DeserializeObject<UserData>(logindat);
+                string azemail = userdata.email;
+                string pw = userdata.pw;
+
+                webView1.Navigate(new Uri("http://kashusoft.org/uwpehw/src/gettaskfile.php?apikey=32&mail=" + azemail +"&pw=" + pw + "&task=" + "task"));
+            }
+               
         }
     }
 }
