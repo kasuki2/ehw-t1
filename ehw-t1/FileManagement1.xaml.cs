@@ -7,6 +7,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
+using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -28,6 +29,7 @@ namespace ehw_t1
         public FileManagement1()
         {
             this.InitializeComponent();
+            getTheFiles();
         }
 
         public class DirContent
@@ -46,12 +48,15 @@ namespace ehw_t1
         
 
 
-        private async void GetFiles_Click(object sender, RoutedEventArgs e)
+        private void GetFiles_Click(object sender, RoutedEventArgs e)
         {
 
+            getTheFiles();
 
-         
+        }
 
+        private async void getTheFiles()
+        {
             string logindat = ("logindata").GetStore();
 
             if (logindat != null)
@@ -71,7 +76,7 @@ namespace ehw_t1
                 //  DirContent[] globDirContents = JsonConvert.Deserialize <DirContent>(valasz);
                 List<DirContent> globDirContents = JsonConvert.DeserializeObject<List<DirContent>>(valasz);
                 result.Text = globDirContents.Count.ToString();
-                
+
                 DrawFilesAndFolders(globDirContents, forFiles);
 
             }
@@ -79,13 +84,7 @@ namespace ehw_t1
             {
                 result.Text = "No authentication data was found. You need to register first.";
             }
-
-          
-
-           
-
         }
-
 
         private void DrawFilesAndFolders(List<DirContent> FilesAndFolders, StackPanel contentSt)
         {
@@ -211,77 +210,86 @@ namespace ehw_t1
 
         private async void Egydir_Tapped(object sender, TappedRoutedEventArgs e)
         {
+            //file tapped
             ListBoxItem fileTapped = sender as ListBoxItem;
             string filePath = fileTapped.Tag.ToString();
+
+            filePath.Show();
 
             string logindat = ("logindata").GetStore();
             if (logindat != null)
             {
-
                 UserData userdata = JsonConvert.DeserializeObject<UserData>(logindat);
-                userdata.code = 6;
-                userdata.path = filePath;
+                string azemail = userdata.email;
+                string pw = userdata.pw;
 
-                //   result.Text = apath;
-
-                string thejson = JsonConvert.SerializeObject(userdata);
-
-                Dictionary<string, string> pairs = new Dictionary<string, string>();
-
-                pairs.Add("json", thejson);
-
-                //string valasz = await TryPostJsonAsync(pairs);
-                string valasz = await pairs.PostJsonAsync("http://kashusoft.org/uwpehw/src/client_teacher.php");
-
-               TaskFrame taskFrame = JsonConvert.DeserializeObject<TaskFrame>(valasz);
-                //  List<DirContent> globDirContents = JsonConvert.DeserializeObject<List<DirContent>>(valasz);
-                if(taskFrame != null)
-                {
-                    Task_title.Text = taskFrame.title;
-                    Task_instructions.Text = taskFrame.instructions;
-
-                    if( taskFrame.weight == "0")
-                    {
-                        Level0.IsChecked = true;
-                    }
-                    else if(taskFrame.weight == "1")
-                    {
-                        Level1.IsChecked = true;
-                    }
-                    else if(taskFrame.weight == "2")
-                    {
-                        Level2.IsChecked = true;
-                    }
-                    else if(taskFrame.weight == "3")
-                    {
-                        Level3.IsChecked = true;
-                    }
-                    else if(taskFrame.weight == "4")
-                    {
-                        Level4.IsChecked = true;
-                    }
-                    else if(taskFrame.weight == "5")
-                    {
-                        Level5.IsChecked = true;
-                    }
+                webView1.Navigate(new Uri("https://kashusoft.org/uwpehw/src/gettaskfile.php?apikey=32&mail=" + azemail + "&pw=" + pw + "&task=" + filePath));
 
 
-                }
-                else
-                {
-                    ("Empty file").Show();
-                   
-                }
+                // UserData userdata = JsonConvert.DeserializeObject<UserData>(logindat);
+                // userdata.code = 6;
+                // userdata.path = filePath;
 
-                // taskContent.Text = valasz;
-                string contentObj = JsonConvert.SerializeObject(taskFrame.contents);
-                if(taskFrame.type == 0)
-                {
-                    List<Tasktype0> taskContents = JsonConvert.DeserializeObject<List<Tasktype0>>(contentObj);
-                    taskProp.Text = taskContents.Count.ToString();
-                }
-               
-                taskContent.Text = contentObj;
+                // //   result.Text = apath;
+
+                // string thejson = JsonConvert.SerializeObject(userdata);
+
+                // Dictionary<string, string> pairs = new Dictionary<string, string>();
+
+                // pairs.Add("json", thejson);
+
+                // //string valasz = await TryPostJsonAsync(pairs);
+                // string valasz = await pairs.PostJsonAsync("http://kashusoft.org/uwpehw/src/client_teacher.php");
+
+                //TaskFrame taskFrame = JsonConvert.DeserializeObject<TaskFrame>(valasz);
+                // //  List<DirContent> globDirContents = JsonConvert.DeserializeObject<List<DirContent>>(valasz);
+                // if(taskFrame != null)
+                // {
+                //     Task_title.Text = taskFrame.title;
+                //     Task_instructions.Text = taskFrame.instructions;
+
+                //     if( taskFrame.weight == "0")
+                //     {
+                //         Level0.IsChecked = true;
+                //     }
+                //     else if(taskFrame.weight == "1")
+                //     {
+                //         Level1.IsChecked = true;
+                //     }
+                //     else if(taskFrame.weight == "2")
+                //     {
+                //         Level2.IsChecked = true;
+                //     }
+                //     else if(taskFrame.weight == "3")
+                //     {
+                //         Level3.IsChecked = true;
+                //     }
+                //     else if(taskFrame.weight == "4")
+                //     {
+                //         Level4.IsChecked = true;
+                //     }
+                //     else if(taskFrame.weight == "5")
+                //     {
+                //         Level5.IsChecked = true;
+                //     }
+
+
+                // }
+                // else
+                // {
+                //     ("Empty file").Show();
+
+                // }
+
+                // // taskContent.Text = valasz;
+                // string contentObj = JsonConvert.SerializeObject(taskFrame.contents);
+                // if(taskFrame.type == 0)
+                // {
+                //     List<Tasktype0> taskContents = JsonConvert.DeserializeObject<List<Tasktype0>>(contentObj);
+                //     taskProp.Text = taskContents.Count.ToString();
+                // }
+
+                // taskContent.Text = contentObj;
             }
 
 
@@ -472,16 +480,92 @@ namespace ehw_t1
 
         private void drawSg()
         {
+            textFrame.Children.Clear();
+
+            List<string> sentence = new List<string>();
+            sentence.Add("If we ");
+            sentence.Add("more time, we ");
+            sentence.Add("have been able to visit you in your home.");
+
+            List<string> butts = new List<string>();
+            butts.Add("had");
+            butts.Add("would");
+
+            string[] sepa = { " " };
+
+            for (int i = 0; i < sentence.Count; i++)
+            {
+                
+                string[] words = sentence[i].Split(sepa, StringSplitOptions.None);
+                for(int w = 0; w < words.Length; w++)
+                {
+                    TextBlock lb = new TextBlock();
+                    lb.Text = words[w];
+                    lb.Margin = new Thickness(4, 0, 0, 0);
+
+                    textFrame.Children.Add(lb);
+                }
+                if (i < sentence.Count - 1)
+                {
+
+                    Flyout flb = new Flyout();
+                    
+
+                    Style s = new Style { TargetType = typeof(FlyoutPresenter) };
+                    s.Setters.Add(new Setter(BackgroundProperty, new SolidColorBrush(Color.FromArgb(255, 240, 255, 255))));
+                    flb.FlyoutPresenterStyle = s;
+
+                    TextBlock tbf = new TextBlock();
+                    tbf.Text = "was";
+                    tbf.Tapped += Tbf_Tapped;
+                    TextBlock tbf2 = new TextBlock();
+                    tbf2.Text = "were";
+
+                    StackPanel flyStack = new StackPanel();
+                    flyStack.Orientation = Orientation.Horizontal;
+                    flyStack.Children.Add(tbf);
+                    flyStack.Children.Add(tbf2);
+
+                    flb.Content = flyStack;
 
 
-            ("not implemented").Show();
+
+                    Button butt = new Button();
+                    butt.Content = butts[i];
+                    butt.FontWeight = FontWeights.Bold;
+                    butt.Padding = new Thickness(0);
+                    butt.Margin = new Thickness(4, 0, 0, 0);
+                    butt.Tapped += Butt_Tapped;
+                    butt.ContextFlyout = flb;
+
+                    textFrame.Children.Add(butt);
+                }
+               
+            }
 
 
+             
 
-           
+         
+
+           // textFrame.Children.Add(rtb);
         }
 
-      
+        private void Tbf_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            TextBlock tappedFly = sender as TextBlock;
+            StackPanel par1 = tappedFly.Parent as StackPanel;
+            Flyout afly = par1.Parent as Flyout;
+           
+
+
+        }
+
+        private void Butt_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Button tappedText = sender as Button;
+            tappedText.ContextFlyout.ShowAt(tappedText);
+        }
 
         private void Drawtext_Click(object sender, RoutedEventArgs e)
         {
@@ -502,6 +586,12 @@ namespace ehw_t1
                 webView1.Navigate(new Uri("http://kashusoft.org/uwpehw/src/gettaskfile.php?apikey=32&mail=" + azemail +"&pw=" + pw + "&task=" + "task"));
             }
                
+        }
+
+        private void WebView1_ScriptNotify(object sender, NotifyEventArgs e)
+        {
+            // e.Value.Show();
+            ("lett katt").Show();
         }
     }
 }

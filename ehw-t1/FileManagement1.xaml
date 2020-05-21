@@ -29,7 +29,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <WebView Grid.Row="0" x:Name="webView1" MaxWidth="700" Height="100"  />
+            <WebView Grid.Row="0" x:Name="webView1" ScriptNotify="WebView1_ScriptNotify"  MaxWidth="700" Height="300"  />
 
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <Button  Content="Get Files" x:Name="getFiles" Click="GetFiles_Click" />
@@ -98,7 +98,7 @@
             </Grid>
 
             <controls:WrapPanel Grid.Row="5" x:Name="textFrame" >
-                
+               
             </controls:WrapPanel>
             
         </Grid>
