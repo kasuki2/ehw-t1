@@ -29,98 +29,25 @@ namespace ehw_t1
             this.InitializeComponent();
         }
 
-
-
         private void Process_Click(object sender, RoutedEventArgs e)
         {
-            // PROCESS button
-
-            string[] elv = { " " };
-            string[] words1 = rawSentence.Text.ToString().Split(elv, StringSplitOptions.None);
-
-            char[] sepas = { '.', ',', ':', '?', '!' };
-            char[] textChars = rawSentence.Text.ToCharArray();
-
-            List<string> processedText = new List<string>();
-            processedText.Clear();
-
-            string temp = "";
-            for (int z = 0; z < textChars.Length; z++)
-            {
-                // írásjeleket külön hozzáadni
-                if (Array.Exists(sepas, element => element == textChars[z]))
-                {
-
-                    processedText.Add(temp);
-                    temp = "";
-
-                    processedText.Add(textChars[z].ToString());
-                    continue;
-                }
-
-
-                if (textChars[z] == ' ')
-                {
-                    processedText.Add(temp);
-                    temp = "";
-                }
-
-                temp += textChars[z];
-            }
+            // ProcessText
+            string toSend = rawSentence.Text;
+            List<ListBoxItem> lb = toSend.ProcessText();
 
             wrapWords.Children.Clear();
 
-
-            for (int k = 0; k < processedText.Count; k++)
+            for(int i = 0; i< lb.Count; i++)
             {
-
-
-
-                TextBlock tb = new TextBlock();
-                tb.Text = processedText[k];
-
-                var padding = new Thickness(2, 0, 0, 0);
-                var abg = new SolidColorBrush(Colors.White);
-
-                var needTap = true;
-                if (processedText[k] == "," || processedText[k] == "?" || processedText[k] == ";" || processedText[k] == ":" || processedText[k] == ".")
-                {
-
-                    abg = new SolidColorBrush(Color.FromArgb(255, 48, 179, 221));
-                    padding = new Thickness(0, 0, 0, 0);
-                    needTap = false;
-
-                }
-
-
-
-                ListBoxItem lb = new ListBoxItem();
-                lb.Content = tb;
-                lb.Padding = padding;
-                lb.Background = abg;
-                if (needTap)
-                {
-                    lb.Tag = "0";
-                    lb.Name = k.ToString(); // max 1000 words!
-                    lb.Tapped += Lb_Tapped;
-                }
-                else
-                {
-                    lb.Tag = "x";
-                    lb.Name = k.ToString();
-                }
-
-                wrapWords.Children.Add(lb);
-
-
-
+                lb[i].Tapped += Lb_Tapped;
+                wrapWords.Children.Add(lb[i]);
             }
 
-
-
-
             chosenWords.Children.Clear();
+
         }
+
+     
 
 
         public class Lexi

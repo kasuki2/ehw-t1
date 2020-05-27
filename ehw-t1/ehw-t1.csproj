@@ -119,6 +119,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CreateTaskProcess.cs" />
     <Compile Include="External_1.cs" />
     <Compile Include="FileManagement1.xaml.cs">
       <DependentUpon>FileManagement1.xaml</DependentUpon>

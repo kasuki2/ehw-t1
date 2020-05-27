@@ -572,7 +572,7 @@ namespace ehw_t1
             drawSg();
         }
 
-        private void FillWeb_Click(object sender, RoutedEventArgs e)
+        private async void FillWeb_Click(object sender, RoutedEventArgs e)
         {
 
             string logindat = ("logindata").GetStore();
@@ -582,16 +582,23 @@ namespace ehw_t1
                 UserData userdata = JsonConvert.DeserializeObject<UserData>(logindat);
                 string azemail = userdata.email;
                 string pw = userdata.pw;
-
+                await Windows.UI.Xaml.Controls.WebView.ClearTemporaryWebDataAsync();
                 webView1.Navigate(new Uri("http://kashusoft.org/uwpehw/src/gettaskfile.php?apikey=32&mail=" + azemail +"&pw=" + pw + "&task=" + "task"));
             }
                
         }
 
+        private class Action
+        {
+            public string action { get; set; }
+            public string num { get; set; }
+        }
         private void WebView1_ScriptNotify(object sender, NotifyEventArgs e)
         {
-            // e.Value.Show();
-            ("lett katt").Show();
+            Action action = JsonConvert.DeserializeObject<Action>(e.Value);
+            //  e.Value.Show();
+            action.action.Show();
+            
         }
     }
 }
