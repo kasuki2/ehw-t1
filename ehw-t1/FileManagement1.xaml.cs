@@ -600,5 +600,60 @@ namespace ehw_t1
             action.action.Show();
             
         }
+
+        private void ProcessText10_Click(object sender, RoutedEventArgs e)
+        {
+            string textInp = rawText.Text;
+            if(textInp.Length < 10)
+            {
+                ("The text is too short.").Show();
+                return;
+            }
+
+            List<ListBoxItem> lb = textInp.ProcessText();
+
+            chosenWordsT_10.Children.Clear();
+
+            for (int i = 0; i < lb.Count; i++)
+            {
+                lb[i].Tapped += FileManagement1_Tapped;
+                chosenWordsT_10.Children.Add(lb[i]);
+            }
+
+           
+
+
+
+        }
+
+        private void FileManagement1_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            ListBoxItem tappedLb = sender as ListBoxItem;
+            if (tappedLb.Tag.ToString() == "0")
+            {
+                // új kiválasztás
+                tappedLb.Tag = "1";
+            }
+            else
+            {
+                tappedLb.Tag = "0";
+                // delete only this box
+            }
+
+
+
+            for (int i = 0; i < chosenWordsT_10.Children.Count; i++)
+            {
+                ListBoxItem item = chosenWordsT_10.Children[i] as ListBoxItem;
+                if (item.Tag.ToString() == "1")
+                {
+                    item.Background = new SolidColorBrush(Colors.LightGreen);
+                }
+                else if (item.Tag.ToString() == "0")
+                {
+                    item.Background = new SolidColorBrush(Colors.White);
+                }
+            }
+        }
     }
 }

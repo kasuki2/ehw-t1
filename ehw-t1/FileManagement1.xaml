@@ -100,6 +100,33 @@
             <controls:WrapPanel Grid.Row="5" x:Name="textFrame" >
                
             </controls:WrapPanel>
+
+
+            <Grid Grid.Row="6" x:Name="type10" Background="AntiqueWhite" Padding="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="1" Text="Task TYPE 10 - Complete the text with the given words. Put the words in the corect form." />
+                <TextBlock Grid.Row="2" Text="1. Paste or write a paragraph here, then press PROCESS." />
+                <TextBox Grid.Row="3" x:Name="rawText" />
+                <Button Content="Process" Grid.Row="4" x:Name="processText10" Click="ProcessText10_Click" />
+                <controls:WrapPanel Grid.Row="5" x:Name="chosenWordsT_10">
+
+                </controls:WrapPanel>
+
+            </Grid>
+            
             
         </Grid>
 
