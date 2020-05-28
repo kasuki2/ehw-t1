@@ -19,6 +19,7 @@
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
 
+        <ScrollViewer Grid.Row="0" Grid.Column="1" Height="Auto" VerticalScrollBarVisibility="Auto" >
         <Grid Grid.Row="0" Grid.Column="1" x:Name="MainGrid" Padding="32,16" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -124,12 +125,15 @@
                 <controls:WrapPanel Grid.Row="5" x:Name="chosenWordsT_10">
 
                 </controls:WrapPanel>
-
-            </Grid>
+                <StackPanel Grid.Row="6" x:Name="editBoxes" Orientation="Vertical" />
+                <Button Grid.Row="7" Content="SAVE" x:Name="Type10Save" Click="Type10Save_Click" />
+                    <TextBlock Grid.Row="8" Text="result" x:Name="jsonType10" />
+                </Grid>
             
             
         </Grid>
-
+        </ScrollViewer>
+        
         <Grid Grid.Row="0" Grid.Column="0" Background="#FFEAE7E7" Padding="12" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

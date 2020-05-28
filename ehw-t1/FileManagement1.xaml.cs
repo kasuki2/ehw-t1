@@ -625,22 +625,26 @@ namespace ehw_t1
 
 
         }
+        public class Lexi
+        {
+            public string id { get; set; }
+            public int idsor { get; set; }
+            public string word { get; set; }
+        }
+
+        List<Lexi> globLexi = new List<Lexi>();
 
         private void FileManagement1_Tapped(object sender, TappedRoutedEventArgs e)
         {
             ListBoxItem tappedLb = sender as ListBoxItem;
             if (tappedLb.Tag.ToString() == "0")
             {
-                // új kiválasztás
                 tappedLb.Tag = "1";
             }
             else
             {
-                tappedLb.Tag = "0";
-                // delete only this box
+                tappedLb.Tag = "0";   
             }
-
-
 
             for (int i = 0; i < chosenWordsT_10.Children.Count; i++)
             {
@@ -654,6 +658,244 @@ namespace ehw_t1
                     item.Background = new SolidColorBrush(Colors.White);
                 }
             }
+
+
+            globLexi.Clear();
+
+            string temp = String.Empty;
+            string ids = "";
+            for (int z = 0; z < chosenWordsT_10.Children.Count; z++)
+            {
+                ListBoxItem theItem = chosenWordsT_10.Children[z] as ListBoxItem;
+                TextBlock atb = theItem.Content as TextBlock;
+
+                if (theItem.Tag.ToString() == "1")
+                {
+                    temp += atb.Text.ToString();
+                    ids += theItem.Name.ToString();
+                }
+                else
+                {
+                    if (temp != String.Empty)
+                    {                
+                        Lexi egylexi = new Lexi();
+                        egylexi.word = temp;
+                        egylexi.id = ids;
+                        egylexi.idsor = z;
+                        globLexi.Add(egylexi);
+
+                        temp = String.Empty;
+                        ids = "";
+                    }
+                }
+            }
+            // collect ids
+            List<string> ides = new List<string>();
+            ides.Clear();
+            for (int c = 0; c < globLexi.Count; c++)
+            {
+                ides.Add(globLexi[c].id);
+            }
+
+            for (int c = 0; c < globLexi.Count; c++)
+            {
+
+                StackPanel wrapper = new StackPanel();
+                wrapper.Orientation = Orientation.Horizontal;
+                wrapper.Tag = globLexi[c].id;
+                wrapper.Name = globLexi[c].idsor.ToString();
+                wrapper.Padding = new Thickness(4);
+                wrapper.Background = new SolidColorBrush(Color.FromArgb(255, 200, 200, 200));
+                wrapper.Margin = new Thickness(0, 0, 8, 8);
+                wrapper.HorizontalAlignment = HorizontalAlignment.Stretch;
+               
+                wrapper.BorderThickness = new Thickness(2, 2, 2, 2);
+                wrapper.BorderBrush = new SolidColorBrush(Colors.Transparent);
+
+                Grid wideGrid = new Grid();
+                wideGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
+                wideGrid.MinWidth = 600;
+                ColumnDefinition col1 = new ColumnDefinition();
+                ColumnDefinition col2 = new ColumnDefinition();
+                ColumnDefinition col3 = new ColumnDefinition();
+                ColumnDefinition col4 = new ColumnDefinition();
+                col1.Width = new GridLength(1, GridUnitType.Star);
+                col2.Width = new GridLength(1, GridUnitType.Star);
+                col3.Width = new GridLength(1, GridUnitType.Star);
+                col4.Width = new GridLength(2, GridUnitType.Star);
+
+
+               
+                wideGrid.ColumnDefinitions.Add(col1);
+                wideGrid.ColumnDefinitions.Add(col2);
+                wideGrid.ColumnDefinitions.Add(col3);
+                wideGrid.ColumnDefinitions.Add(col4);
+
+
+                TextBox clue = new TextBox();
+                if(globLexi[c].word.Length > 3)
+                {
+                    clue.Text = globLexi[c].word.Substring(0, 4);
+                } else
+                {
+                    clue.Text = globLexi[c].word;
+                }
+                
+                clue.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+                wideGrid.Children.Add(clue);
+                wideGrid.Background = new SolidColorBrush(Colors.AliceBlue);
+                wideGrid.Padding = new Thickness(2);
+                Grid.SetColumn(clue, 0);
+
+
+                TextBox baseForm = new TextBox();
+                baseForm.Background = new SolidColorBrush(Colors.DarkRed);
+                baseForm.Foreground = new SolidColorBrush(Colors.White);
+                baseForm.HorizontalAlignment = HorizontalAlignment.Stretch;
+                wideGrid.Children.Add(baseForm);
+                Grid.SetColumn(baseForm, 1);
+
+
+                StackPanel alternatives = new StackPanel();
+                alternatives.Orientation = Orientation.Vertical;
+                alternatives.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+                TextBox alt1 = new TextBox();
+                alt1.Text = globLexi[c].word;
+                alt1.HorizontalAlignment = HorizontalAlignment.Stretch;
+                alternatives.Children.Add(alt1);
+
+                wideGrid.Children.Add(alternatives);
+                Grid.SetColumn(alternatives, 2);
+
+                TextBox expl = new TextBox();
+                expl.HorizontalAlignment = HorizontalAlignment.Stretch;
+                wideGrid.Children.Add(expl);
+                Grid.SetColumn(expl, 3);
+
+
+                wrapper.Children.Add(wideGrid);
+                string currid = globLexi[c].id;
+
+              
+
+                // Add the current box if there's no such and id
+
+                // currid
+
+                var van = false;
+                for (int a = 0; a < editBoxes.Children.Count; a++)
+                {
+                    StackPanel theWrapper = editBoxes.Children[a] as StackPanel;
+                    int asor = Convert.ToInt16(theWrapper.Tag);
+                    if (theWrapper.Tag.ToString() == currid)
+                    {
+                        van = true;
+                        break;
+                    }
+                }
+
+                // insert swhere
+
+
+
+
+                // ha nincs ilyen, akkor beletenni, de hova
+                if (van == false)
+                {
+
+                    if (editBoxes.Children.Count > 0)
+                    {
+                        bool inserted = false;
+                        for (int i = 0; i < editBoxes.Children.Count; i++)
+                        {
+                            StackPanel theWrapper = editBoxes.Children[i] as StackPanel;
+
+                            if (Convert.ToInt16(theWrapper.Name) > Convert.ToInt16(wrapper.Name))
+                            {
+                                editBoxes.Children.Insert(i, wrapper);
+                                inserted = true;
+                                break;
+                            }
+                        }
+                        if (inserted == false)
+                        {
+                            editBoxes.Children.Add(wrapper);
+                        }
+                    }
+                    else
+                    {
+                        editBoxes.Children.Add(wrapper);
+                    }
+
+                }
+
+
+
+            }
+
+            // remove boxes
+            List<string> beirtIds = new List<string>();
+            beirtIds.Clear();
+            for (int u = 0; u < editBoxes.Children.Count; u++)
+            {
+                StackPanel aWrap = editBoxes.Children[u] as StackPanel;
+                beirtIds.Add(aWrap.Tag.ToString());
+            }
+
+            for (int u = 0; u < beirtIds.Count; u++)
+            {
+                bool vanez = false;
+
+                for (int f = 0; f < ides.Count; f++)
+                {
+
+                    if (ides[f] == beirtIds[u])
+                    {
+                        vanez = true;
+
+                    }
+                }
+                if (vanez == false)
+                {
+                    removeEditBox(beirtIds[u]);
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+
+        private void removeEditBox(string azid)
+        {
+            for (int u = 0; u < editBoxes.Children.Count; u++)
+            {
+                StackPanel aWrap = editBoxes.Children[u] as StackPanel;
+                if (aWrap.Tag.ToString() == azid)
+                {
+                    editBoxes.Children.RemoveAt(u);
+                }
+            }
+
+
+         
+
+
+        }
+
+        private void Type10Save_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

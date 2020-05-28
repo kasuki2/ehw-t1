@@ -91,8 +91,8 @@ namespace ehw_t1
 
 
 
-            List<string> lexicalItems = new List<string>();
-            lexicalItems.Clear();
+  //          List<string> lexicalItems = new List<string>();
+//            lexicalItems.Clear();
             globLexi.Clear();
 
             string temp = String.Empty;
@@ -113,7 +113,7 @@ namespace ehw_t1
                 {
                     if (temp != String.Empty)
                     {
-                        lexicalItems.Add(temp);
+                       // lexicalItems.Add(temp);
                         Lexi egylexi = new Lexi();
                         egylexi.word = temp;
                         egylexi.id = ids;
