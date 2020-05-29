@@ -707,32 +707,29 @@ namespace ehw_t1
                 wrapper.Padding = new Thickness(4);
                 wrapper.Background = new SolidColorBrush(Color.FromArgb(255, 200, 200, 200));
                 wrapper.Margin = new Thickness(0, 0, 8, 8);
-                wrapper.HorizontalAlignment = HorizontalAlignment.Stretch;
+               
                
                 wrapper.BorderThickness = new Thickness(2, 2, 2, 2);
                 wrapper.BorderBrush = new SolidColorBrush(Colors.Transparent);
 
                 Grid wideGrid = new Grid();
                 wideGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
-                wideGrid.MinWidth = 600;
-                ColumnDefinition col1 = new ColumnDefinition();
-                ColumnDefinition col2 = new ColumnDefinition();
-                ColumnDefinition col3 = new ColumnDefinition();
-                ColumnDefinition col4 = new ColumnDefinition();
-                col1.Width = new GridLength(1, GridUnitType.Star);
-                col2.Width = new GridLength(1, GridUnitType.Star);
-                col3.Width = new GridLength(1, GridUnitType.Star);
-                col4.Width = new GridLength(2, GridUnitType.Star);
+                wideGrid.MinWidth = 260;
+             
+
+                RowDefinition row1 = new RowDefinition();
+                RowDefinition row2 = new RowDefinition();
+                RowDefinition row3 = new RowDefinition();
+                RowDefinition row4 = new RowDefinition();
+                wideGrid.RowDefinitions.Add(row1);
+                wideGrid.RowDefinitions.Add(row2);
+                wideGrid.RowDefinitions.Add(row3);
+                wideGrid.RowDefinitions.Add(row4);
 
 
-               
-                wideGrid.ColumnDefinitions.Add(col1);
-                wideGrid.ColumnDefinitions.Add(col2);
-                wideGrid.ColumnDefinitions.Add(col3);
-                wideGrid.ColumnDefinitions.Add(col4);
 
 
-                TextBox clue = new TextBox();
+                TextBlock clue = new TextBlock();
                 if(globLexi[c].word.Length > 3)
                 {
                     clue.Text = globLexi[c].word.Substring(0, 4);
@@ -743,37 +740,67 @@ namespace ehw_t1
                 
                 clue.HorizontalAlignment = HorizontalAlignment.Stretch;
 
+                
+               
+
+
                 wideGrid.Children.Add(clue);
                 wideGrid.Background = new SolidColorBrush(Colors.AliceBlue);
                 wideGrid.Padding = new Thickness(2);
-                Grid.SetColumn(clue, 0);
+                // Grid.SetColumn(clue, 0);
+                Grid.SetRow(clue, 0);
 
 
+                StackPanel stackBase = new StackPanel();
+                stackBase.Orientation = Orientation.Vertical;
+
+                TextBlock tbf = new TextBlock();
+                tbf.Text = "Base form of the word:";
                 TextBox baseForm = new TextBox();
                 baseForm.Background = new SolidColorBrush(Colors.DarkRed);
                 baseForm.Foreground = new SolidColorBrush(Colors.White);
                 baseForm.HorizontalAlignment = HorizontalAlignment.Stretch;
-                wideGrid.Children.Add(baseForm);
-                Grid.SetColumn(baseForm, 1);
+
+                stackBase.Children.Add(tbf);
+                stackBase.Children.Add(baseForm);
+
+                wideGrid.Children.Add(stackBase);
+                //Grid.SetColumn(baseForm, 1);
+                Grid.SetRow(stackBase, 1);
 
 
                 StackPanel alternatives = new StackPanel();
                 alternatives.Orientation = Orientation.Vertical;
                 alternatives.HorizontalAlignment = HorizontalAlignment.Stretch;
 
+                TextBlock alt0 = new TextBlock();
+                alt0.Text = "Correct alternatives:";
+
                 TextBox alt1 = new TextBox();
                 alt1.Text = globLexi[c].word;
                 alt1.HorizontalAlignment = HorizontalAlignment.Stretch;
+                alternatives.Children.Add(alt0);
                 alternatives.Children.Add(alt1);
 
                 wideGrid.Children.Add(alternatives);
-                Grid.SetColumn(alternatives, 2);
+                //Grid.SetColumn(alternatives, 2);
+                Grid.SetRow(alternatives, 2);
+
+                StackPanel stackExpl = new StackPanel();
+                stackExpl.Orientation = Orientation.Vertical;
+
+                TextBlock tex = new TextBlock();
+                tex.Text = "Short explanation:";
+                stackExpl.Children.Add(tex);
 
                 TextBox expl = new TextBox();
                 expl.HorizontalAlignment = HorizontalAlignment.Stretch;
-                wideGrid.Children.Add(expl);
-                Grid.SetColumn(expl, 3);
+                expl.Text = "Correct: '" + globLexi[c].word + "'. ";
+                stackExpl.Children.Add(expl);
 
+                wideGrid.Children.Add(stackExpl);
+               
+                Grid.SetRow(stackExpl, 3);
 
                 wrapper.Children.Add(wideGrid);
                 string currid = globLexi[c].id;
@@ -862,17 +889,6 @@ namespace ehw_t1
                     removeEditBox(beirtIds[u]);
                 }
             }
-
-
-
-
-
-
-
-
-
-
-
         }
 
 
@@ -886,16 +902,47 @@ namespace ehw_t1
                     editBoxes.Children.RemoveAt(u);
                 }
             }
-
-
-         
-
-
         }
 
         private void Type10Save_Click(object sender, RoutedEventArgs e)
         {
+            // checkings
+            ClearErrors();
+            string mind = "";
+            for (int u = 0; u < editBoxes.Children.Count; u++)
+            {
+                StackPanel aWrap = editBoxes.Children[u] as StackPanel;
+                // clues - are there any clues that are the same?
+                Grid wideGr = aWrap.Children[0] as Grid;
+                StackPanel baseStack = wideGr.Children[1] as StackPanel;
+                TextBox baseF = baseStack.Children[1] as TextBox;
+                if(baseF.Text.Length < 1)
+                {
+                    MarkError(u);
+                    mind = "Error: You have not filled in at least one base form.";
+                    break;
+                }
+               
+            }
+            mind.Show();
 
+            
         }
+
+        private void MarkError(int wrapper)
+        {
+            StackPanel theWrapper = editBoxes.Children[wrapper] as StackPanel;
+            theWrapper.BorderBrush = new SolidColorBrush(Colors.Red);
+        }
+
+        private void ClearErrors()
+        {
+            for (int u = 0; u < editBoxes.Children.Count; u++)
+            {
+                StackPanel aWrap = editBoxes.Children[u] as StackPanel;
+                aWrap.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            }
+        }
+
     }
 }
