@@ -904,16 +904,41 @@ namespace ehw_t1
             }
         }
 
+
+        public class TaskType10
+        {
+            public int id { get; set; }
+            public List<string> sentence { get; set; }
+            public List<string> words { get; set; }
+            public List<string> clues { get; set; }
+            public List<List<string>> alternatives { get; set; }
+            public List<string> expls { get; set;  }
+        }
+
         private void Type10Save_Click(object sender, RoutedEventArgs e)
         {
+            TaskType10 taskContent = new TaskType10();
+            taskContent.id = 0;
+
             // checkings
             ClearErrors();
             string mind = "";
+            List<string> theClues = new List<string>();
+            theClues.Clear();
+            List<string> baseForms = new List<string>();
+            baseForms.Clear();
+            List<List<string>> alterns = new List<List<string>>();
+            List<string> explans = new List<string>();
+
             for (int u = 0; u < editBoxes.Children.Count; u++)
             {
+                List<string> altern = new List<string>();
+
                 StackPanel aWrap = editBoxes.Children[u] as StackPanel;
                 // clues - are there any clues that are the same?
                 Grid wideGr = aWrap.Children[0] as Grid;
+
+                // baseform
                 StackPanel baseStack = wideGr.Children[1] as StackPanel;
                 TextBox baseF = baseStack.Children[1] as TextBox;
                 if(baseF.Text.Length < 1)
@@ -922,11 +947,79 @@ namespace ehw_t1
                     mind = "Error: You have not filled in at least one base form.";
                     break;
                 }
-               
-            }
-            mind.Show();
+                baseForms.Add(baseF.Text);
 
-            
+                // clues
+                TextBlock theClue = wideGr.Children[0] as TextBlock;
+                theClues.Add(theClue.Text);
+
+                // alternatives
+                StackPanel alternativeStack = wideGr.Children[2] as StackPanel;
+                for(int a = 1; a < alternativeStack.Children.Count; a++)
+                {
+                    TextBox oneAlt = alternativeStack.Children[a] as TextBox;
+                    altern.Add(oneAlt.Text);
+                }
+
+                alterns.Add(altern);
+
+                // explanations
+                StackPanel explStack = wideGr.Children[3] as StackPanel;
+                TextBox theExpl = explStack.Children[1] as TextBox;
+
+
+                explans.Add(theExpl.Text);
+
+
+
+            }
+          //  mind.Show();
+
+            // get the sentence
+
+
+
+            List<string> sentence = new List<string>();
+            sentence.Clear();
+
+            string temp = "";
+            for (int i = 0; i < chosenWordsT_10.Children.Count; i++)
+            {
+
+                ListBoxItem lbitem = chosenWordsT_10.Children[i] as ListBoxItem;
+
+                if (lbitem.Tag.ToString() != "1") // ha nem zöld
+                {
+                    TextBlock lbcontent = lbitem.Content as TextBlock;
+                    if (lbitem.Tag.ToString() == "x")
+                    {
+                        temp += lbcontent.Text;
+                    }
+                    else
+                    {
+                        temp += " " + lbcontent.Text;
+                    }
+
+                }
+                else
+                {
+                    sentence.Add(temp.Trim());
+                    temp = "";
+                }
+            }
+            sentence.Add(temp);
+            taskContent.sentence = sentence;
+            taskContent.words = baseForms;
+            taskContent.clues = theClues;
+            taskContent.alternatives = alterns;
+            taskContent.expls = explans;
+
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(taskContent);
+            jsonType10.Text = json;
+
+          
+
+
         }
 
         private void MarkError(int wrapper)

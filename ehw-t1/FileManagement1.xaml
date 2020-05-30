@@ -130,7 +130,7 @@
                     </controls:WrapPanel>
              
                 <Button Grid.Row="7" Content="SAVE" x:Name="Type10Save" Click="Type10Save_Click" />
-                    <TextBlock Grid.Row="8" Text="result" x:Name="jsonType10" />
+                    <TextBlock Grid.Row="8" Text="result" x:Name="jsonType10" TextWrapping="Wrap" />
                 </Grid>
             
             

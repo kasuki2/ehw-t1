@@ -608,6 +608,9 @@ namespace ehw_t1
                 }
             }
             sentence.Add(temp);
+
+           
+
             azitem.sentence = sentence;
 
          
