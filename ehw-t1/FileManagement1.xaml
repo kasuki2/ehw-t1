@@ -41,7 +41,7 @@
             <TextBlock Grid.Row="2" Text="valami" x:Name="result" />
 
 
-            <Grid Grid.Row="3" >
+            <Grid Grid.Row="3" Background="AliceBlue" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -55,7 +55,8 @@
                 <StackPanel Grid.Row="0" Orientation="Horizontal">
                     <TextBlock Text="File name:" />
                     <TextBlock x:Name="File_name" Margin="4,0,0,0" />
-                </StackPanel>
+                        <TextBox x:Name="NewFileName" Margin="4,0,0,0" Visibility="Collapsed" MinWidth="300" />
+                    </StackPanel>
                 <StackPanel Grid.Row="1" Orientation="Vertical">
                     <TextBlock Text="Title" />
                     <TextBox x:Name="Task_title" />
@@ -84,8 +85,13 @@
                     <Button Content="COMPLETE SENTENCES" Margin="0,4,4,0" Background="#FF3A3A3A" Foreground="White" />
                     <Button Content="COMPLET TEXT" Margin="0,4,4,0" Background="Red" Foreground="White" />
                 </controls:WrapPanel>
-                
-            </Grid>
+                    <StackPanel Grid.Row="7" x:Name="newFileStack" Visibility="Collapsed"  Orientation="Horizontal" HorizontalAlignment="Right" >
+                        <Button Content="SAVE FILE" x:Name="save_new_file" Margin="0,0,4,0" Visibility="Visible" Click="Save_new_file_Click"  />
+                        <Button Content="CANCEL" Background="#FFFF003A" x:Name="cancel_newfile" Click="Cancel_newfile_Click" Foreground="White" />
+                    </StackPanel>
+                   
+                    <Button Grid.Row="7" Content="SAVE CHANGES" Visibility="Visible" x:Name="save_base_data" />
+                </Grid>
 
 
             <Grid Grid.Row="4" >
@@ -116,7 +122,11 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
                 <TextBlock Grid.Row="1" Text="Task TYPE 10 - Complete the text with the given words. Put the words in the corect form." />
                 <TextBlock Grid.Row="2" Text="1. Paste or write a paragraph here, then press PROCESS." />
@@ -131,6 +141,7 @@
              
                 <Button Grid.Row="7" Content="SAVE" x:Name="Type10Save" Click="Type10Save_Click" />
                     <TextBlock Grid.Row="8" Text="result" x:Name="jsonType10" TextWrapping="Wrap" />
+                    <Button Grid.Row="9" Content="send" x:Name="send10" Click="Send10_Click" />
                 </Grid>
             
             

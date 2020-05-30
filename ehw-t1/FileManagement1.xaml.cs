@@ -179,9 +179,9 @@ namespace ehw_t1
                     ListBoxItem egydir = new ListBoxItem();
                     egydir.Padding = new Thickness(0);
                     egydir.Background = new SolidColorBrush(Windows.UI.Colors.AliceBlue);
-                    egydir.Content = FilesAndFolders[i].name + " path: " + FilesAndFolders[i].path;
+                    egydir.Content = FilesAndFolders[i].name;
                     egydir.Tag = FilesAndFolders[i].path + "/" + FilesAndFolders[i].name;
-                    egydir.Tapped += Egydir_Tapped;
+                    egydir.Tapped += Egydir_Tapped; // file
                     contentSt.Children.Add(egydir);
                 }
 
@@ -296,20 +296,45 @@ namespace ehw_t1
 
         }
 
+        private void AddNewFileMode()
+        {
+            File_name.Visibility = Visibility.Collapsed;
+            save_base_data.Visibility = Visibility.Collapsed;
+
+            NewFileName.Visibility = Visibility.Visible;
+            newFileStack.Visibility = Visibility.Visible;
+        }
+
+        private void Cancel_newfile_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeBaseDateMode();
+        }
+
+        private void ChangeBaseDateMode()
+        {
+            NewFileName.Visibility = Visibility.Collapsed;
+            newFileStack.Visibility = Visibility.Collapsed;
+            File_name.Visibility = Visibility.Visible;
+            save_base_data.Visibility = Visibility.Visible;
+        }
+
+
         private void AddFile_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            popupText.Text = "Give a name to the file:";
-            addFolderPopup.Tag = "file";
-            Button addFoldButt = sender as Button;
-            string apath = addFoldButt.Tag.ToString();
-            file_name.Tag = apath; // give over the folder name in which we create the new folder
+            AddNewFileMode();
 
-            Grid headGr = addFoldButt.Parent as Grid;
-            Grid wrapGr = headGr.Parent as Grid;
+            //popupText.Text = "Give a name to the file:";
+            //addFolderPopup.Tag = "file";
+            //Button addFoldButt = sender as Button;
+            //string apath = addFoldButt.Tag.ToString();
+            //file_name.Tag = apath; // give over the folder name in which we create the new folder
 
-            globContentSt = wrapGr.Children[1] as StackPanel;
+            //Grid headGr = addFoldButt.Parent as Grid;
+            //Grid wrapGr = headGr.Parent as Grid;
 
-            popup.Visibility = Visibility.Visible;
+            //globContentSt = wrapGr.Children[1] as StackPanel;
+
+            //popup.Visibility = Visibility.Visible;
         }
 
         private StackPanel globContentSt;
@@ -1037,5 +1062,16 @@ namespace ehw_t1
             }
         }
 
+        private void Send10_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Save_new_file_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+  
     }
 }
