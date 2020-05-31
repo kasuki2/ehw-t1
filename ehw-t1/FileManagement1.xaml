@@ -55,6 +55,7 @@
                 <StackPanel Grid.Row="0" Orientation="Horizontal">
                     <TextBlock Text="File name:" />
                     <TextBlock x:Name="File_name" Margin="4,0,0,0" />
+                        <TextBlock x:Name="NewFilePath" Margin="4,0,0,0" Visibility="Collapsed" />
                         <TextBox x:Name="NewFileName" Margin="4,0,0,0" Visibility="Collapsed" MinWidth="300" />
                     </StackPanel>
                 <StackPanel Grid.Row="1" Orientation="Vertical">
@@ -66,24 +67,44 @@
                     <TextBox x:Name="Task_instructions" />
                 </StackPanel>
                 <TextBlock Grid.Row="3" Text="Select level:" />
+                    <Grid Grid.Row="4" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <RadioButton Grid.Row="1" Grid.Column="0" GroupName="level"  Content="Elementary" x:Name="Level0" Tag="Green" />
+                        <RadioButton Grid.Row="2" Grid.Column="0" GroupName="level"  Content="Pre-intermediate" x:Name="Level1" Tag="Yellow" />
+                        <RadioButton Grid.Row="3" Grid.Column="0" GroupName="level"  Content="Intermediate" x:Name="Level2" Tag="Blue" />
+                        <RadioButton Grid.Row="4" Grid.Column="0" GroupName="level"  Content="Upper-intermediate" x:Name="Level3" Tag="White"  />
+                        <RadioButton Grid.Row="5" Grid.Column="0" GroupName="level"  Content="Advanced" x:Name="Level4" Tag="White"  />
+                        <RadioButton Grid.Row="6" Grid.Column="0" GroupName="level"  Content="Legend" x:Name="Level5" Tag="White"  />
+
+
+                        <RadioButton  Grid.Row="1" Grid.Column="1" x:Name="type_0" GroupName="type"  Content="MULTIPLE CHOICE WITH POPUPS" Margin="0,4,4,0" Background="#FF1777CB" Foreground="White" />
+                        <RadioButton  Grid.Row="2" Grid.Column="1" x:Name="type_1" GroupName="type" Content="FILL IN THE GAPS" Margin="0,4,4,0" />
+                        <RadioButton  Grid.Row="3" Grid.Column="1" x:Name="type_2" GroupName="type" Content="VOCABULARY" Margin="0,4,4,0" Background="#FFFFC500" />
+                        <RadioButton  Grid.Row="4" Grid.Column="1" x:Name="type_3" GroupName="type" Content="MULTIPLE CHOICE" Margin="0,4,4,0" Background="#FFDA0ADA" Foreground="White" />
+                        <RadioButton  Grid.Row="5" Grid.Column="1" x:Name="type_6" GroupName="type" Content="REWRITE THE SENTENCES" Margin="0,4,4,0" Background="#FF146E50" Foreground="White" />
+                        <RadioButton  Grid.Row="6" Grid.Column="1" x:Name="type_9" GroupName="type" Content="COMPLETE SENTENCES" Margin="0,4,4,0" Background="#FF3A3A3A" Foreground="White" />
+                        <RadioButton  Grid.Row="7" Grid.Column="1" x:Name="type_10" GroupName="type" Content="COMPLET TEXT" Margin="0,4,4,0" Background="Red" Foreground="White" />
+                    </Grid>
                 <StackPanel Grid.Row="4" Orientation="Horizontal">
-                    <RadioButton Content="Elementary" x:Name="Level0" Tag="Green" />
-                    <RadioButton Content="Pre-intermediate" x:Name="Level1" Tag="Yellow" />
-                    <RadioButton Content="Intermediate" x:Name="Level2" Tag="Blue" />
-                    <RadioButton Content="Upper-intermediate" x:Name="Level3" Tag="White"  />
-                    <RadioButton Content="Advanced" x:Name="Level4" Tag="White"  />
-                    <RadioButton Content="Legend" x:Name="Level5" Tag="White"  />
+                    
 
                 </StackPanel>
                 <TextBlock Grid.Row="5" Text="Select task type:" />
                 <controls:WrapPanel Grid.Row="6" >
-                    <Button Content="MULTIPLE CHOICE WITH POPUPS" Margin="0,4,4,0" Background="#FF1777CB" Foreground="White" />
-                    <Button Content="FILL IN THE GAPS" Margin="0,4,4,0" />
-                    <Button Content="VOCABULARY" Margin="0,4,4,0" Background="#FFFFC500" />
-                    <Button Content="MULTIPLE CHOICE" Margin="0,4,4,0" Background="#FFDA0ADA" Foreground="White" />
-                    <Button Content="REWRITE THE SENTENCES" Margin="0,4,4,0" Background="#FF146E50" Foreground="White" />
-                    <Button Content="COMPLETE SENTENCES" Margin="0,4,4,0" Background="#FF3A3A3A" Foreground="White" />
-                    <Button Content="COMPLET TEXT" Margin="0,4,4,0" Background="Red" Foreground="White" />
+               
                 </controls:WrapPanel>
                     <StackPanel Grid.Row="7" x:Name="newFileStack" Visibility="Collapsed"  Orientation="Horizontal" HorizontalAlignment="Right" >
                         <Button Content="SAVE FILE" x:Name="save_new_file" Margin="0,0,4,0" Visibility="Visible" Click="Save_new_file_Click"  />

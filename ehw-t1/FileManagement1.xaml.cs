@@ -302,6 +302,7 @@ namespace ehw_t1
             save_base_data.Visibility = Visibility.Collapsed;
 
             NewFileName.Visibility = Visibility.Visible;
+            NewFilePath.Visibility = Visibility.Visible;
             newFileStack.Visibility = Visibility.Visible;
         }
 
@@ -313,7 +314,9 @@ namespace ehw_t1
         private void ChangeBaseDateMode()
         {
             NewFileName.Visibility = Visibility.Collapsed;
+            NewFilePath.Visibility = Visibility.Collapsed;
             newFileStack.Visibility = Visibility.Collapsed;
+            
             File_name.Visibility = Visibility.Visible;
             save_base_data.Visibility = Visibility.Visible;
         }
@@ -322,6 +325,15 @@ namespace ehw_t1
         private void AddFile_Tapped(object sender, TappedRoutedEventArgs e)
         {
             AddNewFileMode();
+
+            Button addFoldButt = sender as Button;
+            string apath = addFoldButt.Tag.ToString();
+
+            NewFilePath.Text = apath;
+
+            Grid headGr = addFoldButt.Parent as Grid;
+            Grid wrapGr = headGr.Parent as Grid;
+            globContentSt = wrapGr.Children[1] as StackPanel;
 
             //popupText.Text = "Give a name to the file:";
             //addFolderPopup.Tag = "file";
@@ -1067,11 +1079,124 @@ namespace ehw_t1
 
         }
 
-        private void Save_new_file_Click(object sender, RoutedEventArgs e)
+        private async void Save_new_file_Click(object sender, RoutedEventArgs e)
         {
+            // get new file data and send
+
+            string newFileName = NewFileName.Text.Trim();
+            if(newFileName.Length < 3 || newFileName.Length > 60)
+            {
+                ("Invalid file name. Min. 3, max. 60 characters are allowed.").Show();
+                return;
+            }
+            
+            string newFileTitle = Task_title.Text.Trim();
+            if(newFileTitle.Length < 3 || newFileTitle.Length > 80)
+            {
+                ("Invalid file title. Min. 3, max. 80 characters are allowed.").Show();
+            }
+
+            string instru = Task_instructions.Text.Trim();
+            if(instru.Length < 3 || instru.Length > 300)
+            {
+                ("Invalid instructions. Min. 3, max. 300 characters are allowed").Show();
+            }
+
+
+            int weight = -1;
+            if (Level0.IsChecked == true)
+            {
+                weight = 0;
+            }
+            else if(Level1.IsChecked == true)
+            {
+                weight = 1;
+            }
+            else if (Level2.IsChecked == true)
+            {
+                weight = 2;
+            }
+            else if (Level3.IsChecked == true)
+            {
+                weight = 3;
+            }
+            else if (Level4.IsChecked == true)
+            {
+                weight = 4;
+            }
+            else if (Level5.IsChecked == true)
+            {
+                weight = 5;
+            }
+            if(weight < 0)
+            {
+                ("You have not selected a level for the task.").Show();
+                return;
+            }
+
+            string apath = NewFilePath.Text;
+
+            string logindat = ("logindata").GetStore();
+            if (logindat != null)
+            {
+
+                UserData userdata = JsonConvert.DeserializeObject<UserData>(logindat);
+                userdata.code = 5; // 4 folder, 5 file
+
+                userdata.path = apath + "/" + newFileName;
+
+                userdata.foldername = newFileName;
+
+                result.Text = apath;
+
+                string thejson = JsonConvert.SerializeObject(userdata);
+
+                Dictionary<string, string> pairs = new Dictionary<string, string>();
+
+                pairs.Add("json", thejson);
+                pairs.Add("filetitle", newFileTitle);
+                pairs.Add("instructions", instru);
+                pairs.Add("weight", weight.ToString());
+                pairs.Add("type", "10"); // task type
+
+
+                string valasz = await pairs.PostJsonAsync("http://kashusoft.org/uwpehw/src/client_teacher.php");
+
+                //  DirContent[] globDirContents = JsonConvert.Deserialize <DirContent>(valasz);
+                FolderResponse folderResponse = JsonConvert.DeserializeObject<FolderResponse>(valasz);
+                result.Text = valasz;
+                // valasz.Show();
+               
+
+                // update file tree - only the one needed to update
+
+
+                userdata.code = 3;
+                userdata.path = apath;
+
+
+                //   result.Text = apath;
+
+                string thejson2 = JsonConvert.SerializeObject(userdata);
+
+                Dictionary<string, string> pairs2 = new Dictionary<string, string>();
+
+                pairs2.Add("json", thejson2);
+
+
+                string valasz2 = await pairs2.PostJsonAsync("http://kashusoft.org/uwpehw/src/client_teacher.php");
+
+
+                List<DirContent> globDirContents = JsonConvert.DeserializeObject<List<DirContent>>(valasz2);
+                //   result.Text = valasz2;
+                globContentSt.Children.Clear();
+                DrawFilesAndFolders(globDirContents, globContentSt);
+
+
+            }
 
         }
 
-  
+
     }
 }
