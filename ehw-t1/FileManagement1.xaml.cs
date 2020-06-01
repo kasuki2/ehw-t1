@@ -199,6 +199,15 @@ namespace ehw_t1
             public string weight;
         }
 
+        public class TaskMainFrame
+        {
+            public string title { get; set; }
+            public string instructions { get; set; }
+            public int type { get; set; }
+            public object[] contents { get; set; }
+            public string weight;
+        }
+
         public class Tasktype0
         {
             public int id { get; set; }
@@ -223,7 +232,41 @@ namespace ehw_t1
                 string azemail = userdata.email;
                 string pw = userdata.pw;
 
+
+                await Windows.UI.Xaml.Controls.WebView.ClearTemporaryWebDataAsync();
                 webView1.Navigate(new Uri("https://kashusoft.org/uwpehw/src/gettaskfile.php?apikey=32&mail=" + azemail + "&pw=" + pw + "&task=" + filePath));
+
+                // get file data, 
+
+
+                userdata.code = 7;
+                userdata.path = filePath;
+
+                string thejson = JsonConvert.SerializeObject(userdata);
+
+                Dictionary<string, string> pairs = new Dictionary<string, string>();
+                pairs.Add("json", thejson);
+
+                string valasz = await pairs.PostJsonAsync("http://kashusoft.org/uwpehw/src/client_teacher.php");
+               
+                if(valasz != "")
+                {
+                    TaskFrame taskFrame = JsonConvert.DeserializeObject<TaskFrame>(valasz);
+                    jsonType10.Text = taskFrame.instructions;
+
+
+                    File_name.Text = filePath;
+                    Task_title.Text = taskFrame.title;
+                    Task_instructions.Text = taskFrame.instructions;
+
+                    string lev = "Level" + taskFrame.weight.ToString();
+                    RadioButton leve = this.FindName(lev) as RadioButton;
+                    leve.IsChecked = true;
+                } 
+               
+
+
+
 
 
                 // UserData userdata = JsonConvert.DeserializeObject<UserData>(logindat);
@@ -952,7 +995,7 @@ namespace ehw_t1
             public List<string> expls { get; set;  }
         }
 
-        private void Type10Save_Click(object sender, RoutedEventArgs e)
+        private async void Type10Save_Click(object sender, RoutedEventArgs e)
         {
             TaskType10 taskContent = new TaskType10();
             taskContent.id = 0;
@@ -1054,8 +1097,34 @@ namespace ehw_t1
             string json = Newtonsoft.Json.JsonConvert.SerializeObject(taskContent);
             jsonType10.Text = json;
 
-          
 
+            string logindat = ("logindata").GetStore();
+            if (logindat != null)
+            {
+
+                UserData userdata = JsonConvert.DeserializeObject<UserData>(logindat);
+                userdata.code = 6; // 6 send new item for a file
+
+              //  userdata.path = apath + "/" + newFileName;
+
+              //  userdata.foldername = newFileName;
+
+               // result.Text = apath;
+
+                string thejson = JsonConvert.SerializeObject(userdata);
+
+                Dictionary<string, string> pairs = new Dictionary<string, string>();
+
+                //pairs.Add("json", thejson);
+                //pairs.Add("filetitle", newFileTitle);
+                //pairs.Add("instructions", instru);
+                //pairs.Add("weight", weight.ToString());
+                //pairs.Add("type", "10"); // task type
+
+
+                string valasz = await pairs.PostJsonAsync("http://kashusoft.org/uwpehw/src/client_teacher.php");
+
+            }
 
         }
 
