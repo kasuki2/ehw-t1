@@ -237,7 +237,7 @@ namespace ehw_t1
                 webView1.Navigate(new Uri("https://kashusoft.org/uwpehw/src/gettaskfile.php?apikey=32&mail=" + azemail + "&pw=" + pw + "&task=" + filePath));
 
                 // get file data, 
-
+                
 
                 userdata.code = 7;
                 userdata.path = filePath;
@@ -1143,8 +1143,44 @@ namespace ehw_t1
             }
         }
 
-        private void Send10_Click(object sender, RoutedEventArgs e)
+        private async void Send10_Click(object sender, RoutedEventArgs e)
         {
+            string filePath = File_name.Text;
+            
+            string contentStr = jsonType10.Text;
+            if(contentStr.Length < 10)
+            {
+                ("The task is too short.").Show();
+                return;
+            }
+
+            string logindat = ("logindata").GetStore();
+            if (logindat != null)
+            {
+
+                UserData userdata = JsonConvert.DeserializeObject<UserData>(logindat);
+                userdata.code = 8; // 6 send new item for a file
+
+                userdata.path = filePath;
+
+                //  userdata.foldername = newFileName;
+
+                // result.Text = apath;
+
+                string thejson = JsonConvert.SerializeObject(userdata);
+
+                Dictionary<string, string> pairs = new Dictionary<string, string>();
+
+                pairs.Add("json", thejson);
+                pairs.Add("content", contentStr);
+                //pairs.Add("instructions", instru);
+                //pairs.Add("weight", weight.ToString());
+                //pairs.Add("type", "10"); // task type
+               
+                string valasz = await pairs.PostJsonAsync("http://kashusoft.org/uwpehw/src/client_teacher.php");
+                jsonType10.Text = valasz;
+
+            }
 
         }
 
