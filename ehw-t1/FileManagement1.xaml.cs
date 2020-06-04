@@ -875,7 +875,7 @@ namespace ehw_t1
 
                 TextBox expl = new TextBox();
                 expl.HorizontalAlignment = HorizontalAlignment.Stretch;
-                expl.Text = "Correct: '" + globLexi[c].word + "'. ";
+                expl.Text = "Correct: '" + globLexi[c].word.Trim() + "'. ";
                 stackExpl.Children.Add(expl);
 
                 wideGrid.Children.Add(stackExpl);
@@ -1027,18 +1027,18 @@ namespace ehw_t1
                     mind = "Error: You have not filled in at least one base form.";
                     break;
                 }
-                baseForms.Add(baseF.Text);
+                baseForms.Add(baseF.Text.Trim());
 
                 // clues
                 TextBlock theClue = wideGr.Children[0] as TextBlock;
-                theClues.Add(theClue.Text);
+                theClues.Add(theClue.Text.Trim());
 
                 // alternatives
                 StackPanel alternativeStack = wideGr.Children[2] as StackPanel;
                 for(int a = 1; a < alternativeStack.Children.Count; a++)
                 {
                     TextBox oneAlt = alternativeStack.Children[a] as TextBox;
-                    altern.Add(oneAlt.Text);
+                    altern.Add(oneAlt.Text.Trim());
                 }
 
                 alterns.Add(altern);
@@ -1048,7 +1048,7 @@ namespace ehw_t1
                 TextBox theExpl = explStack.Children[1] as TextBox;
 
 
-                explans.Add(theExpl.Text);
+                explans.Add(theExpl.Text.Trim());
 
 
 
@@ -1061,33 +1061,58 @@ namespace ehw_t1
 
             List<string> sentence = new List<string>();
             sentence.Clear();
-
+            string ch = "";
+            int ha = 0;
             string temp = "";
             for (int i = 0; i < chosenWordsT_10.Children.Count; i++)
             {
 
                 ListBoxItem lbitem = chosenWordsT_10.Children[i] as ListBoxItem;
-
-                if (lbitem.Tag.ToString() != "1") // ha nem zöld
+                if(lbitem.Tag.ToString() == "0" || lbitem.Tag.ToString() == "x")
                 {
-                    TextBlock lbcontent = lbitem.Content as TextBlock;
-                    if (lbitem.Tag.ToString() == "x")
+                    string eloke = " ";
+                    if(lbitem.Tag.ToString() == "x")
                     {
-                        temp += lbcontent.Text;
-                    }
-                    else
-                    {
-                        temp += " " + lbcontent.Text;
+                        eloke = "";
                     }
 
+                    TextBlock lbcontent = lbitem.Content as TextBlock;
+                    temp += lbcontent.Text;
                 }
                 else
                 {
-                    sentence.Add(temp.Trim());
-                    temp = "";
+                    if(temp != "")
+                    {
+                        sentence.Add(temp.Trim());
+                        ha++;
+                        temp = "";
+                    }
+                  
                 }
+
+                //if (lbitem.Tag.ToString() != "1") // ha nem zöld
+                //{
+                //    TextBlock lbcontent = lbitem.Content as TextBlock;
+                //    if (lbitem.Tag.ToString() == "x")
+                //    {
+                //        temp += lbcontent.Text;
+                //    }
+                //    else
+                //    {
+                //        temp += " " + lbcontent.Text;
+                //    }
+
+                //}
+                //else
+                //{
+                //    sentence.Add(temp.Trim());
+                //    temp = "";
+                //}
             }
             sentence.Add(temp);
+            ha++;
+         //   ha.ToString().Show();
+
             taskContent.sentence = sentence;
             taskContent.words = baseForms;
             taskContent.clues = theClues;
@@ -1239,6 +1264,8 @@ namespace ehw_t1
                 return;
             }
 
+
+
             string apath = NewFilePath.Text;
 
             string logindat = ("logindata").GetStore();
@@ -1257,14 +1284,14 @@ namespace ehw_t1
                 string thejson = JsonConvert.SerializeObject(userdata);
 
                 Dictionary<string, string> pairs = new Dictionary<string, string>();
-
+                selected_task_type.Tag.ToString().Show();
                 pairs.Add("json", thejson);
                 pairs.Add("filetitle", newFileTitle);
                 pairs.Add("instructions", instru);
                 pairs.Add("weight", weight.ToString());
-                pairs.Add("type", "10"); // task type
+                pairs.Add("type", selected_task_type.Tag.ToString()); // task type
 
-
+               
                 string valasz = await pairs.PostJsonAsync("http://kashusoft.org/uwpehw/src/client_teacher.php");
 
                 //  DirContent[] globDirContents = JsonConvert.Deserialize <DirContent>(valasz);
@@ -1302,6 +1329,48 @@ namespace ehw_t1
 
         }
 
-
+        private void Type_0_Click(object sender, RoutedEventArgs e)
+        {
+            string typ = "";
+            string tip = "0";
+            RadioButton type_radio_butt = sender as RadioButton;
+            if(type_radio_butt.Name == "type_0")
+            {
+                typ = "Type 1 - Multiple choice with popup.";
+                tip = "0";
+            }
+            else if (type_radio_butt.Name == "type_1")
+            {
+                typ = "Type 2 - Fill in the gaps.";
+                tip = "1";
+            }
+            else if (type_radio_butt.Name == "type_2")
+            {
+                typ = "Type 3 - Multiple choice.";
+                tip = "2";
+            }
+            else if (type_radio_butt.Name == "type_3")
+            {
+                typ = "Type 4 - Vocabulary.";
+                tip = "3";
+            }
+            else if (type_radio_butt.Name == "type_6")
+            {
+                typ = "Type 5 - Rewrite the sentences.";
+                tip = "6";
+            }
+            else if (type_radio_butt.Name == "type_9")
+            {
+                typ = "Type 6 - Complete the sentences.";
+                tip = "9";
+            }
+            else if (type_radio_butt.Name == "type_10")
+            {
+                typ = "Type 7 - Complete the text.";
+                tip = "10";
+            }
+            selected_task_type.Text = typ;
+            selected_task_type.Tag = tip;
+        }
     }
 }
