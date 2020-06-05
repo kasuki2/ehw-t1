@@ -259,6 +259,38 @@ namespace ehw_t1
                     Task_title.Text = taskFrame.title;
                     Task_instructions.Text = taskFrame.instructions;
 
+                    string taskTypeText = "No type specified error.";
+                    if(taskFrame.type == 0)
+                    {
+                        taskTypeText = "Type 1 - Multiple choice with popup.";
+                    }
+                    else if(taskFrame.type == 1)
+                    {
+                        taskTypeText = "Type 2 - Fill in the gaps.";
+                    }
+                    else if (taskFrame.type == 2)
+                    {
+                        taskTypeText = "Type 3 - Multiple choice.";
+                    }
+                    else if (taskFrame.type == 3)
+                    {
+                        taskTypeText = "Type 4 - Vocabulary.";
+                    }
+                    else if (taskFrame.type == 6)
+                    {
+                        taskTypeText = "Type 5 - Rewrite the sentences.";
+                    }
+                    else if (taskFrame.type == 9)
+                    {
+                        taskTypeText = "Type 6 - Complete the sentences.";
+                    }
+                    else if (taskFrame.type == 10)
+                    {
+                        taskTypeText = "Type 7 - Complete the text.";
+                    }
+
+                        selected_task_type.Text = taskTypeText;
+
                     string lev = "Level" + taskFrame.weight.ToString();
                     RadioButton leve = this.FindName(lev) as RadioButton;
                     leve.IsChecked = true;
@@ -339,6 +371,8 @@ namespace ehw_t1
 
         }
 
+
+
         private void AddNewFileMode()
         {
             File_name.Visibility = Visibility.Collapsed;
@@ -347,6 +381,7 @@ namespace ehw_t1
             NewFileName.Visibility = Visibility.Visible;
             NewFilePath.Visibility = Visibility.Visible;
             newFileStack.Visibility = Visibility.Visible;
+            tasktypeGrid.Visibility = Visibility.Visible;
         }
 
         private void Cancel_newfile_Click(object sender, RoutedEventArgs e)
@@ -359,7 +394,8 @@ namespace ehw_t1
             NewFileName.Visibility = Visibility.Collapsed;
             NewFilePath.Visibility = Visibility.Collapsed;
             newFileStack.Visibility = Visibility.Collapsed;
-            
+            tasktypeGrid.Visibility = Visibility.Collapsed;
+
             File_name.Visibility = Visibility.Visible;
             save_base_data.Visibility = Visibility.Visible;
         }
@@ -808,12 +844,21 @@ namespace ehw_t1
 
 
 
-
+                
                 TextBlock clue = new TextBlock();
-                if(globLexi[c].word.Length > 3)
+                if(globLexi[c].word.Length >= 15)
+                {
+                    clue.Text = globLexi[c].word.Substring(5, 9);
+                }
+                else if(globLexi[c].word.Length >= 10)
+                {
+                    clue.Text = globLexi[c].word.Substring(2, 5);
+                }
+                else if(globLexi[c].word.Length >= 5)
                 {
                     clue.Text = globLexi[c].word.Substring(0, 4);
-                } else
+                }
+                else
                 {
                     clue.Text = globLexi[c].word;
                 }
@@ -856,14 +901,26 @@ namespace ehw_t1
                 TextBlock alt0 = new TextBlock();
                 alt0.Text = "Correct alternatives:";
 
+                StackPanel buttons = new StackPanel();
+                buttons.Orientation = Orientation.Horizontal;
+                Button pl = new Button();
+                pl.Click += Pl_Click;
+                pl.Content = "+";
+                Button mi = new Button();
+                mi.Click += Mi_Click;
+                mi.Content = "-";
+                buttons.Children.Add(pl);
+                buttons.Children.Add(mi);
+              
+
                 TextBox alt1 = new TextBox();
                 alt1.Text = globLexi[c].word;
                 alt1.HorizontalAlignment = HorizontalAlignment.Stretch;
                 alternatives.Children.Add(alt0);
+                alternatives.Children.Add(buttons);
                 alternatives.Children.Add(alt1);
 
                 wideGrid.Children.Add(alternatives);
-                //Grid.SetColumn(alternatives, 2);
                 Grid.SetRow(alternatives, 2);
 
                 StackPanel stackExpl = new StackPanel();
@@ -971,6 +1028,38 @@ namespace ehw_t1
             }
         }
 
+        private void Mi_Click(object sender, RoutedEventArgs e)
+        {
+            Button plusButt = sender as Button;
+            StackPanel buttPar = plusButt.Parent as StackPanel;
+            StackPanel altern = buttPar.Parent as StackPanel;
+            int kids = altern.Children.Count;
+
+            if(kids < 4)
+            {
+                ("There must be at least one correct solution.").Show();
+                return;
+            }
+
+            altern.Children.RemoveAt(altern.Children.Count - 1);
+        }
+
+        private void Pl_Click(object sender, RoutedEventArgs e)
+        {
+            Button plusButt = sender as Button;
+            StackPanel buttPar = plusButt.Parent as StackPanel;
+            StackPanel altern = buttPar.Parent as StackPanel;
+            int kids = altern.Children.Count;
+
+            if(kids > 6)
+            {
+                ("The max. number of alternatives is 5.").Show();
+                return;
+            }
+
+            TextBox corrAlt = new TextBox();
+            altern.Children.Add(corrAlt);
+        }
 
         private void removeEditBox(string azid)
         {
@@ -1035,7 +1124,7 @@ namespace ehw_t1
 
                 // alternatives
                 StackPanel alternativeStack = wideGr.Children[2] as StackPanel;
-                for(int a = 1; a < alternativeStack.Children.Count; a++)
+                for(int a = 2; a < alternativeStack.Children.Count; a++)
                 {
                     TextBox oneAlt = alternativeStack.Children[a] as TextBox;
                     altern.Add(oneAlt.Text.Trim());
