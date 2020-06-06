@@ -15,4 +15,11 @@ namespace ehw_t1
         public string path { get; set; }
         public string foldername { get; set; }
     }
+
+    public class Lexi
+    {
+        public string id { get; set; }
+        public int idsor { get; set; }
+        public string word { get; set; }
+    }
 }

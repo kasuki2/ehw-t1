@@ -164,7 +164,7 @@ namespace ehw_t1
                 expWrap.Width = 200;
 
 
-                string currid = globLexi[c].id;
+               
 
                 Button plus = new Button();
                 plus.Content = "+";
@@ -181,14 +181,7 @@ namespace ehw_t1
                 connected.HorizontalAlignment = HorizontalAlignment.Right;
                 connected.IsTabStop = false;
 
-              
-                
-                
 
-                //StackPanel head = new StackPanel();
-                //head.Orientation = Orientation.Horizontal;
-                //head.HorizontalAlignment = HorizontalAlignment.Stretch;
-                //head.Background = new SolidColorBrush(Colors.PaleVioletRed);
 
                 Grid head = new Grid();
 
@@ -273,21 +266,6 @@ namespace ehw_t1
                 Grid.SetRow(tb2, 1);
                 Grid.SetRow(corr2, 1);
 
-
-
-                //StackPanel distWrapper = new StackPanel();
-                //distWrapper.Orientation = Orientation.Horizontal;
-                //distWrapper.Margin = new Thickness(0, 4, 0, 0);
-
-               
-
-
-                //distWrapper.Children.Add(tb1);
-                //distWrapper.Children.Add(corr);
-
-              
-
-
                 // explanation textboxes
 
                 TextBox tbexp1 = new TextBox();
@@ -295,16 +273,7 @@ namespace ehw_t1
                 expWrap.Children.Add(tbexp1);
                 expWrap.Children.Add(tbexp2);
 
-                //StackPanel distWrapper2 = new StackPanel();
-                //distWrapper2.Orientation = Orientation.Horizontal;
-
-              
-
-                //StackPanel dists = new StackPanel();
-                //dists.Orientation = Orientation.Vertical;
-
-                //dists.Children.Add(distWrapper);
-                //dists.Children.Add(distWrapper2);
+      
 
                 wrapper.Children.Add(distGrid);
 
@@ -315,7 +284,7 @@ namespace ehw_t1
                 // Add the current box if there's no such and id
 
                 // currid
-
+                string currid = globLexi[c].id;
                 var van = false;
                 for (int a = 0; a < chosenWords.Children.Count; a++)
                 {
