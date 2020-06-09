@@ -47,7 +47,10 @@ namespace ehw_t1
 
         }
 
-     
+        public void Testit()
+        {
+            chosenWords.Children.Clear();
+        }
 
 
         public class Lexi
@@ -61,6 +64,7 @@ namespace ehw_t1
 
         private void Lb_Tapped(object sender, TappedRoutedEventArgs e)
         {
+           
 
             ListBoxItem tappedLb = sender as ListBoxItem;
             if (tappedLb.Tag.ToString() == "0")
@@ -89,10 +93,12 @@ namespace ehw_t1
                 }
             }
 
+            // check what type? 
+            Type0_process();
+        }
 
-
-  //          List<string> lexicalItems = new List<string>();
-//            lexicalItems.Clear();
+        private void Type0_process()
+        { 
             globLexi.Clear();
 
             string temp = String.Empty;
@@ -403,6 +409,8 @@ namespace ehw_t1
                 };
                 okbutt.Tag = 0;
             }
+
+          
 
             WrapReset();
         }

@@ -592,12 +592,12 @@ namespace ehw_t1
             RichTextBlock rtb = new RichTextBlock();
             rtb.Blocks.Add(pari);
 
-            textFrame.Children.Add(rtb);
+            // textFrame.Children.Add(rtb);
         }
 
         private void drawSg()
         {
-            textFrame.Children.Clear();
+          //  textFrame.Children.Clear();
 
             List<string> sentence = new List<string>();
             sentence.Add("If we ");
@@ -620,7 +620,7 @@ namespace ehw_t1
                     lb.Text = words[w];
                     lb.Margin = new Thickness(4, 0, 0, 0);
 
-                    textFrame.Children.Add(lb);
+                   // textFrame.Children.Add(lb);
                 }
                 if (i < sentence.Count - 1)
                 {
@@ -655,7 +655,7 @@ namespace ehw_t1
                     butt.Tapped += Butt_Tapped;
                     butt.ContextFlyout = flb;
 
-                    textFrame.Children.Add(butt);
+                   // textFrame.Children.Add(butt);
                 }
                
             }
@@ -742,8 +742,24 @@ namespace ehw_t1
 
 
         }
-       
 
+        private void Process_Click(object sender, RoutedEventArgs e)
+        {
+            // ProcessText
+            string toSend = rawSentence.Text;
+            List<ListBoxItem> lb = toSend.ProcessText();
+
+            wrapWords.Children.Clear();
+
+            for (int i = 0; i < lb.Count; i++)
+            {
+                lb[i].Tapped += FileManagement1_Tapped;
+                wrapWords.Children.Add(lb[i]);
+            }
+
+            chosenWords.Children.Clear();
+
+        }
         List<Lexi> globLexi = new List<Lexi>();
 
       
@@ -755,294 +771,20 @@ namespace ehw_t1
 
             if(taskType == "0")
             {
-                ("Not implemented task type").Show();
-                return;
+                Type0And2(tappedLb);
+                
             }
             else if(taskType == "9" || taskType == "10")
             {
                 Type9And10(tappedLb);
             }
-
-            // Type9_10
-            //ListBoxItem tappedLb = sender as ListBoxItem;
-         
-            //if (tappedLb.Tag.ToString() == "0")
-            //{
-            //    tappedLb.Tag = "1";
-            //}
-            //else
-            //{
-            //    tappedLb.Tag = "0";   
-            //}
-
-            //for (int i = 0; i < chosenWordsT_10.Children.Count; i++)
-            //{
-            //    ListBoxItem item = chosenWordsT_10.Children[i] as ListBoxItem;
-            //    if (item.Tag.ToString() == "1")
-            //    {
-            //        item.Background = new SolidColorBrush(Colors.LightGreen);
-            //    }
-            //    else if (item.Tag.ToString() == "0")
-            //    {
-            //        item.Background = new SolidColorBrush(Colors.White);
-            //    }
-            //}
-
-
-            //globLexi.Clear();
-
-            //string temp = String.Empty;
-            //string ids = "";
-            //for (int z = 0; z < chosenWordsT_10.Children.Count; z++)
-            //{
-            //    ListBoxItem theItem = chosenWordsT_10.Children[z] as ListBoxItem;
-            //    TextBlock atb = theItem.Content as TextBlock;
-
-            //    if (theItem.Tag.ToString() == "1")
-            //    {
-            //        temp += atb.Text.ToString();
-            //        ids += theItem.Name.ToString();
-            //    }
-            //    else
-            //    {
-            //        if (temp != String.Empty)
-            //        {                
-            //            Lexi egylexi = new Lexi();
-            //            egylexi.word = temp;
-            //            egylexi.id = ids;
-            //            egylexi.idsor = z;
-            //            globLexi.Add(egylexi);
-
-            //            temp = String.Empty;
-            //            ids = "";
-            //        }
-            //    }
-            //}
-            //// collect ids
-            //List<string> ides = new List<string>();
-            //ides.Clear();
-            //for (int c = 0; c < globLexi.Count; c++)
-            //{
-            //    ides.Add(globLexi[c].id);
-            //}
-
-            //for (int c = 0; c < globLexi.Count; c++)
-            //{
-
-            //    StackPanel wrapper = new StackPanel();
-            //    wrapper.Orientation = Orientation.Horizontal;
-            //    wrapper.Tag = globLexi[c].id;
-            //    wrapper.Name = globLexi[c].idsor.ToString();
-            //    wrapper.Padding = new Thickness(4);
-            //    wrapper.Background = new SolidColorBrush(Color.FromArgb(255, 200, 200, 200));
-            //    wrapper.Margin = new Thickness(0, 0, 8, 8);
-
-
-            //    wrapper.BorderThickness = new Thickness(2, 2, 2, 2);
-            //    wrapper.BorderBrush = new SolidColorBrush(Colors.Transparent);
-
-            //    Grid wideGrid = new Grid();
-            //    wideGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
-            //    wideGrid.MinWidth = 260;
-
-
-            //    RowDefinition row1 = new RowDefinition();
-            //    RowDefinition row2 = new RowDefinition();
-            //    RowDefinition row3 = new RowDefinition();
-            //    RowDefinition row4 = new RowDefinition();
-            //    wideGrid.RowDefinitions.Add(row1);
-            //    wideGrid.RowDefinitions.Add(row2);
-            //    wideGrid.RowDefinitions.Add(row3);
-            //    wideGrid.RowDefinitions.Add(row4);
-
-
-
-
-            //    TextBlock clue = new TextBlock();
-            //    if (globLexi[c].word.Length >= 15)
-            //    {
-            //        clue.Text = globLexi[c].word.Substring(5, 9);
-            //    }
-            //    else if (globLexi[c].word.Length >= 10)
-            //    {
-            //        clue.Text = globLexi[c].word.Substring(2, 5);
-            //    }
-            //    else if (globLexi[c].word.Length >= 5)
-            //    {
-            //        clue.Text = globLexi[c].word.Substring(0, 4);
-            //    }
-            //    else
-            //    {
-            //        clue.Text = globLexi[c].word;
-            //    }
-
-            //    clue.HorizontalAlignment = HorizontalAlignment.Stretch;
-
-
-
-
-
-            //    wideGrid.Children.Add(clue);
-            //    wideGrid.Background = new SolidColorBrush(Colors.AliceBlue);
-            //    wideGrid.Padding = new Thickness(2);
-            //    // Grid.SetColumn(clue, 0);
-            //    Grid.SetRow(clue, 0);
-
-
-            //    StackPanel stackBase = new StackPanel();
-            //    stackBase.Orientation = Orientation.Vertical;
-
-            //    TextBlock tbf = new TextBlock();
-            //    tbf.Text = "Base form of the word:";
-            //    TextBox baseForm = new TextBox();
-            //    baseForm.Background = new SolidColorBrush(Colors.DarkRed);
-            //    baseForm.Foreground = new SolidColorBrush(Colors.White);
-            //    baseForm.HorizontalAlignment = HorizontalAlignment.Stretch;
-
-            //    stackBase.Children.Add(tbf);
-            //    stackBase.Children.Add(baseForm);
-
-            //    wideGrid.Children.Add(stackBase);
-            //    //Grid.SetColumn(baseForm, 1);
-            //    Grid.SetRow(stackBase, 1);
-
-
-            //    StackPanel alternatives = new StackPanel();
-            //    alternatives.Orientation = Orientation.Vertical;
-            //    alternatives.HorizontalAlignment = HorizontalAlignment.Stretch;
-
-            //    TextBlock alt0 = new TextBlock();
-            //    alt0.Text = "Correct alternatives:";
-
-            //    StackPanel buttons = new StackPanel();
-            //    buttons.Orientation = Orientation.Horizontal;
-            //    Button pl = new Button();
-            //    pl.Click += Pl_Click;
-            //    pl.Content = "+";
-            //    Button mi = new Button();
-            //    mi.Click += Mi_Click;
-            //    mi.Content = "-";
-            //    buttons.Children.Add(pl);
-            //    buttons.Children.Add(mi);
-
-
-            //    TextBox alt1 = new TextBox();
-            //    alt1.Text = globLexi[c].word;
-            //    alt1.HorizontalAlignment = HorizontalAlignment.Stretch;
-            //    alternatives.Children.Add(alt0);
-            //    alternatives.Children.Add(buttons);
-            //    alternatives.Children.Add(alt1);
-
-            //    wideGrid.Children.Add(alternatives);
-            //    Grid.SetRow(alternatives, 2);
-
-            //    StackPanel stackExpl = new StackPanel();
-            //    stackExpl.Orientation = Orientation.Vertical;
-
-            //    TextBlock tex = new TextBlock();
-            //    tex.Text = "Short explanation:";
-            //    stackExpl.Children.Add(tex);
-
-            //    TextBox expl = new TextBox();
-            //    expl.HorizontalAlignment = HorizontalAlignment.Stretch;
-            //    expl.Text = "Correct: '" + globLexi[c].word.Trim() + "'. ";
-            //    stackExpl.Children.Add(expl);
-
-            //    wideGrid.Children.Add(stackExpl);
-
-            //    Grid.SetRow(stackExpl, 3);
-
-            //    wrapper.Children.Add(wideGrid);
-            //    // string currid = globLexi[c].id;
-
-
-
-            //    string currid = globLexi[c].id;
-
-              
-
-            //    // Add the current box if there's no such and id
-
-            //    // currid
-
-            //    var van = false;
-            //    for (int a = 0; a < editBoxes.Children.Count; a++)
-            //    {
-            //        StackPanel theWrapper = editBoxes.Children[a] as StackPanel;
-            //        int asor = Convert.ToInt16(theWrapper.Tag);
-            //        if (theWrapper.Tag.ToString() == currid)
-            //        {
-            //            van = true;
-            //            break;
-            //        }
-            //    }
-
-            //    // insert swhere
-
-
-
-
-            //    // ha nincs ilyen, akkor beletenni, de hova
-            //    if (van == false)
-            //    {
-
-            //        if (editBoxes.Children.Count > 0)
-            //        {
-            //            bool inserted = false;
-            //            for (int i = 0; i < editBoxes.Children.Count; i++)
-            //            {
-            //                StackPanel theWrapper = editBoxes.Children[i] as StackPanel;
-
-            //                if (Convert.ToInt16(theWrapper.Name) > Convert.ToInt16(wrapper.Name))
-            //                {
-            //                    editBoxes.Children.Insert(i, wrapper);
-            //                    inserted = true;
-            //                    break;
-            //                }
-            //            }
-            //            if (inserted == false)
-            //            {
-            //                editBoxes.Children.Add(wrapper);
-            //            }
-            //        }
-            //        else
-            //        {
-            //            editBoxes.Children.Add(wrapper);
-            //        }
-
-            //    }
-
-
-
-            //}
-
-            //// remove boxes
-            //List<string> beirtIds = new List<string>();
-            //beirtIds.Clear();
-            //for (int u = 0; u < editBoxes.Children.Count; u++)
-            //{
-            //    StackPanel aWrap = editBoxes.Children[u] as StackPanel;
-            //    beirtIds.Add(aWrap.Tag.ToString());
-            //}
-
-            //for (int u = 0; u < beirtIds.Count; u++)
-            //{
-            //    bool vanez = false;
-
-            //    for (int f = 0; f < ides.Count; f++)
-            //    {
-
-            //        if (ides[f] == beirtIds[u])
-            //        {
-            //            vanez = true;
-
-            //        }
-            //    }
-            //    if (vanez == false)
-            //    {
-            //        removeEditBox(beirtIds[u]);
-            //    }
-            //}
+            else
+            {
+                ("Not implemented task type").Show();
+                return;
+            }
+
+            
         }
 
 
@@ -1114,193 +856,195 @@ namespace ehw_t1
 
             for (int c = 0; c < globLexi.Count; c++)
             {
-
                 StackPanel wrapper = new StackPanel();
-                wrapper.Orientation = Orientation.Horizontal;
-                wrapper.Tag = globLexi[c].id;
-                wrapper.Name = globLexi[c].idsor.ToString();
-                wrapper.Padding = new Thickness(4);
-                wrapper.Background = new SolidColorBrush(Color.FromArgb(255, 200, 200, 200));
-                wrapper.Margin = new Thickness(0, 0, 8, 8);
+                wrapper = Type10Bele(globLexi[c]);
+                //StackPanel wrapper = new StackPanel();
+                //wrapper.Orientation = Orientation.Horizontal;
+                //wrapper.Tag = globLexi[c].id;
+                //wrapper.Name = globLexi[c].idsor.ToString();
+                //wrapper.Padding = new Thickness(4);
+                //wrapper.Background = new SolidColorBrush(Color.FromArgb(255, 200, 200, 200));
+                //wrapper.Margin = new Thickness(0, 0, 8, 8);
 
 
-                wrapper.BorderThickness = new Thickness(2, 2, 2, 2);
-                wrapper.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                //wrapper.BorderThickness = new Thickness(2, 2, 2, 2);
+                //wrapper.BorderBrush = new SolidColorBrush(Colors.Transparent);
 
-                Grid wideGrid = new Grid();
-                wideGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
-                wideGrid.MinWidth = 260;
-
-
-                RowDefinition row1 = new RowDefinition();
-                RowDefinition row2 = new RowDefinition();
-                RowDefinition row3 = new RowDefinition();
-                RowDefinition row4 = new RowDefinition();
-                wideGrid.RowDefinitions.Add(row1);
-                wideGrid.RowDefinitions.Add(row2);
-                wideGrid.RowDefinitions.Add(row3);
-                wideGrid.RowDefinitions.Add(row4);
+                //Grid wideGrid = new Grid();
+                //wideGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
+                //wideGrid.MinWidth = 260;
 
 
-
-
-                TextBlock clue = new TextBlock();
-                if (globLexi[c].word.Length >= 15)
-                {
-                    clue.Text = globLexi[c].word.Substring(5, 9);
-                }
-                else if (globLexi[c].word.Length >= 10)
-                {
-                    clue.Text = globLexi[c].word.Substring(2, 5);
-                }
-                else if (globLexi[c].word.Length >= 5)
-                {
-                    clue.Text = globLexi[c].word.Substring(0, 4);
-                }
-                else
-                {
-                    clue.Text = globLexi[c].word;
-                }
-
-                clue.HorizontalAlignment = HorizontalAlignment.Stretch;
+                //RowDefinition row1 = new RowDefinition();
+                //RowDefinition row2 = new RowDefinition();
+                //RowDefinition row3 = new RowDefinition();
+                //RowDefinition row4 = new RowDefinition();
+                //wideGrid.RowDefinitions.Add(row1);
+                //wideGrid.RowDefinitions.Add(row2);
+                //wideGrid.RowDefinitions.Add(row3);
+                //wideGrid.RowDefinitions.Add(row4);
 
 
 
 
+                //TextBlock clue = new TextBlock();
+                //if (globLexi[c].word.Length >= 15)
+                //{
+                //    clue.Text = globLexi[c].word.Substring(5, 9);
+                //}
+                //else if (globLexi[c].word.Length >= 10)
+                //{
+                //    clue.Text = globLexi[c].word.Substring(2, 5);
+                //}
+                //else if (globLexi[c].word.Length >= 5)
+                //{
+                //    clue.Text = globLexi[c].word.Substring(0, 4);
+                //}
+                //else
+                //{
+                //    clue.Text = globLexi[c].word;
+                //}
 
-                wideGrid.Children.Add(clue);
-                wideGrid.Background = new SolidColorBrush(Colors.AliceBlue);
-                wideGrid.Padding = new Thickness(2);
-                // Grid.SetColumn(clue, 0);
-                Grid.SetRow(clue, 0);
-
-
-                StackPanel stackBase = new StackPanel();
-                stackBase.Orientation = Orientation.Vertical;
-
-                TextBlock tbf = new TextBlock();
-                tbf.Text = "Base form of the word:";
-                TextBox baseForm = new TextBox();
-                baseForm.Background = new SolidColorBrush(Colors.DarkRed);
-                baseForm.Foreground = new SolidColorBrush(Colors.White);
-                baseForm.HorizontalAlignment = HorizontalAlignment.Stretch;
-
-                stackBase.Children.Add(tbf);
-                stackBase.Children.Add(baseForm);
-
-                wideGrid.Children.Add(stackBase);
-                //Grid.SetColumn(baseForm, 1);
-                Grid.SetRow(stackBase, 1);
-
-
-                StackPanel alternatives = new StackPanel();
-                alternatives.Orientation = Orientation.Vertical;
-                alternatives.HorizontalAlignment = HorizontalAlignment.Stretch;
-
-                TextBlock alt0 = new TextBlock();
-                alt0.Text = "Correct alternatives:";
-
-                StackPanel buttons = new StackPanel();
-                buttons.Orientation = Orientation.Horizontal;
-                Button pl = new Button();
-                pl.Click += Pl_Click;
-                pl.Content = "+";
-                Button mi = new Button();
-                mi.Click += Mi_Click;
-                mi.Content = "-";
-                buttons.Children.Add(pl);
-                buttons.Children.Add(mi);
-
-
-                TextBox alt1 = new TextBox();
-                alt1.Text = globLexi[c].word;
-                alt1.HorizontalAlignment = HorizontalAlignment.Stretch;
-                alternatives.Children.Add(alt0);
-                alternatives.Children.Add(buttons);
-                alternatives.Children.Add(alt1);
-
-                wideGrid.Children.Add(alternatives);
-                Grid.SetRow(alternatives, 2);
-
-                StackPanel stackExpl = new StackPanel();
-                stackExpl.Orientation = Orientation.Vertical;
-
-                TextBlock tex = new TextBlock();
-                tex.Text = "Short explanation:";
-                stackExpl.Children.Add(tex);
-
-                TextBox expl = new TextBox();
-                expl.HorizontalAlignment = HorizontalAlignment.Stretch;
-                expl.Text = "Correct: '" + globLexi[c].word.Trim() + "'. ";
-                stackExpl.Children.Add(expl);
-
-                wideGrid.Children.Add(stackExpl);
-
-                Grid.SetRow(stackExpl, 3);
-
-                wrapper.Children.Add(wideGrid);
-                // string currid = globLexi[c].id;
-
-
-
-                string currid = globLexi[c].id;
-
-
-
-                // Add the current box if there's no such and id
-
-                // currid
-
-                var van = false;
-                for (int a = 0; a < editBoxes.Children.Count; a++)
-                {
-                    StackPanel theWrapper = editBoxes.Children[a] as StackPanel;
-                    int asor = Convert.ToInt16(theWrapper.Tag);
-                    if (theWrapper.Tag.ToString() == currid)
-                    {
-                        van = true;
-                        break;
-                    }
-                }
-
-                // insert swhere
+                //clue.HorizontalAlignment = HorizontalAlignment.Stretch;
 
 
 
 
-                // ha nincs ilyen, akkor beletenni, de hova
-                if (van == false)
-                {
 
-                    if (editBoxes.Children.Count > 0)
-                    {
-                        bool inserted = false;
-                        for (int i = 0; i < editBoxes.Children.Count; i++)
-                        {
-                            StackPanel theWrapper = editBoxes.Children[i] as StackPanel;
+                //wideGrid.Children.Add(clue);
+                //wideGrid.Background = new SolidColorBrush(Colors.AliceBlue);
+                //wideGrid.Padding = new Thickness(2);
+                //// Grid.SetColumn(clue, 0);
+                //Grid.SetRow(clue, 0);
 
-                            if (Convert.ToInt16(theWrapper.Name) > Convert.ToInt16(wrapper.Name))
-                            {
-                                editBoxes.Children.Insert(i, wrapper);
-                                inserted = true;
-                                break;
-                            }
-                        }
-                        if (inserted == false)
-                        {
-                            editBoxes.Children.Add(wrapper);
-                        }
-                    }
-                    else
-                    {
-                        editBoxes.Children.Add(wrapper);
-                    }
 
-                }
+                //StackPanel stackBase = new StackPanel();
+                //stackBase.Orientation = Orientation.Vertical;
+
+                //TextBlock tbf = new TextBlock();
+                //tbf.Text = "Base form of the word:";
+                //TextBox baseForm = new TextBox();
+                //baseForm.Background = new SolidColorBrush(Colors.DarkRed);
+                //baseForm.Foreground = new SolidColorBrush(Colors.White);
+                //baseForm.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+                //stackBase.Children.Add(tbf);
+                //stackBase.Children.Add(baseForm);
+
+                //wideGrid.Children.Add(stackBase);
+                ////Grid.SetColumn(baseForm, 1);
+                //Grid.SetRow(stackBase, 1);
+
+
+                //StackPanel alternatives = new StackPanel();
+                //alternatives.Orientation = Orientation.Vertical;
+                //alternatives.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+                //TextBlock alt0 = new TextBlock();
+                //alt0.Text = "Correct alternatives:";
+
+                //StackPanel buttons = new StackPanel();
+                //buttons.Orientation = Orientation.Horizontal;
+                //Button pl = new Button();
+                //pl.Click += Pl_Click;
+                //pl.Content = "+";
+                //Button mi = new Button();
+                //mi.Click += Mi_Click;
+                //mi.Content = "-";
+                //buttons.Children.Add(pl);
+                //buttons.Children.Add(mi);
+
+
+                //TextBox alt1 = new TextBox();
+                //alt1.Text = globLexi[c].word;
+                //alt1.HorizontalAlignment = HorizontalAlignment.Stretch;
+                //alternatives.Children.Add(alt0);
+                //alternatives.Children.Add(buttons);
+                //alternatives.Children.Add(alt1);
+
+                //wideGrid.Children.Add(alternatives);
+                //Grid.SetRow(alternatives, 2);
+
+                //StackPanel stackExpl = new StackPanel();
+                //stackExpl.Orientation = Orientation.Vertical;
+
+                //TextBlock tex = new TextBlock();
+                //tex.Text = "Short explanation:";
+                //stackExpl.Children.Add(tex);
+
+                //TextBox expl = new TextBox();
+                //expl.HorizontalAlignment = HorizontalAlignment.Stretch;
+                //expl.Text = "Correct: '" + globLexi[c].word.Trim() + "'. ";
+                //stackExpl.Children.Add(expl);
+
+                //wideGrid.Children.Add(stackExpl);
+
+                //Grid.SetRow(stackExpl, 3);
+
+                //wrapper.Children.Add(wideGrid);
+                //// string currid = globLexi[c].id;
+
+
+
+                //string currid = globLexi[c].id;
+
+
+
+                //// Add the current box if there's no such and id
+
+                //// currid
+
+                //var van = false;
+                //for (int a = 0; a < editBoxes.Children.Count; a++)
+                //{
+                //    StackPanel theWrapper = editBoxes.Children[a] as StackPanel;
+                //    int asor = Convert.ToInt16(theWrapper.Tag);
+                //    if (theWrapper.Tag.ToString() == currid)
+                //    {
+                //        van = true;
+                //        break;
+                //    }
+                //}
+
+                //// insert swhere
+
+
+
+
+                //// ha nincs ilyen, akkor beletenni, de hova
+                //if (van == false)
+                //{
+
+                //    if (editBoxes.Children.Count > 0)
+                //    {
+                //        bool inserted = false;
+                //        for (int i = 0; i < editBoxes.Children.Count; i++)
+                //        {
+                //            StackPanel theWrapper = editBoxes.Children[i] as StackPanel;
+
+                //            if (Convert.ToInt16(theWrapper.Name) > Convert.ToInt16(wrapper.Name))
+                //            {
+                //                editBoxes.Children.Insert(i, wrapper);
+                //                inserted = true;
+                //                break;
+                //            }
+                //        }
+                //        if (inserted == false)
+                //        {
+                //            editBoxes.Children.Add(wrapper);
+                //        }
+                //    }
+                //    else
+                //    {
+                //        editBoxes.Children.Add(wrapper);
+                //    }
+
+                //}
 
 
 
             }
+            // for vége 
 
             // remove boxes
             List<string> beirtIds = new List<string>();
@@ -1331,6 +1075,194 @@ namespace ehw_t1
             }
         }
 
+        private StackPanel Type10Bele(Lexi globLexi)
+        {
+            StackPanel wrapper = new StackPanel();
+
+            wrapper.Orientation = Orientation.Horizontal;
+            wrapper.Tag = globLexi.id;
+            wrapper.Name = globLexi.idsor.ToString();
+            wrapper.Padding = new Thickness(4);
+            wrapper.Background = new SolidColorBrush(Color.FromArgb(255, 200, 200, 200));
+            wrapper.Margin = new Thickness(0, 0, 8, 8);
+
+
+            wrapper.BorderThickness = new Thickness(2, 2, 2, 2);
+            wrapper.BorderBrush = new SolidColorBrush(Colors.Transparent);
+
+            Grid wideGrid = new Grid();
+            wideGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
+            wideGrid.MinWidth = 260;
+
+
+            RowDefinition row1 = new RowDefinition();
+            RowDefinition row2 = new RowDefinition();
+            RowDefinition row3 = new RowDefinition();
+            RowDefinition row4 = new RowDefinition();
+            wideGrid.RowDefinitions.Add(row1);
+            wideGrid.RowDefinitions.Add(row2);
+            wideGrid.RowDefinitions.Add(row3);
+            wideGrid.RowDefinitions.Add(row4);
+
+
+
+
+            TextBlock clue = new TextBlock();
+            if (globLexi.word.Length >= 15)
+            {
+                clue.Text = globLexi.word.Substring(5, 9);
+            }
+            else if (globLexi.word.Length >= 10)
+            {
+                clue.Text = globLexi.word.Substring(2, 5);
+            }
+            else if (globLexi.word.Length >= 5)
+            {
+                clue.Text = globLexi.word.Substring(0, 4);
+            }
+            else
+            {
+                clue.Text = globLexi.word;
+            }
+
+            clue.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+
+
+
+
+            wideGrid.Children.Add(clue);
+            wideGrid.Background = new SolidColorBrush(Colors.AliceBlue);
+            wideGrid.Padding = new Thickness(2);
+            // Grid.SetColumn(clue, 0);
+            Grid.SetRow(clue, 0);
+
+
+            StackPanel stackBase = new StackPanel();
+            stackBase.Orientation = Orientation.Vertical;
+
+            TextBlock tbf = new TextBlock();
+            tbf.Text = "Base form of the word:";
+            TextBox baseForm = new TextBox();
+            baseForm.Background = new SolidColorBrush(Colors.DarkRed);
+            baseForm.Foreground = new SolidColorBrush(Colors.White);
+            baseForm.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+            stackBase.Children.Add(tbf);
+            stackBase.Children.Add(baseForm);
+
+            wideGrid.Children.Add(stackBase);
+            //Grid.SetColumn(baseForm, 1);
+            Grid.SetRow(stackBase, 1);
+
+
+            StackPanel alternatives = new StackPanel();
+            alternatives.Orientation = Orientation.Vertical;
+            alternatives.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+            TextBlock alt0 = new TextBlock();
+            alt0.Text = "Correct alternatives:";
+
+            StackPanel buttons = new StackPanel();
+            buttons.Orientation = Orientation.Horizontal;
+            Button pl = new Button();
+            pl.Click += Pl_Click;
+            pl.Content = "+";
+            Button mi = new Button();
+            mi.Click += Mi_Click;
+            mi.Content = "-";
+            buttons.Children.Add(pl);
+            buttons.Children.Add(mi);
+
+
+            TextBox alt1 = new TextBox();
+            alt1.Text = globLexi.word;
+            alt1.HorizontalAlignment = HorizontalAlignment.Stretch;
+            alternatives.Children.Add(alt0);
+            alternatives.Children.Add(buttons);
+            alternatives.Children.Add(alt1);
+
+            wideGrid.Children.Add(alternatives);
+            Grid.SetRow(alternatives, 2);
+
+            StackPanel stackExpl = new StackPanel();
+            stackExpl.Orientation = Orientation.Vertical;
+
+            TextBlock tex = new TextBlock();
+            tex.Text = "Short explanation:";
+            stackExpl.Children.Add(tex);
+
+            TextBox expl = new TextBox();
+            expl.HorizontalAlignment = HorizontalAlignment.Stretch;
+            expl.Text = "Correct: '" + globLexi.word.Trim() + "'. ";
+            stackExpl.Children.Add(expl);
+
+            wideGrid.Children.Add(stackExpl);
+
+            Grid.SetRow(stackExpl, 3);
+
+            wrapper.Children.Add(wideGrid);
+            // string currid = globLexi[c].id;
+
+
+
+            string currid = globLexi.id;
+
+
+
+            // Add the current box if there's no such and id
+
+            // currid
+
+            var van = false;
+            for (int a = 0; a < editBoxes.Children.Count; a++)
+            {
+                StackPanel theWrapper = editBoxes.Children[a] as StackPanel;
+                int asor = Convert.ToInt16(theWrapper.Tag);
+                if (theWrapper.Tag.ToString() == currid)
+                {
+                    van = true;
+                    break;
+                }
+            }
+
+            // insert swhere
+
+
+
+
+            // ha nincs ilyen, akkor beletenni, de hova
+            if (van == false)
+            {
+
+                if (editBoxes.Children.Count > 0)
+                {
+                    bool inserted = false;
+                    for (int i = 0; i < editBoxes.Children.Count; i++)
+                    {
+                        StackPanel theWrapper = editBoxes.Children[i] as StackPanel;
+
+                        if (Convert.ToInt16(theWrapper.Name) > Convert.ToInt16(wrapper.Name))
+                        {
+                            editBoxes.Children.Insert(i, wrapper);
+                            inserted = true;
+                            break;
+                        }
+                    }
+                    if (inserted == false)
+                    {
+                        editBoxes.Children.Add(wrapper);
+                    }
+                }
+                else
+                {
+                    editBoxes.Children.Add(wrapper);
+                }
+
+            }
+
+            return wrapper;
+        }
 
       
         private void Mi_Click(object sender, RoutedEventArgs e)
@@ -1378,6 +1310,907 @@ namespace ehw_t1
             }
         }
 
+
+        private void Type0And2(ListBoxItem tappedListBox)
+        {
+            ListBoxItem tappedLb = tappedListBox;
+
+            if (tappedLb.Tag.ToString() == "0")
+            {
+                tappedLb.Tag = "1";
+            }
+            else
+            {
+                tappedLb.Tag = "0";
+            }
+
+            for (int i = 0; i < chosenWordsT_10.Children.Count; i++)
+            {
+                ListBoxItem item = chosenWordsT_10.Children[i] as ListBoxItem;
+                if (item.Tag.ToString() == "1")
+                {
+                    item.Background = new SolidColorBrush(Colors.LightGreen);
+                }
+                else if (item.Tag.ToString() == "0")
+                {
+                    item.Background = new SolidColorBrush(Colors.White);
+                }
+            }
+
+
+
+            //          List<string> lexicalItems = new List<string>();
+            //            lexicalItems.Clear();
+            globLexi.Clear();
+
+            string temp = String.Empty;
+
+            string ids = "";
+            for (int z = 0; z < chosenWordsT_10.Children.Count; z++)
+            {
+                ListBoxItem theItem = chosenWordsT_10.Children[z] as ListBoxItem;
+                TextBlock atb = theItem.Content as TextBlock;
+
+                if (theItem.Tag.ToString() == "1")
+                {
+
+                    temp += atb.Text.ToString();
+                    ids += theItem.Name.ToString();
+                }
+                else
+                {
+                    if (temp != String.Empty)
+                    {
+                        // lexicalItems.Add(temp);
+                        Lexi egylexi = new Lexi();
+                        egylexi.word = temp;
+                        egylexi.id = ids;
+                        egylexi.idsor = z;
+                        globLexi.Add(egylexi);
+
+                        temp = String.Empty;
+                        ids = "";
+                    }
+                }
+
+
+            }
+
+            // collect ids
+            List<string> ides = new List<string>();
+            ides.Clear();
+
+            for (int c = 0; c < globLexi.Count; c++)
+            {
+                ides.Add(globLexi[c].id);
+
+            }
+
+
+            for (int c = 0; c < globLexi.Count; c++)
+            {
+
+
+                StackPanel wrapper = new StackPanel();
+                wrapper = type0Bele(globLexi[c]);
+
+
+                //wrapper.Orientation = Orientation.Vertical;
+                //wrapper.Tag = globLexi[c].id;
+                //wrapper.Name = globLexi[c].idsor.ToString();
+                //wrapper.Padding = new Thickness(4);
+                //wrapper.Background = new SolidColorBrush(Color.FromArgb(255, 200, 200, 200));
+                //wrapper.Margin = new Thickness(0, 0, 8, 8);
+                //wrapper.Width = 200;
+                //wrapper.BorderThickness = new Thickness(2, 2, 2, 2);
+                //wrapper.BorderBrush = new SolidColorBrush(Colors.Transparent);
+
+                //StackPanel expWrap = new StackPanel();
+                //expWrap.Orientation = Orientation.Vertical;
+                //expWrap.Tag = globLexi[c].id;
+                //expWrap.Name = globLexi[c].idsor.ToString();
+                //expWrap.Background = new SolidColorBrush(Colors.LightBlue);
+                //expWrap.Padding = new Thickness(4, 4, 4, 4);
+                //expWrap.Padding = new Thickness(4);
+                //expWrap.Margin = new Thickness(0, 0, 8, 8);
+                //expWrap.Width = 200;
+
+
+
+
+                //Button plus = new Button();
+                //plus.Content = "+";
+                //plus.Click += Plus_Click;
+                //plus.IsTabStop = false;
+
+                //Button minus = new Button();
+                //minus.Content = "-";
+                //minus.Click += Minus_Click;
+                //minus.IsTabStop = false;
+
+                //Button connected = new Button();
+                //connected.Content = "c";
+                //connected.HorizontalAlignment = HorizontalAlignment.Right;
+                //connected.IsTabStop = false;
+
+
+
+                //Grid head = new Grid();
+
+                //ColumnDefinition col1 = new ColumnDefinition();
+                //ColumnDefinition col2 = new ColumnDefinition();
+                //ColumnDefinition col3 = new ColumnDefinition();
+                //col1.Width = new GridLength(0, GridUnitType.Auto);
+                //col2.Width = new GridLength(0, GridUnitType.Auto);
+                //col3.Width = new GridLength(1, GridUnitType.Star);
+                //head.ColumnDefinitions.Add(col1);
+                //head.ColumnDefinitions.Add(col2);
+                //head.ColumnDefinitions.Add(col3);
+
+                //head.Children.Add(plus);
+                //head.Children.Add(minus);
+                //head.Children.Add(connected);
+
+                //Grid.SetColumn(plus, 0);
+                //Grid.SetColumn(minus, 1);
+                //Grid.SetColumn(connected, 2);
+
+                //wrapper.Children.Add(head);
+
+
+                //// distractors
+                //TextBox tb1 = new TextBox();
+                //tb1.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+                //TextBox tb2 = new TextBox();
+                //tb2.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+
+                //Button corr = new Button();
+                //corr.Click += Corr_Click;
+                //corr.Tag = 0;
+                //corr.IsTabStop = false;
+
+                //corr.Content = new FontIcon
+                //{
+                //    FontFamily = new FontFamily("Segoe MDL2 Assets"),
+                //    Glyph = "\xF13E",
+                //    Foreground = new SolidColorBrush(Colors.LightGray)
+                //};
+
+                //Button corr2 = new Button();
+                //corr2.Content = new FontIcon
+                //{
+                //    FontFamily = new FontFamily("Segoe MDL2 Assets"),
+                //    Glyph = "\xF13E",
+                //    Foreground = new SolidColorBrush(Colors.LightGray)
+                //};
+                //corr2.Tag = 0;
+                //corr2.Click += Corr_Click;
+                //corr2.IsTabStop = false;
+
+
+                //Grid distGrid = new Grid();
+                //ColumnDefinition cold1 = new ColumnDefinition();
+                //ColumnDefinition cold2 = new ColumnDefinition();
+                //cold1.Width = new GridLength(1, GridUnitType.Star);
+                //cold2.Width = new GridLength(0, GridUnitType.Auto);
+                //distGrid.ColumnDefinitions.Add(cold1);
+                //distGrid.ColumnDefinitions.Add(cold2);
+                //RowDefinition row1 = new RowDefinition();
+                //row1.Height = new GridLength(0, GridUnitType.Auto);
+                //RowDefinition row2 = new RowDefinition();
+                //row2.Height = new GridLength(0, GridUnitType.Auto);
+                //distGrid.RowDefinitions.Add(row1);
+                //distGrid.RowDefinitions.Add(row2);
+
+                //distGrid.Children.Add(tb1);
+                //distGrid.Children.Add(corr);
+                //distGrid.Children.Add(tb2);
+                //distGrid.Children.Add(corr2);
+                //Grid.SetColumn(tb1, 0);
+                //Grid.SetColumn(corr, 1);
+                //Grid.SetRow(tb1, 0);
+                //Grid.SetRow(corr, 0);
+
+                //Grid.SetColumn(tb2, 0);
+                //Grid.SetColumn(corr2, 1);
+                //Grid.SetRow(tb2, 1);
+                //Grid.SetRow(corr2, 1);
+
+                //// explanation textboxes
+
+                //TextBox tbexp1 = new TextBox();
+                //TextBox tbexp2 = new TextBox();
+                //expWrap.Children.Add(tbexp1);
+                //expWrap.Children.Add(tbexp2);
+
+
+
+                //wrapper.Children.Add(distGrid);
+
+
+
+
+
+                //// Add the current box if there's no such and id
+
+                //// currid
+                //string currid = globLexi[c].id;
+                //var van = false;
+                //for (int a = 0; a < chosenWords.Children.Count; a++)
+                //{
+                //    StackPanel theWrapper = chosenWords.Children[a] as StackPanel;
+                //    int asor = Convert.ToInt16(theWrapper.Tag);
+                //    if (theWrapper.Tag.ToString() == currid)
+                //    {
+                //        van = true;
+                //        break;
+                //    }
+                //}
+
+                //// insert swhere
+
+
+
+
+                //// ha nincs ilyen, akkor beletenni, de hova
+                //if (van == false)
+                //{
+
+                //    if (chosenWords.Children.Count > 0)
+                //    {
+                //        bool inserted = false;
+                //        for (int i = 0; i < chosenWords.Children.Count; i++)
+                //        {
+                //            StackPanel theWrapper = chosenWords.Children[i] as StackPanel;
+
+                //            if (Convert.ToInt16(theWrapper.Name) > Convert.ToInt16(wrapper.Name))
+                //            {
+                //                chosenWords.Children.Insert(i, wrapper);
+                //                explanationBoxes.Children.Insert(i, expWrap);
+                //                inserted = true;
+
+                //                break;
+                //            }
+
+                //        }
+
+                //        if (inserted == false)
+                //        {
+
+                //            chosenWords.Children.Add(wrapper);
+                //            explanationBoxes.Children.Add(expWrap);
+
+                //        }
+
+
+                //    }
+                //    else
+                //    {
+                //        chosenWords.Children.Add(wrapper);
+                //        explanationBoxes.Children.Add(expWrap);
+                //    }
+
+
+
+
+                //}
+            }
+            // for vége 
+
+
+            // remove boxes
+            List<string> beirtIds = new List<string>();
+            beirtIds.Clear();
+            for (int u = 0; u < chosenWords.Children.Count; u++)
+            {
+                StackPanel aWrap = chosenWords.Children[u] as StackPanel;
+                beirtIds.Add(aWrap.Tag.ToString());
+            }
+
+            for (int u = 0; u < beirtIds.Count; u++)
+            {
+                bool vanez = false;
+
+                for (int f = 0; f < ides.Count; f++)
+                {
+
+                    if (ides[f] == beirtIds[u])
+                    {
+                        vanez = true;
+
+                    }
+                }
+                if (vanez == false)
+                {
+                    removeEditBox0(beirtIds[u]);
+                }
+            }
+
+        }
+
+        private StackPanel type0Bele(Lexi globLexi)
+        {
+            StackPanel wrapper = new StackPanel();
+            wrapper.Orientation = Orientation.Vertical;
+            wrapper.Tag = globLexi.id;
+            wrapper.Name = globLexi.idsor.ToString();
+            wrapper.Padding = new Thickness(4);
+            wrapper.Background = new SolidColorBrush(Color.FromArgb(255, 200, 200, 200));
+            wrapper.Margin = new Thickness(0, 0, 8, 8);
+            wrapper.Width = 200;
+            wrapper.BorderThickness = new Thickness(2, 2, 2, 2);
+            wrapper.BorderBrush = new SolidColorBrush(Colors.Transparent);
+
+            StackPanel expWrap = new StackPanel();
+            expWrap.Orientation = Orientation.Vertical;
+            expWrap.Tag = globLexi.id;
+            expWrap.Name = globLexi.idsor.ToString();
+            expWrap.Background = new SolidColorBrush(Colors.LightBlue);
+            expWrap.Padding = new Thickness(4, 4, 4, 4);
+            expWrap.Padding = new Thickness(4);
+            expWrap.Margin = new Thickness(0, 0, 8, 8);
+            expWrap.Width = 200;
+
+
+
+
+            Button plus = new Button();
+            plus.Content = "+";
+            plus.Click += Plus_Click;
+            plus.IsTabStop = false;
+
+            Button minus = new Button();
+            minus.Content = "-";
+            minus.Click += Minus_Click;
+            minus.IsTabStop = false;
+
+            Button connected = new Button();
+            connected.Content = "c";
+            connected.HorizontalAlignment = HorizontalAlignment.Right;
+            connected.IsTabStop = false;
+
+
+
+            Grid head = new Grid();
+
+            ColumnDefinition col1 = new ColumnDefinition();
+            ColumnDefinition col2 = new ColumnDefinition();
+            ColumnDefinition col3 = new ColumnDefinition();
+            col1.Width = new GridLength(0, GridUnitType.Auto);
+            col2.Width = new GridLength(0, GridUnitType.Auto);
+            col3.Width = new GridLength(1, GridUnitType.Star);
+            head.ColumnDefinitions.Add(col1);
+            head.ColumnDefinitions.Add(col2);
+            head.ColumnDefinitions.Add(col3);
+
+            head.Children.Add(plus);
+            head.Children.Add(minus);
+            head.Children.Add(connected);
+
+            Grid.SetColumn(plus, 0);
+            Grid.SetColumn(minus, 1);
+            Grid.SetColumn(connected, 2);
+
+            wrapper.Children.Add(head);
+
+
+            // distractors
+            TextBox tb1 = new TextBox();
+            tb1.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+            TextBox tb2 = new TextBox();
+            tb2.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+
+            Button corr = new Button();
+            corr.Click += Corr_Click;
+            corr.Tag = 0;
+            corr.IsTabStop = false;
+
+            corr.Content = new FontIcon
+            {
+                FontFamily = new FontFamily("Segoe MDL2 Assets"),
+                Glyph = "\xF13E",
+                Foreground = new SolidColorBrush(Colors.LightGray)
+            };
+
+            Button corr2 = new Button();
+            corr2.Content = new FontIcon
+            {
+                FontFamily = new FontFamily("Segoe MDL2 Assets"),
+                Glyph = "\xF13E",
+                Foreground = new SolidColorBrush(Colors.LightGray)
+            };
+            corr2.Tag = 0;
+            corr2.Click += Corr_Click;
+            corr2.IsTabStop = false;
+
+
+            Grid distGrid = new Grid();
+            ColumnDefinition cold1 = new ColumnDefinition();
+            ColumnDefinition cold2 = new ColumnDefinition();
+            cold1.Width = new GridLength(1, GridUnitType.Star);
+            cold2.Width = new GridLength(0, GridUnitType.Auto);
+            distGrid.ColumnDefinitions.Add(cold1);
+            distGrid.ColumnDefinitions.Add(cold2);
+            RowDefinition row1 = new RowDefinition();
+            row1.Height = new GridLength(0, GridUnitType.Auto);
+            RowDefinition row2 = new RowDefinition();
+            row2.Height = new GridLength(0, GridUnitType.Auto);
+            distGrid.RowDefinitions.Add(row1);
+            distGrid.RowDefinitions.Add(row2);
+
+            distGrid.Children.Add(tb1);
+            distGrid.Children.Add(corr);
+            distGrid.Children.Add(tb2);
+            distGrid.Children.Add(corr2);
+            Grid.SetColumn(tb1, 0);
+            Grid.SetColumn(corr, 1);
+            Grid.SetRow(tb1, 0);
+            Grid.SetRow(corr, 0);
+
+            Grid.SetColumn(tb2, 0);
+            Grid.SetColumn(corr2, 1);
+            Grid.SetRow(tb2, 1);
+            Grid.SetRow(corr2, 1);
+
+            // explanation textboxes
+
+            TextBox tbexp1 = new TextBox();
+            TextBox tbexp2 = new TextBox();
+            expWrap.Children.Add(tbexp1);
+            expWrap.Children.Add(tbexp2);
+
+
+
+            wrapper.Children.Add(distGrid);
+
+
+
+
+
+            // Add the current box if there's no such and id
+
+            // currid
+            string currid = globLexi.id;
+            var van = false;
+            for (int a = 0; a < chosenWords.Children.Count; a++)
+            {
+                StackPanel theWrapper = chosenWords.Children[a] as StackPanel;
+                int asor = Convert.ToInt16(theWrapper.Tag);
+                if (theWrapper.Tag.ToString() == currid)
+                {
+                    van = true;
+                    break;
+                }
+            }
+
+            // insert swhere
+
+
+
+
+            // ha nincs ilyen, akkor beletenni, de hova
+            if (van == false)
+            {
+
+                if (chosenWords.Children.Count > 0)
+                {
+                    bool inserted = false;
+                    for (int i = 0; i < chosenWords.Children.Count; i++)
+                    {
+                        StackPanel theWrapper = chosenWords.Children[i] as StackPanel;
+
+                        if (Convert.ToInt16(theWrapper.Name) > Convert.ToInt16(wrapper.Name))
+                        {
+                            chosenWords.Children.Insert(i, wrapper);
+                            explanationBoxes.Children.Insert(i, expWrap);
+                            inserted = true;
+
+                            break;
+                        }
+
+                    }
+
+                    if (inserted == false)
+                    {
+
+                        chosenWords.Children.Add(wrapper);
+                        explanationBoxes.Children.Add(expWrap);
+
+                    }
+
+
+                }
+                else
+                {
+                    chosenWords.Children.Add(wrapper);
+                    explanationBoxes.Children.Add(expWrap);
+                }
+
+
+
+
+            }
+
+            return wrapper;
+        }
+        
+
+
+
+        private void Corr_Click(object sender, RoutedEventArgs e)
+        {
+            Button okbutt = sender as Button;
+            if ((int)okbutt.Tag == 0)
+            {
+                okbutt.Content = new FontIcon
+                {
+                    FontFamily = new FontFamily("Segoe MDL2 Assets"),
+                    Glyph = "\xF13E",
+                    Foreground = new SolidColorBrush(Colors.Green)
+                };
+                okbutt.Tag = 1;
+            }
+            else
+            {
+                okbutt.Content = new FontIcon
+                {
+                    FontFamily = new FontFamily("Segoe MDL2 Assets"),
+                    Glyph = "\xF13E",
+                    Foreground = new SolidColorBrush(Colors.LightGray)
+                };
+                okbutt.Tag = 0;
+            }
+
+            WrapReset();
+        }
+
+        private void WrapReset()
+        {
+            for (int u = 0; u < chosenWords.Children.Count; u++)
+            {
+                StackPanel aWrap = chosenWords.Children[u] as StackPanel;
+                aWrap.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            }
+        }
+
+        private void removeEditBox0(string azid)
+        {
+            for (int u = 0; u < chosenWords.Children.Count; u++)
+            {
+                StackPanel aWrap = chosenWords.Children[u] as StackPanel;
+                if (aWrap.Tag.ToString() == azid)
+                {
+                    chosenWords.Children.RemoveAt(u);
+                }
+            }
+
+
+            for (int u = 0; u < explanationBoxes.Children.Count; u++)
+            {
+                StackPanel aWrap = explanationBoxes.Children[u] as StackPanel;
+                if (aWrap.Tag.ToString() == azid)
+                {
+                    explanationBoxes.Children.RemoveAt(u);
+                }
+            }
+
+
+        }
+
+        Item azitem = new Item();
+
+        private void Finish_Click(object sender, RoutedEventArgs e)
+        {
+            azitem.id = 0;
+
+            // collect the sentence
+            List<string> sentence = new List<string>();
+            sentence.Clear();
+
+            string temp = "";
+            for (int i = 0; i < wrapWords.Children.Count; i++)
+            {
+
+                ListBoxItem lbitem = wrapWords.Children[i] as ListBoxItem;
+
+                if (lbitem.Tag.ToString() != "1") // ha nem zöld
+                {
+                    TextBlock lbcontent = lbitem.Content as TextBlock;
+                    if (lbitem.Tag.ToString() == "x")
+                    {
+                        temp += lbcontent.Text;
+                    }
+                    else
+                    {
+                        temp += " " + lbcontent.Text;
+                    }
+
+                }
+                else
+                {
+                    sentence.Add(temp.Trim());
+                    temp = "";
+                }
+            }
+            sentence.Add(temp);
+
+
+
+            azitem.sentence = sentence;
+
+
+
+
+
+
+            // write in the sentence
+            List<string> solu = new List<string>();
+            solu.Add("GGG"); solu.Add("GGG");
+            azitem.solutions = solu;
+
+
+
+
+
+
+
+
+            checkCheckMarks();
+
+        }
+
+
+        private void checkCheckMarks()
+        {
+            // 2. check if boxes have at leas one solution marked as correct
+            bool markCorrect = false;
+            bool distrContent = false;
+
+            List<List<string>> distra = new List<List<string>>();
+            List<string> sol = new List<string>();
+            string s = "";
+            string so = "";
+
+            for (int u = 0; u < chosenWords.Children.Count; u++)
+            {
+
+                StackPanel aWrap = chosenWords.Children[u] as StackPanel;
+                Grid contentGrid = aWrap.Children[1] as Grid;
+                bool hasTick = false;
+                int filledTb = 0;
+                int buttonCount = 0;
+
+                List<string> dist = new List<string>();
+
+                for (int i = 0; i < contentGrid.Children.Count; i++)
+                {
+
+                    if (contentGrid.Children[i] is Button)
+                    {
+                        Button okbutt = contentGrid.Children[i] as Button;
+                        if ((int)okbutt.Tag == 1)
+                        {
+                            hasTick = true;
+                            so += buttonCount.ToString(); // solu 0-1-1-0
+                        }
+                        buttonCount++;
+                    }
+
+                    if (contentGrid.Children[i] is TextBox)
+                    {
+                        TextBox tbcont = contentGrid.Children[i] as TextBox;
+                        dist.Add(tbcont.Text.Trim());
+                        if (tbcont.Text.Trim().Length > 0)
+                        {
+                            filledTb++;
+                        }
+                    }
+                }
+
+                if (u < chosenWords.Children.Count - 1)
+                {
+                    so += "-";
+                }
+
+                distra.Add(dist);
+
+                if (filledTb < 2)
+                {
+                    aWrap.BorderBrush = new SolidColorBrush(Colors.Red);
+                    distrContent = true;
+                }
+                if (hasTick == false)
+                {
+                    aWrap.BorderBrush = new SolidColorBrush(Colors.Red);
+                    markCorrect = true;
+                }
+
+            }
+
+
+            azitem.distractors = distra;
+
+            sol.Add(so);
+            azitem.solu = sol;
+
+            string errorMessage = "";
+
+            if (markCorrect)
+            {
+                errorMessage = "You need to mark at least one solution as correct in the boxes.";
+            }
+
+            if (distrContent)
+            {
+                errorMessage = "You need to fill in at least two distractors.";
+            }
+
+            if (errorMessage != "")
+            {
+                errorMessage.Show();
+            }
+
+
+            createJson();
+
+        }
+
+        private void createJson()
+        {
+            List<List<string>> explanations = new List<List<string>>();
+
+            for (int i = 0; i < explanationBoxes.Children.Count; i++)
+            {
+                StackPanel explWrap = explanationBoxes.Children[i] as StackPanel;
+                List<string> expl = new List<string>();
+
+                for (int e = 0; e < explWrap.Children.Count; e++)
+                {
+                    TextBox exp = explWrap.Children[e] as TextBox;
+                    expl.Add(exp.Text);
+                }
+                explanations.Add(expl);
+            }
+
+
+
+
+            azitem.remarks = explanations;
+
+            //FullFile fullfile = new FullFile();
+            //fullfile.path = "FELADATOK/valami/path";
+            //fullfile.title = "Past simple structures - 1";
+            //List<Item> egyitem = new List<Item>();
+            //egyitem.Add(azitem);
+            //fullfile.contents = egyitem;
+
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(azitem);
+            result2.Text = json;
+
+        }
+
+     
+
+        public class Item
+        {
+            public int id { get; set; }
+            public List<string> sentence { get; set; }
+            public List<string> solutions { get; set; }
+            public List<List<string>> distractors { get; set; }
+            public List<string> solu { get; set; }
+            public List<List<string>> remarks { get; set; }
+
+        }
+
+        private void Plus_Click(object sender, RoutedEventArgs e)
+        {
+            Button plusButton = sender as Button;
+            Grid headWrap = plusButton.Parent as Grid;
+            StackPanel allWrap = headWrap.Parent as StackPanel;
+
+            string atag = allWrap.Tag.ToString();
+
+
+
+            Grid contentGrid = allWrap.Children[1] as Grid;
+            int rows = contentGrid.RowDefinitions.Count;
+
+
+            int kids = contentGrid.Children.Count;
+            if (kids >= 12)
+            {
+                ("You cannot insert more than 6 distractors.").Show();
+                return;
+            }
+
+            RowDefinition nextRow = new RowDefinition();
+            nextRow.Height = new GridLength(0, GridUnitType.Auto);
+
+            TextBox tbuj = new TextBox();
+            Button okbutt = new Button();
+            okbutt.Tag = 0;
+            okbutt.IsTabStop = false;
+            okbutt.Content = new FontIcon
+            {
+                FontFamily = new FontFamily("Segoe MDL2 Assets"),
+                Glyph = "\xF13E",
+                Foreground = new SolidColorBrush(Colors.LightGray)
+            };
+            okbutt.Click += Corr_Click;
+
+            contentGrid.RowDefinitions.Add(nextRow);
+            contentGrid.Children.Add(tbuj);
+            contentGrid.Children.Add(okbutt);
+
+            Grid.SetColumn(tbuj, 0);
+            Grid.SetColumn(okbutt, 1);
+            Grid.SetRow(tbuj, rows);
+            Grid.SetRow(okbutt, rows);
+
+
+
+
+            // contentWrap.Children.Add(kisWrap);
+
+            for (int i = 0; i < explanationBoxes.Children.Count; i++)
+            {
+                StackPanel explWrap = explanationBoxes.Children[i] as StackPanel;
+                string expWrapTag = explWrap.Tag.ToString();
+                if (expWrapTag == atag)
+                {
+                    TextBox tb = new TextBox();
+                    explWrap.Children.Add(tb);
+                }
+            }
+
+
+        }
+
+
+
+
+        private void Minus_Click(object sender, RoutedEventArgs e)
+        {
+            Button plusButton = sender as Button;
+            Grid headWrap = plusButton.Parent as Grid;
+            StackPanel allWrap = headWrap.Parent as StackPanel;
+
+            string atag = allWrap.Tag.ToString();
+
+            Grid contentGrid = allWrap.Children[1] as Grid;
+            int rows = contentGrid.RowDefinitions.Count;
+
+
+            if (rows <= 2)
+            {
+                ("There must be at least two distractors.").Show();
+                return;
+            }
+
+            // remove two last children
+            contentGrid.Children.RemoveAt(contentGrid.Children.Count - 1);
+            contentGrid.Children.RemoveAt(contentGrid.Children.Count - 1);
+
+            contentGrid.RowDefinitions.RemoveAt(rows - 1);
+
+            for (int i = 0; i < explanationBoxes.Children.Count; i++)
+            {
+                StackPanel explWrap = explanationBoxes.Children[i] as StackPanel;
+                string expWrapTag = explWrap.Tag.ToString();
+                if (expWrapTag == atag)
+                {
+
+
+                    explWrap.Children.RemoveAt(explWrap.Children.Count - 1);
+                }
+            }
+
+
+        }
 
         public class TaskType10
         {

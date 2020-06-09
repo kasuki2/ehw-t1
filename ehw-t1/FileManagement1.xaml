@@ -28,7 +28,10 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
             <WebView Grid.Row="0" x:Name="webView1" ScriptNotify="WebView1_ScriptNotify"  MaxWidth="700" Height="600"  />
 
@@ -171,12 +174,34 @@
                 <TextBlock Grid.Row="1" x:Name="taskProp" />
             </Grid>
 
-            <controls:WrapPanel Grid.Row="5" x:Name="textFrame" >
-               
-            </controls:WrapPanel>
+           
+
+                <Grid Grid.Row="5" x:Name="GeneralTaskHead" Background="LightPink" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="1" Text="Task TYPE ALL" />
+                    <TextBlock Grid.Row="2" Text="1. Paste or write a paragraph here, then press PROCESS." />
+                    <TextBox Grid.Row="3" x:Name="rawText" />
+                    <Button Content="Process" Grid.Row="4" x:Name="processText10" Click="ProcessText10_Click" />
+                    <controls:WrapPanel Grid.Row="5"  x:FieldModifier="public" x:Name="chosenWordsT_10">
+
+                    </controls:WrapPanel>
+                </Grid>
 
 
-            <Grid Grid.Row="6" x:Name="type10" Background="AntiqueWhite" Padding="4">
+            <Grid Grid.Row="6" x:Name="type10" Background="AntiqueWhite" Visibility="Collapsed" Padding="4">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -197,25 +222,109 @@
 
                 <TextBlock Grid.Row="1" Text="Task TYPE 10 - Complete the text with the given words. Put the words in the corect form." />
                 <TextBlock Grid.Row="2" Text="1. Paste or write a paragraph here, then press PROCESS." />
-                <TextBox Grid.Row="3" x:Name="rawText" />
-                <Button Content="Process" Grid.Row="4" x:Name="processText10" Click="ProcessText10_Click" />
-                    <controls:WrapPanel Grid.Row="5"  x:FieldModifier="public" x:Name="chosenWordsT_10">
+                <TextBox Grid.Row="3" x:Name="rawTextOld" />
+                <Button Content="Process" Grid.Row="4" x:Name="processText10Old" Click="ProcessText10_Click" />
+                    <controls:WrapPanel Grid.Row="5"  x:FieldModifier="public" x:Name="chosenWordsT_10Old">
 
                 </controls:WrapPanel>
                     <controls:WrapPanel x:Name="editBoxes" Grid.Row="6" >
                         
                     </controls:WrapPanel>
 
-                    <controls:WrapPanel Grid.Row="7" x:Name="explanationBoxes">
-
-                    </controls:WrapPanel>
+                  
                     <Button Grid.Row="8" Content="SAVE" x:Name="Type10Save" Click="Type10Save_Click" />
                     <TextBlock Grid.Row="9" Text="result" x:Name="jsonType10" TextWrapping="Wrap" />
                     <Button Grid.Row="10" Content="send" x:Name="send10" Click="Send10_Click" />
                 </Grid>
-            
-            
-        </Grid>
+
+                <Grid Grid.Row="6" x:Name="MainGrid0" Padding="32,16" Visibility="Visible" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="Create Multiple Choise Task With Popups" />
+
+                    </Grid>
+
+                    <Grid Grid.Row="1" x:Name="First_line" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="Write or paste a sentence here, then press PROCESS." />
+                        <TextBox Grid.Row="1" x:Name="rawSentence" Text="If we didn't have so many things to do, we could spend more time outside." />
+                        <Button Grid.Row="2" x:Name="Process" Click="Process_Click" >
+                            <TextBlock Text="PROCESS" />
+                        </Button>
+                    </Grid>
+
+                    <Grid Grid.Row="2" x:Name="Second_line" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="Click on the words you want to select." />
+                        <controls:WrapPanel Grid.Row="1" x:Name="wrapWords" >
+                        </controls:WrapPanel>
+
+
+                    </Grid>
+
+                    <Grid Grid.Row="3" x:Name="Third_line" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="Add distractors." />
+                        <controls:WrapPanel Grid.Row="1" x:Name="chosenWords">
+
+                        </controls:WrapPanel>
+
+                        <TextBlock Grid.Row="2" Text="Provide short explanations for why a particular solution is incorrect." />
+                        <controls:WrapPanel Grid.Row="3" x:Name="explanationBoxes">
+
+                        </controls:WrapPanel>
+
+                    </Grid>
+
+
+                    <Grid Grid.Row="4" x:Name="Fourth_line" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Button Grid.Row="0" Content="FINISH" x:Name="finish" Click="Finish_Click" />
+                        <TextBlock Grid.Row="1" x:Name="result2" />
+                        <TextBlock Grid.Row="2" Margin="0,5,0,5" Text="{}}{ &quot;id &quot;:0,&quot;sentence&quot;:[&quot;If I &quot;,&quot; have so many things to do, I &quot;,&quot; go out with you.&quot;],&quot;solutions&quot;:[&quot;GGG&quot;,&quot;GGG&quot;],&quot;distractors&quot;:[[&quot;didn't&quot;,&quot;can't&quot;],[&quot;would&quot;,&quot;will&quot;]],&quot;solu&quot;:[&quot;0-0&quot;],&quot;remarks&quot;:[[&quot;explan A1&quot;,&quot;explan A2&quot;],[&quot;explan B1&quot;,&quot;explan B2&quot;]]}" />
+                    </Grid>
+
+
+                </Grid>
+
+
+            </Grid>
         </ScrollViewer>
         
         <Grid Grid.Row="0" Grid.Column="0" Background="#FFEAE7E7" Padding="12" >

@@ -124,6 +124,7 @@
     <Compile Include="FileManagement1.xaml.cs">
       <DependentUpon>FileManagement1.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ForType0And3.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

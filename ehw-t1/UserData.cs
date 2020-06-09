@@ -22,4 +22,6 @@ namespace ehw_t1
         public int idsor { get; set; }
         public string word { get; set; }
     }
+
+ 
 }
