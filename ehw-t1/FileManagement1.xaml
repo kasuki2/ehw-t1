@@ -220,10 +220,10 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="1" Text="Task TYPE 10 - Complete the text with the given words. Put the words in the corect form." />
-                <TextBlock Grid.Row="2" Text="1. Paste or write a paragraph here, then press PROCESS." />
-                <TextBox Grid.Row="3" x:Name="rawTextOld" />
-                <Button Content="Process" Grid.Row="4" x:Name="processText10Old" Click="ProcessText10_Click" />
+                <TextBlock Grid.Row="1" Visibility="Collapsed" Text="Task TYPE 10 - Complete the text with the given words. Put the words in the corect form." />
+                <TextBlock Grid.Row="2" Visibility="Collapsed" Text="1. Paste or write a paragraph here, then press PROCESS." />
+                <TextBox Grid.Row="3" Visibility="Collapsed" x:Name="rawTextOld" />
+                <Button Content="Process" Visibility="Collapsed" Grid.Row="4" x:Name="processText10Old" Click="ProcessText10_Click" />
                     <controls:WrapPanel Grid.Row="5"  x:FieldModifier="public" x:Name="chosenWordsT_10Old">
 
                 </controls:WrapPanel>
@@ -264,9 +264,9 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="0" Text="Write or paste a sentence here, then press PROCESS." />
-                        <TextBox Grid.Row="1" x:Name="rawSentence" Text="If we didn't have so many things to do, we could spend more time outside." />
-                        <Button Grid.Row="2" x:Name="Process" Click="Process_Click" >
+                        <TextBlock Grid.Row="0" Visibility="Collapsed" Text="Write or paste a sentence here, then press PROCESS." />
+                        <TextBox Grid.Row="1" Visibility="Collapsed" x:Name="rawSentence" Text="If we didn't have so many things to do, we could spend more time outside." />
+                        <Button Grid.Row="2" Visibility="Collapsed" x:Name="Process" Click="Process_Click" >
                             <TextBlock Text="PROCESS" />
                         </Button>
                     </Grid>
