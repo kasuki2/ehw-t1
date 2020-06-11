@@ -1867,16 +1867,11 @@ namespace ehw_t1
 
             azitem.remarks = explanations;
 
-            //FullFile fullfile = new FullFile();
-            //fullfile.path = "FELADATOK/valami/path";
-            //fullfile.title = "Past simple structures - 1";
-            //List<Item> egyitem = new List<Item>();
-            //egyitem.Add(azitem);
-            //fullfile.contents = egyitem;
+        
 
             string json = Newtonsoft.Json.JsonConvert.SerializeObject(azitem);
-            result2.Text = json;
-
+          //  result2.Text = json;
+            resultSentence.Text = json;
         }
 
      
@@ -2143,22 +2138,9 @@ namespace ehw_t1
                 UserData userdata = JsonConvert.DeserializeObject<UserData>(logindat);
                 userdata.code = 6; // 6 send new item for a file
 
-              //  userdata.path = apath + "/" + newFileName;
-
-              //  userdata.foldername = newFileName;
-
-               // result.Text = apath;
-
                 string thejson = JsonConvert.SerializeObject(userdata);
 
                 Dictionary<string, string> pairs = new Dictionary<string, string>();
-
-                //pairs.Add("json", thejson);
-                //pairs.Add("filetitle", newFileTitle);
-                //pairs.Add("instructions", instru);
-                //pairs.Add("weight", weight.ToString());
-                //pairs.Add("type", "10"); // task type
-
 
                 string valasz = await pairs.PostJsonAsync("http://kashusoft.org/uwpehw/src/client_teacher.php");
 
@@ -2399,6 +2381,190 @@ namespace ehw_t1
             type10.Visibility = Visibility.Collapsed;
 
         }
+
+        private void GenerateButton_Click(object sender, RoutedEventArgs e)
+        {
+            azitem.id = 0;
+
+            string currType = selected_task_type.Tag.ToString();
+            currType.Show();
+           
+            if(currType == "0")
+            {
+
+            }
+            else if(currType == "9" || currType == "10")
+            {
+                GenerateType9_10();
+            }
+            else if(currType == "1")
+            {
+                GenerateType1();
+            }
+            else
+            {
+                ("NOt implemented yet.").Show();
+                return;
+            }
+
+
+
+
+        }
+
+        private void GenerateType0()
+        {
+
+            List<string> sentence = new List<string>();
+            sentence.Clear();
+
+            string temp = "";
+            for (int i = 0; i < wrapWords.Children.Count; i++)
+            {
+
+                ListBoxItem lbitem = wrapWords.Children[i] as ListBoxItem;
+
+                if (lbitem.Tag.ToString() != "1") // ha nem zöld
+                {
+                    TextBlock lbcontent = lbitem.Content as TextBlock;
+                    if (lbitem.Tag.ToString() == "x")
+                    {
+                        temp += lbcontent.Text;
+                    }
+                    else
+                    {
+                        temp += " " + lbcontent.Text;
+                    }
+
+                }
+                else
+                {
+                    sentence.Add(temp.Trim());
+                    temp = "";
+                }
+            }
+            sentence.Add(temp);
+            azitem.sentence = sentence;
+            // write in the sentence
+            List<string> solu = new List<string>();
+            solu.Add("GGG"); solu.Add("GGG");
+            azitem.solutions = solu;
+            checkCheckMarks();
+        }
+
+        private void GenerateType1()
+        {
+            ("GEnerate json for type 1").Show();
+
+        }
+
+        private void GenerateType9_10()
+        {
+            TaskType10 taskContent = new TaskType10();
+            taskContent.id = 0;
+
+            // checkings
+            ClearErrors();
+            string mind = "";
+            List<string> theClues = new List<string>();
+            theClues.Clear();
+            List<string> baseForms = new List<string>();
+            baseForms.Clear();
+            List<List<string>> alterns = new List<List<string>>();
+            List<string> explans = new List<string>();
+
+            for (int u = 0; u < editBoxes.Children.Count; u++)
+            {
+                List<string> altern = new List<string>();
+
+                StackPanel aWrap = editBoxes.Children[u] as StackPanel;
+                // clues - are there any clues that are the same?
+                Grid wideGr = aWrap.Children[0] as Grid;
+
+                // baseform
+                StackPanel baseStack = wideGr.Children[1] as StackPanel;
+                TextBox baseF = baseStack.Children[1] as TextBox;
+                if (baseF.Text.Length < 1)
+                {
+                    MarkError(u);
+                    mind = "Error: You have not filled in at least one base form.";
+                    break;
+                }
+                baseForms.Add(baseF.Text.Trim());
+
+                // clues
+                TextBlock theClue = wideGr.Children[0] as TextBlock;
+                theClues.Add(theClue.Text.Trim());
+
+                // alternatives
+                StackPanel alternativeStack = wideGr.Children[2] as StackPanel;
+                for (int a = 2; a < alternativeStack.Children.Count; a++)
+                {
+                    TextBox oneAlt = alternativeStack.Children[a] as TextBox;
+                    altern.Add(oneAlt.Text.Trim());
+                }
+
+                alterns.Add(altern);
+
+                // explanations
+                StackPanel explStack = wideGr.Children[3] as StackPanel;
+                TextBox theExpl = explStack.Children[1] as TextBox;
+
+
+                explans.Add(theExpl.Text.Trim());
+
+
+
+            }
+           
+
+
+            List<string> sentence = new List<string>();
+            sentence.Clear();
+            string ch = "";
+            int ha = 0;
+            string temp = "";
+            for (int i = 0; i < chosenWordsT_10.Children.Count; i++)
+            {
+
+                ListBoxItem lbitem = chosenWordsT_10.Children[i] as ListBoxItem;
+                if (lbitem.Tag.ToString() == "0" || lbitem.Tag.ToString() == "x")
+                {
+                    string eloke = " ";
+                    if (lbitem.Tag.ToString() == "x")
+                    {
+                        eloke = "";
+                    }
+
+                    TextBlock lbcontent = lbitem.Content as TextBlock;
+                    temp += lbcontent.Text;
+                }
+                else
+                {
+                    if (temp != "")
+                    {
+                        sentence.Add(temp.Trim());
+                        ha++;
+                        temp = "";
+                    }
+
+                }
+
+            }
+            sentence.Add(temp);
+           
+
+            taskContent.sentence = sentence;
+            taskContent.words = baseForms;
+            taskContent.clues = theClues;
+            taskContent.alternatives = alterns;
+            taskContent.expls = explans;
+
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(taskContent);
+          //  jsonType10.Text = json;
+            resultSentence.Text = json;
+        }
+
 
     }
 }

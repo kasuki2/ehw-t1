@@ -31,6 +31,9 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
             <WebView Grid.Row="0" x:Name="webView1" ScriptNotify="WebView1_ScriptNotify"  MaxWidth="700" Height="600"  />
@@ -323,6 +326,20 @@
 
                 </Grid>
 
+                <Grid Grid.Row="7" Background="Coral" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Button Grid.Row="0" Content="Generate json" x:Name="generateButton" Click="GenerateButton_Click" />
+                    <TextBlock Grid.Row="1" TextWrapping="Wrap" x:Name="resultSentence" />
+                    <Button Grid.Row="2" Content="SEND" x:Name="sendButton" />
+
+
+                </Grid>
+                  
 
             </Grid>
         </ScrollViewer>
