@@ -1285,7 +1285,7 @@ namespace ehw_t1
 
             TextBox corrWords2 = new TextBox();
             corrWords2.Text = aWord1 + aWord2;
-            corrWords2.Tag = aWord2.Trim();
+            corrWords2.Tag = aWord1.Trim();
 
             Grid.SetRow(corrWords2, 1);
             wideGrid.Children.Add(corrWords2);
@@ -1293,6 +1293,7 @@ namespace ehw_t1
 
             TextBlock meaningW = new TextBlock();
             meaningW.Text = "Meaning:";
+            meaningW.Tag = aWord2;
             Grid.SetRow(meaningW, 2);
             wideGrid.Children.Add(meaningW);
 
@@ -1303,15 +1304,49 @@ namespace ehw_t1
 
 
             WrapPanel partsofspeechWrap = new WrapPanel();
+            partsofspeechWrap.Tag = 0;
+
             TextBlock posp1 = new TextBlock();
             posp1.Text = "Verb";
+            posp1.Tag = 0;
+            posp1.Tapped += Posp1_Tapped;
+            posp1.Margin = new Thickness(4);
+            posp1.Foreground = new SolidColorBrush(Colors.Black);
+
             TextBlock posp2 = new TextBlock();
             posp2.Text = "Noun";
+            posp2.Tapped += Posp1_Tapped;
+            posp2.Tag = 1;
+            posp2.Margin = new Thickness(4);
+            posp2.Foreground = new SolidColorBrush(Colors.Gray);
+
             TextBlock posp3 = new TextBlock();
             posp3.Text = "Adj.";
+            posp3.Tapped += Posp1_Tapped;
+            posp3.Tag = 2;
+            posp3.Margin = new Thickness(4);
+            posp3.Foreground = new SolidColorBrush(Colors.Gray);
+
+            TextBlock posp4 = new TextBlock();
+            posp4.Text = "Adv.";
+            posp4.Tapped += Posp1_Tapped;
+            posp4.Tag = 3;
+            posp4.Margin = new Thickness(4);
+            posp4.Foreground = new SolidColorBrush(Colors.Gray);
+
+            TextBlock posp5 = new TextBlock();
+            posp5.Text = "Prep.";
+            posp5.Tapped += Posp1_Tapped;
+            posp5.Tag = 4;
+            posp5.Margin = new Thickness(4);
+            posp5.Foreground = new SolidColorBrush(Colors.Gray);
+
+
             partsofspeechWrap.Children.Add(posp1);
             partsofspeechWrap.Children.Add(posp2);
             partsofspeechWrap.Children.Add(posp3);
+            partsofspeechWrap.Children.Add(posp4);
+            partsofspeechWrap.Children.Add(posp5);
 
             Grid.SetRow(partsofspeechWrap, 4);
             wideGrid.Children.Add(partsofspeechWrap);
@@ -1335,7 +1370,23 @@ namespace ehw_t1
 
             return wrapper;
         }
-  
+
+        private void Posp1_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            TextBlock partsOfSp = sender as TextBlock;
+
+            WrapPanel parent1 = partsOfSp.Parent as WrapPanel;
+
+            for(int i = 0; i < parent1.Children.Count; i++)
+            {
+                TextBlock child = parent1.Children[i] as TextBlock;
+                child.Foreground = new SolidColorBrush(Colors.Gray);
+            }
+            partsOfSp.Foreground = new SolidColorBrush(Colors.Black);
+            string partsof = partsOfSp.Text;
+            parent1.Tag = partsOfSp.Tag;
+            partsof.Show();
+        }
 
         private StackPanel type1Bele(Lexi globLexi)
         {
@@ -2072,6 +2123,20 @@ namespace ehw_t1
             public List<string> userTipps { get; set; }
             public List<string> explain { get; set; }
         }
+       
+        public class TaskType3
+        {
+            public int id { get; set; }
+            public string baseform { get; set; }
+            public string meaning { get; set; }
+            public string ge1 { get; set; }
+            public string ge2 { get; set; }
+            public string ge3 { get; set; }
+            public string go1 { get; set; }
+            public string go2 { get; set; }
+            public string pOfSpeech { get; set; }
+           
+        }
 
         private async void Type10Save_Click(object sender, RoutedEventArgs e)
         {
@@ -2406,7 +2471,7 @@ namespace ehw_t1
             {
                 typ = "Type 4 - Vocabulary.";
                 tip = "3";
-                VocabGrid.Visibility = Visibility.Visible;
+               
                 type10.Visibility = Visibility.Visible;
             }
             else if (type_radio_butt.Name == "type_6")
@@ -2434,7 +2499,7 @@ namespace ehw_t1
         {
             MainGrid0.Visibility = Visibility.Collapsed;
             type10.Visibility = Visibility.Collapsed;
-            VocabGrid.Visibility = Visibility.Collapsed;
+         
 
         }
 
@@ -2457,6 +2522,10 @@ namespace ehw_t1
             {
                 GenerateType1();
             }
+            else if(currType == "3")
+            {
+                GenerateType3();
+            }
             else
             {
                 ("NOt implemented yet.").Show();
@@ -2464,6 +2533,81 @@ namespace ehw_t1
             }
 
 
+
+
+        }
+
+        private void GenerateType3()
+        {
+            TaskType3 task3 = new TaskType3();
+            task3.id = 0;
+            List<string> sentence = new List<string>();
+            string temp = "";
+            for (int i = 0; i < chosenWordsT_10.Children.Count; i++)
+            {
+
+                ListBoxItem lbitem = chosenWordsT_10.Children[i] as ListBoxItem;
+                if (lbitem.Tag.ToString() == "0" || lbitem.Tag.ToString() == "x")
+                {
+                    string eloke = " ";
+                    if (lbitem.Tag.ToString() == "x")
+                    {
+                        eloke = "";
+                    }
+
+                    TextBlock lbcontent = lbitem.Content as TextBlock;
+                    temp += lbcontent.Text;
+                }
+                else
+                {
+                    if (temp != "")
+                    {
+                        sentence.Add(temp.Trim());
+                        temp = "";
+                    }
+
+                }
+
+            }
+            sentence.Add(temp);
+
+            task3.ge1 = sentence[0].Trim();
+            task3.ge2 = sentence[1].Trim();
+            if(sentence.Count > 2)
+            {
+                task3.ge3 = sentence[2].Trim();
+            }
+            else
+            {
+                task3.ge3 = "";
+            }
+
+
+
+            for (int u = 0; u < editBoxes.Children.Count; u++)
+            {
+                // csak egy lehet, felesleges a for loop
+
+                StackPanel aWrap = editBoxes.Children[u] as StackPanel;
+                Grid wideGr = aWrap.Children[0] as Grid;
+
+                TextBox basef = wideGr.Children[1] as TextBox;
+                task3.go1 = basef.Tag.ToString().Trim(); // go1
+                task3.baseform = basef.Text.Trim();
+
+                TextBlock basef2 = wideGr.Children[2] as TextBlock;
+                task3.go2 = basef2.Tag.ToString().Trim(); // go2
+
+                TextBox theMean = wideGr.Children[3] as TextBox;
+                task3.meaning = theMean.Text.Trim();
+
+                WrapPanel partsofs = wideGr.Children[4] as WrapPanel;
+                task3.pOfSpeech = partsofs.Tag.ToString();
+
+            }
+
+            string json = JsonConvert.SerializeObject(task3);
+            resultSentence.Text = json;
 
 
         }

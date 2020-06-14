@@ -326,30 +326,7 @@
 
                 </Grid>
 
-                <Grid Grid.Row="7" x:Name="VocabGrid" Padding="32,16" Visibility="Collapsed" Background="YellowGreen" >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" >
-                        <TextBlock Text="Base form:" />
-                        <TextBox x:Name="baseFormVocab" Margin="4,0,0,0" />
-                    </StackPanel>
-                    <StackPanel Grid.Row="2" Orientation="Horizontal" >
-                        <TextBlock Text="Meaning:" />
-                        <TextBox x:Name="meaningVocab" Margin="4,0,0,0" />
-                    </StackPanel>
-                    <ScrollViewer Grid.Row="3" x:Name="partsOfSpeech"  >
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Verb"/>
-                            <TextBlock Text="Noun"/>
-                            <TextBlock Text="Adjective"/>
-                        </StackPanel>
-                    </ScrollViewer>
-
-                </Grid>
+             
 
                 <Grid Grid.Row="8" Background="Coral" >
                     <Grid.RowDefinitions>
