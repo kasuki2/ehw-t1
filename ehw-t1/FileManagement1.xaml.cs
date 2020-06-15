@@ -820,13 +820,13 @@ namespace ehw_t1
 
             string taskType = selected_task_type.Tag.ToString();
 
-            if(taskType == "3") // vocab - check green blocks
+            if(taskType == "3" || taskType == "2") // vocab - check green blocks, ABC mc 
             {
                 int blocknum = NumberOfGreenBlocks();
                 if (blocknum > 2)
                 {
                     tappedLb.Tag = "0";
-                    // sőt, az utána következőket is le kell nullázni ha 3 zöldből a középsőt kiszedi
+                    // sőt, az utána következőket is le kell nullázni ha 3 zöldből a középsőt kiszedi, de ami pont vagy vesszó, azt nem !!! todo 
                     int afrom = 0;
                     for (int i = 0; i < chosenWordsT_10.Children.Count; i++)
                     {
@@ -930,6 +930,14 @@ namespace ehw_t1
                   
                     wrapper = type1Bele(globLexi[c]);
                 }
+            }
+            else if(taskType == "2")
+            {
+              //  for (int c = 0; c < globLexi.Count; c++)
+              //  {
+
+                    wrapper = type2Bele(globLexi);
+               // }
             }
             else if(taskType == "3") // Vocabulary
             {
@@ -1736,8 +1744,324 @@ namespace ehw_t1
             return wrapper;
         }
         
+        private StackPanel type2Bele(List<Lexi> globLexi)
+        {
+            StackPanel wrapper = new StackPanel();
+            wrapper.Orientation = Orientation.Vertical;
+            wrapper.Tag = globLexi[0].id;
+            wrapper.Name = globLexi[0].idsor.ToString();
+            wrapper.Padding = new Thickness(4);
+            wrapper.Background = new SolidColorBrush(Color.FromArgb(255, 200, 200, 200));
+            wrapper.Margin = new Thickness(0, 0, 8, 8);
+            wrapper.Width = 200;
+            wrapper.BorderThickness = new Thickness(2, 2, 2, 2);
+            wrapper.BorderBrush = new SolidColorBrush(Colors.Transparent);
+
+            StackPanel expWrap = new StackPanel();
+            expWrap.Orientation = Orientation.Vertical;
+            expWrap.Tag = globLexi[0].id;
+            expWrap.Name = globLexi[0].idsor.ToString();
+            expWrap.Background = new SolidColorBrush(Colors.LightBlue);
+            expWrap.Padding = new Thickness(4, 4, 4, 4);
+            expWrap.Padding = new Thickness(4);
+            expWrap.Margin = new Thickness(0, 0, 8, 8);
+            expWrap.Width = 200;
 
 
+
+
+            Button plus = new Button();
+            plus.Content = "+";
+            plus.Click += Plus_Click1;
+            plus.IsTabStop = false;
+
+            Button minus = new Button();
+            minus.Content = "-";
+            minus.Click += Minus_Click;
+            minus.IsTabStop = false;
+
+            Button connected = new Button();
+            connected.Content = "c";
+            connected.HorizontalAlignment = HorizontalAlignment.Right;
+            connected.IsTabStop = false;
+
+
+
+            Grid head = new Grid();
+
+            ColumnDefinition col1 = new ColumnDefinition();
+            ColumnDefinition col2 = new ColumnDefinition();
+            ColumnDefinition col3 = new ColumnDefinition();
+            col1.Width = new GridLength(0, GridUnitType.Auto);
+            col2.Width = new GridLength(0, GridUnitType.Auto);
+            col3.Width = new GridLength(1, GridUnitType.Star);
+            head.ColumnDefinitions.Add(col1);
+            head.ColumnDefinitions.Add(col2);
+            head.ColumnDefinitions.Add(col3);
+
+            head.Children.Add(plus);
+            head.Children.Add(minus);
+            head.Children.Add(connected);
+
+            Grid.SetColumn(plus, 0);
+            Grid.SetColumn(minus, 1);
+            Grid.SetColumn(connected, 2);
+
+            wrapper.Children.Add(head);
+
+
+            // distractors
+            TextBox tb1 = new TextBox();
+            tb1.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+            TextBox tb2 = new TextBox();
+            tb2.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+            TextBox tb3 = new TextBox();
+            tb3.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+
+            Button corr = new Button();
+            corr.Click += Corr_Click;
+            corr.Tag = 0;
+            corr.IsTabStop = false;
+
+            corr.Content = new FontIcon
+            {
+                FontFamily = new FontFamily("Segoe MDL2 Assets"),
+                Glyph = "\xF13E",
+                Foreground = new SolidColorBrush(Colors.LightGray)
+            };
+
+            Button corr2 = new Button();
+            corr2.Content = new FontIcon
+            {
+                FontFamily = new FontFamily("Segoe MDL2 Assets"),
+                Glyph = "\xF13E",
+                Foreground = new SolidColorBrush(Colors.LightSalmon)
+            };
+            corr2.Tag = 0;
+            corr2.Click += Corr_Click;
+            corr2.IsTabStop = false;
+
+            Button corr3 = new Button();
+            corr3.Content = new FontIcon
+            {
+                FontFamily = new FontFamily("Segoe MDL2 Assets"),
+                Glyph = "\xF13E",
+                Foreground = new SolidColorBrush(Colors.LightSalmon)
+            };
+            corr3.Tag = 0;
+            corr3.Click += Corr_Click;
+            corr3.IsTabStop = false;
+
+            Grid distGrid = new Grid();
+            ColumnDefinition cold1 = new ColumnDefinition();
+            ColumnDefinition cold2 = new ColumnDefinition();
+            ColumnDefinition cold3 = new ColumnDefinition();
+            cold1.Width = new GridLength(0, GridUnitType.Auto);
+            cold2.Width = new GridLength(1, GridUnitType.Star);
+            cold3.Width = new GridLength(0, GridUnitType.Auto);
+            distGrid.ColumnDefinitions.Add(cold1);
+            distGrid.ColumnDefinitions.Add(cold2);
+            distGrid.ColumnDefinitions.Add(cold3);
+            RowDefinition row1 = new RowDefinition();
+            row1.Height = new GridLength(0, GridUnitType.Auto);
+            RowDefinition row2 = new RowDefinition();
+            row2.Height = new GridLength(0, GridUnitType.Auto);
+            RowDefinition row3 = new RowDefinition();
+            row3.Height = new GridLength(0, GridUnitType.Auto);
+            distGrid.RowDefinitions.Add(row1);
+            distGrid.RowDefinitions.Add(row2);
+            distGrid.RowDefinitions.Add(row3);
+
+            TextBlock azA = new TextBlock();
+            azA.Text = "A)";
+            TextBlock azB = new TextBlock();
+            azB.Text = "B)";
+            TextBlock azC = new TextBlock();
+            azC.Text = "C)";
+
+
+            distGrid.Children.Add(tb1);
+            distGrid.Children.Add(corr);
+            distGrid.Children.Add(tb2);
+            distGrid.Children.Add(corr2);
+            distGrid.Children.Add(tb3);
+            distGrid.Children.Add(corr3);
+            distGrid.Children.Add(azA);
+            distGrid.Children.Add(azB);
+            distGrid.Children.Add(azC);
+
+            Grid.SetColumn(azA, 0);
+            Grid.SetRow(azA, 0);
+            Grid.SetColumn(azB, 0);
+            Grid.SetRow(azB, 1);
+            Grid.SetColumn(azC, 0);
+            Grid.SetRow(azC, 2);
+
+
+
+            Grid.SetColumn(tb1, 1);
+            Grid.SetColumn(corr, 2);
+            Grid.SetRow(tb1, 0);
+            Grid.SetRow(corr, 0);
+
+            Grid.SetColumn(tb2, 1);
+            Grid.SetColumn(corr2, 2);
+            Grid.SetRow(tb2, 1);
+            Grid.SetRow(corr2, 1);
+
+            Grid.SetColumn(tb3, 1);
+            Grid.SetColumn(corr3, 2);
+            Grid.SetRow(tb3, 2);
+            Grid.SetRow(corr3, 2);
+
+            // explanation textboxes
+
+            TextBox tbexp1 = new TextBox();
+            TextBox tbexp2 = new TextBox();
+            TextBox tbexp3 = new TextBox();
+            expWrap.Children.Add(tbexp1);
+            expWrap.Children.Add(tbexp2);
+            expWrap.Children.Add(tbexp3);
+
+
+
+            wrapper.Children.Add(distGrid);
+
+
+
+
+
+            // Add the current box if there's no such and id
+
+            // currid
+            string currid = globLexi[0].id;
+            var van = false;
+            for (int a = 0; a < chosenWords.Children.Count; a++)
+            {
+                StackPanel theWrapper = chosenWords.Children[a] as StackPanel;
+                int asor = Convert.ToInt16(theWrapper.Tag);
+                if (theWrapper.Tag.ToString() == currid)
+                {
+                    van = true;
+                    break;
+                }
+            }
+
+            // insert swhere
+
+
+
+
+            // ha nincs ilyen, akkor beletenni, de hova
+            if (van == false)
+            {
+
+                if (chosenWords.Children.Count > 0)
+                {
+                    bool inserted = false;
+                    for (int i = 0; i < chosenWords.Children.Count; i++)
+                    {
+                        StackPanel theWrapper = chosenWords.Children[i] as StackPanel;
+
+                        if (Convert.ToInt16(theWrapper.Name) > Convert.ToInt16(wrapper.Name))
+                        {
+                            chosenWords.Children.Insert(i, wrapper);
+                            explanationBoxes.Children.Insert(i, expWrap);
+                            inserted = true;
+
+                            break;
+                        }
+
+                    }
+
+                    if (inserted == false)
+                    {
+
+                        chosenWords.Children.Add(wrapper);
+                        explanationBoxes.Children.Add(expWrap);
+
+                    }
+
+
+                }
+                else
+                {
+                    chosenWords.Children.Add(wrapper);
+                    explanationBoxes.Children.Add(expWrap);
+                }
+
+
+
+
+            }
+
+            return wrapper;
+        }
+
+        private void Plus_Click1(object sender, RoutedEventArgs e)
+        {
+            Button plusButton = sender as Button;
+            Grid headWrap = plusButton.Parent as Grid;
+            StackPanel allWrap = headWrap.Parent as StackPanel;
+
+            string atag = allWrap.Tag.ToString();
+
+
+
+            Grid contentGrid = allWrap.Children[1] as Grid;
+            int rows = contentGrid.RowDefinitions.Count;
+
+
+            int kids = contentGrid.Children.Count;
+            if (kids >= 12)
+            {
+                ("You cannot insert more than 6 distractors.").Show();
+                return;
+            }
+
+            RowDefinition nextRow = new RowDefinition();
+            nextRow.Height = new GridLength(0, GridUnitType.Auto);
+
+            TextBox tbuj = new TextBox();
+            Button okbutt = new Button();
+            okbutt.Tag = 0;
+            okbutt.IsTabStop = false;
+            okbutt.Content = new FontIcon
+            {
+                FontFamily = new FontFamily("Segoe MDL2 Assets"),
+                Glyph = "\xF13E",
+                Foreground = new SolidColorBrush(Colors.LightGray)
+            };
+            okbutt.Click += Corr_Click;
+
+            contentGrid.RowDefinitions.Add(nextRow);
+            contentGrid.Children.Add(tbuj);
+            contentGrid.Children.Add(okbutt);
+
+            Grid.SetColumn(tbuj, 0);
+            Grid.SetColumn(okbutt, 1);
+            Grid.SetRow(tbuj, rows);
+            Grid.SetRow(okbutt, rows);
+
+
+
+
+            // contentWrap.Children.Add(kisWrap);
+
+            for (int i = 0; i < explanationBoxes.Children.Count; i++)
+            {
+                StackPanel explWrap = explanationBoxes.Children[i] as StackPanel;
+                string expWrapTag = explWrap.Tag.ToString();
+                if (expWrapTag == atag)
+                {
+                    TextBox tb = new TextBox();
+                    explWrap.Children.Add(tb);
+                }
+            }
+        }
 
         private void Corr_Click(object sender, RoutedEventArgs e)
         {
@@ -2466,6 +2790,7 @@ namespace ehw_t1
             {
                 typ = "Type 3 - Multiple choice.";
                 tip = "2";
+                MainGrid0.Visibility = Visibility.Visible;
             }
             else if (type_radio_butt.Name == "type_3")
             {
