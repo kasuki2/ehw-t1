@@ -1753,7 +1753,7 @@ namespace ehw_t1
             wrapper.Padding = new Thickness(4);
             wrapper.Background = new SolidColorBrush(Color.FromArgb(255, 200, 200, 200));
             wrapper.Margin = new Thickness(0, 0, 8, 8);
-            wrapper.Width = 200;
+            wrapper.MinWidth = 500;
             wrapper.BorderThickness = new Thickness(2, 2, 2, 2);
             wrapper.BorderBrush = new SolidColorBrush(Colors.Transparent);
 
@@ -1765,7 +1765,7 @@ namespace ehw_t1
             expWrap.Padding = new Thickness(4, 4, 4, 4);
             expWrap.Padding = new Thickness(4);
             expWrap.Margin = new Thickness(0, 0, 8, 8);
-            expWrap.Width = 200;
+            expWrap.MinWidth = 500;
 
 
 
@@ -1777,7 +1777,7 @@ namespace ehw_t1
 
             Button minus = new Button();
             minus.Content = "-";
-            minus.Click += Minus_Click;
+            minus.Click += Minus_Click1; ;
             minus.IsTabStop = false;
 
             Button connected = new Button();
@@ -1882,16 +1882,17 @@ namespace ehw_t1
             TextBlock azC = new TextBlock();
             azC.Text = "C)";
 
-
+            distGrid.Children.Add(azA);
             distGrid.Children.Add(tb1);
             distGrid.Children.Add(corr);
+
+            distGrid.Children.Add(azB);
             distGrid.Children.Add(tb2);
             distGrid.Children.Add(corr2);
+
+            distGrid.Children.Add(azC);
             distGrid.Children.Add(tb3);
             distGrid.Children.Add(corr3);
-            distGrid.Children.Add(azA);
-            distGrid.Children.Add(azB);
-            distGrid.Children.Add(azC);
 
             Grid.SetColumn(azA, 0);
             Grid.SetRow(azA, 0);
@@ -1899,8 +1900,6 @@ namespace ehw_t1
             Grid.SetRow(azB, 1);
             Grid.SetColumn(azC, 0);
             Grid.SetRow(azC, 2);
-
-
 
             Grid.SetColumn(tb1, 1);
             Grid.SetColumn(corr, 2);
@@ -1951,54 +1950,90 @@ namespace ehw_t1
             }
 
             // insert swhere
-
+            if(chosenWords.Children.Count == 0)
+            {
+                chosenWords.Children.Add(wrapper);
+                explanationBoxes.Children.Add(expWrap);
+            }
 
 
 
             // ha nincs ilyen, akkor beletenni, de hova
-            if (van == false)
-            {
+            //if (van == false)
+            //{
 
-                if (chosenWords.Children.Count > 0)
-                {
-                    bool inserted = false;
-                    for (int i = 0; i < chosenWords.Children.Count; i++)
-                    {
-                        StackPanel theWrapper = chosenWords.Children[i] as StackPanel;
+            //    if (chosenWords.Children.Count > 0)
+            //    {
+            //        bool inserted = false;
+            //        for (int i = 0; i < chosenWords.Children.Count; i++)
+            //        {
+            //            StackPanel theWrapper = chosenWords.Children[i] as StackPanel;
 
-                        if (Convert.ToInt16(theWrapper.Name) > Convert.ToInt16(wrapper.Name))
-                        {
-                            chosenWords.Children.Insert(i, wrapper);
-                            explanationBoxes.Children.Insert(i, expWrap);
-                            inserted = true;
+            //            if (Convert.ToInt16(theWrapper.Name) > Convert.ToInt16(wrapper.Name))
+            //            {
+            //                chosenWords.Children.Insert(i, wrapper);
+            //                explanationBoxes.Children.Insert(i, expWrap);
+            //                inserted = true;
 
-                            break;
-                        }
+            //                break;
+            //            }
 
-                    }
+            //        }
+                
+            //        if (inserted == false)
+            //        {
+            //            chosenWords.Children.Add(wrapper);
+            //            explanationBoxes.Children.Add(expWrap);
+            //        }
 
-                    if (inserted == false)
-                    {
-
-                        chosenWords.Children.Add(wrapper);
-                        explanationBoxes.Children.Add(expWrap);
-
-                    }
-
-
-                }
-                else
-                {
-                    chosenWords.Children.Add(wrapper);
-                    explanationBoxes.Children.Add(expWrap);
-                }
-
-
-
-
-            }
+            //    }
+            //    else
+            //    {
+            //        chosenWords.Children.Add(wrapper);
+            //        explanationBoxes.Children.Add(expWrap);
+            //    }
+            //}
 
             return wrapper;
+        }
+
+        private void Minus_Click1(object sender, RoutedEventArgs e)
+        {
+            Button plusButton = sender as Button;
+            Grid headWrap = plusButton.Parent as Grid;
+            StackPanel allWrap = headWrap.Parent as StackPanel;
+
+            string atag = allWrap.Tag.ToString();
+
+            Grid contentGrid = allWrap.Children[1] as Grid;
+            int rows = contentGrid.RowDefinitions.Count;
+
+
+            if (rows <= 2)
+            {
+                ("There must be at least two distractors.").Show();
+                return;
+            }
+
+            // remove 3 last children
+            contentGrid.Children.RemoveAt(contentGrid.Children.Count - 1);
+            contentGrid.Children.RemoveAt(contentGrid.Children.Count - 1);
+            contentGrid.Children.RemoveAt(contentGrid.Children.Count - 1);
+
+            contentGrid.RowDefinitions.RemoveAt(rows - 1);
+
+            for (int i = 0; i < explanationBoxes.Children.Count; i++)
+            {
+                StackPanel explWrap = explanationBoxes.Children[i] as StackPanel;
+                string expWrapTag = explWrap.Tag.ToString();
+                if (expWrapTag == atag)
+                {
+
+
+                    explWrap.Children.RemoveAt(explWrap.Children.Count - 1);
+                }
+            }
+
         }
 
         private void Plus_Click1(object sender, RoutedEventArgs e)
@@ -2016,7 +2051,7 @@ namespace ehw_t1
 
 
             int kids = contentGrid.Children.Count;
-            if (kids >= 12)
+            if (kids >= 18)
             {
                 ("You cannot insert more than 6 distractors.").Show();
                 return;
@@ -2037,14 +2072,22 @@ namespace ehw_t1
             };
             okbutt.Click += Corr_Click;
 
+            string[] betuk = { "A)", "B)", "C)", "D)", "E)", "F)", "G)", "H)", "I)", "J)", "K)", "L)", "M)" };
+            TextBlock azD = new TextBlock();
+            azD.Text = betuk[rows];
+
             contentGrid.RowDefinitions.Add(nextRow);
             contentGrid.Children.Add(tbuj);
             contentGrid.Children.Add(okbutt);
+            contentGrid.Children.Add(azD);
 
-            Grid.SetColumn(tbuj, 0);
-            Grid.SetColumn(okbutt, 1);
+            Grid.SetColumn(azD, 0);
+            Grid.SetColumn(tbuj, 1);
+            Grid.SetColumn(okbutt, 2);
+            Grid.SetRow(azD, rows);
             Grid.SetRow(tbuj, rows);
             Grid.SetRow(okbutt, rows);
+            
 
 
 
@@ -2276,7 +2319,25 @@ namespace ehw_t1
                 errorMessage.Show();
             }
 
+            //List<List<string>> explanations = new List<List<string>>();
 
+            //for (int i = 0; i < explanationBoxes.Children.Count; i++)
+            //{
+            //    StackPanel explWrap = explanationBoxes.Children[i] as StackPanel;
+            //    List<string> expl = new List<string>();
+
+            //    for (int e = 0; e < explWrap.Children.Count; e++)
+            //    {
+            //        TextBox exp = explWrap.Children[e] as TextBox;
+            //        expl.Add(exp.Text);
+            //    }
+            //    explanations.Add(expl);
+            //}
+
+
+
+
+            //azitem.remarks = explanations;
             createJson();
 
         }
@@ -2460,6 +2521,18 @@ namespace ehw_t1
             public string go2 { get; set; }
             public string pOfSpeech { get; set; }
            
+        }
+
+        // ABC Mc
+        public class TaskType2
+        {
+            public int id { get; set; }
+            public List<string> sentence { get; set; }
+            public List<string> solutions { get; set; }
+            public List<List<string>> distractors { get; set; }
+            public List<string> solu { get; set; }
+            public List<List<string>> remarks { get; set; }
+
         }
 
         private async void Type10Save_Click(object sender, RoutedEventArgs e)
@@ -2851,14 +2924,177 @@ namespace ehw_t1
             {
                 GenerateType3();
             }
+            else if(currType == "2")
+            {
+                GenerateType2();
+            }
             else
             {
-                ("NOt implemented yet.").Show();
+               
                 return;
             }
 
 
 
+
+        }
+
+        private List<string> getTheSentence()
+        {
+            List<string> sentence = new List<string>();
+            sentence.Clear();
+            string ch = "";
+            int ha = 0;
+            string temp = "";
+            for (int i = 0; i < chosenWordsT_10.Children.Count; i++)
+            {
+
+                ListBoxItem lbitem = chosenWordsT_10.Children[i] as ListBoxItem;
+                if (lbitem.Tag.ToString() == "0" || lbitem.Tag.ToString() == "x")
+                {
+                    string eloke = " ";
+                    if (lbitem.Tag.ToString() == "x")
+                    {
+                        eloke = "";
+                    }
+
+                    TextBlock lbcontent = lbitem.Content as TextBlock;
+                    temp += lbcontent.Text;
+                }
+                else
+                {
+                    if (temp != "")
+                    {
+                        sentence.Add(temp.Trim());
+                        ha++;
+                        temp = "";
+                    }
+
+                }
+
+            }
+            sentence.Add(temp.Trim());
+
+            return sentence;
+        }
+
+        private void GenerateType2()
+        {
+            TaskType2 tasktype = new TaskType2();
+            tasktype.id = 0;
+           
+            tasktype.sentence = getTheSentence();
+
+
+            bool markCorrect = false;
+            bool distrContent = false;
+
+            List<List<string>> distra = new List<List<string>>();
+            List<string> sol = new List<string>();
+            string s = "";
+            string so = "";
+
+            for (int u = 0; u < chosenWords.Children.Count; u++)
+            {
+
+                StackPanel aWrap = chosenWords.Children[u] as StackPanel;
+                Grid contentGrid = aWrap.Children[1] as Grid;
+                bool hasTick = false;
+                int filledTb = 0;
+                int buttonCount = 0;
+
+                List<string> dist = new List<string>();
+
+                for (int i = 0; i < contentGrid.Children.Count; i++)
+                {
+
+                    if (contentGrid.Children[i] is Button)
+                    {
+                        Button okbutt = contentGrid.Children[i] as Button;
+                        if ((int)okbutt.Tag == 1)
+                        {
+                            hasTick = true;
+                            so += buttonCount.ToString(); // solu 0-1-1-0
+                        }
+                        buttonCount++;
+                    }
+
+                    if (contentGrid.Children[i] is TextBox)
+                    {
+                        TextBox tbcont = contentGrid.Children[i] as TextBox;
+                        dist.Add(tbcont.Text.Trim());
+                        if (tbcont.Text.Trim().Length > 0)
+                        {
+                            filledTb++;
+                        }
+                    }
+                }
+
+                if (u < chosenWords.Children.Count - 1)
+                {
+                    so += "-";
+                }
+
+                distra.Add(dist);
+
+                if (filledTb < 2)
+                {
+                    aWrap.BorderBrush = new SolidColorBrush(Colors.Red);
+                    distrContent = true;
+                }
+                if (hasTick == false)
+                {
+                    aWrap.BorderBrush = new SolidColorBrush(Colors.Red);
+                    markCorrect = true;
+                }
+
+            }
+
+
+            tasktype.distractors = distra;
+
+            sol.Add(so);
+            tasktype.solu = sol;
+
+            string errorMessage = "";
+
+            if (markCorrect)
+            {
+                errorMessage = "You need to mark at least one solution as correct in the boxes.";
+            }
+
+            if (distrContent)
+            {
+                errorMessage = "You need to fill in at least two distractors.";
+            }
+
+            if (errorMessage != "")
+            {
+                errorMessage.Show();
+            }
+
+            List<List<string>> explanations = new List<List<string>>();
+
+            for (int i = 0; i < explanationBoxes.Children.Count; i++)
+            {
+                StackPanel explWrap = explanationBoxes.Children[i] as StackPanel;
+                List<string> expl = new List<string>();
+
+                for (int e = 0; e < explWrap.Children.Count; e++)
+                {
+                    TextBox exp = explWrap.Children[e] as TextBox;
+                    expl.Add(exp.Text);
+                }
+                explanations.Add(expl);
+            }
+
+
+
+
+            tasktype.remarks = explanations;
+
+            string json = JsonConvert.SerializeObject(tasktype);
+            resultSentence.Text = json;
 
         }
 
