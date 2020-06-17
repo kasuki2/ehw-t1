@@ -31,6 +31,8 @@ namespace ehw_t1
         {
             this.InitializeComponent();
             getTheFiles();
+
+         
         }
 
         public class DirContent
@@ -802,6 +804,11 @@ namespace ehw_t1
             Type9And10(tappedLb);
         }
 
+        class MultiTwoWords
+        {
+            public string word1 { get; set; }
+            public string word2 { get; set; }
+        }
 
        // TYPE 9 AND 10
 
@@ -933,11 +940,33 @@ namespace ehw_t1
             }
             else if(taskType == "2")
             {
-              //  for (int c = 0; c < globLexi.Count; c++)
-              //  {
+                MultiTwoWords multi = new MultiTwoWords();
+                if (globLexi.Count == 1)
+                {
+                    
+                    multi.word1 = globLexi[0].word;
+                    multi.word2 = "";
+                    type2_correct.Text = globLexi[0].word;
+                }
+                else if(globLexi.Count == 2)
+                {
+                    type2_correct.Text = globLexi[0].word + " / " + globLexi[1].word;
+                    
+                    multi.word1 = globLexi[0].word;
+                    multi.word2 = globLexi[1].word;
 
-                    wrapper = type2Bele(globLexi);
-               // }
+                }
+                else if(globLexi.Count == 0)
+                {
+                    type2_correct.Text = "";
+                    multi = null;
+                }
+
+                type2_correct.Tag = multi;
+
+
+
+
             }
             else if(taskType == "3") // Vocabulary
             {
@@ -1744,258 +1773,7 @@ namespace ehw_t1
             return wrapper;
         }
         
-        private StackPanel type2Bele(List<Lexi> globLexi)
-        {
-            StackPanel wrapper = new StackPanel();
-            wrapper.Orientation = Orientation.Vertical;
-            wrapper.Tag = globLexi[0].id;
-            wrapper.Name = globLexi[0].idsor.ToString();
-            wrapper.Padding = new Thickness(4);
-            wrapper.Background = new SolidColorBrush(Color.FromArgb(255, 200, 200, 200));
-            wrapper.Margin = new Thickness(0, 0, 8, 8);
-            wrapper.MinWidth = 500;
-            wrapper.BorderThickness = new Thickness(2, 2, 2, 2);
-            wrapper.BorderBrush = new SolidColorBrush(Colors.Transparent);
-
-            StackPanel expWrap = new StackPanel();
-            expWrap.Orientation = Orientation.Vertical;
-            expWrap.Tag = globLexi[0].id;
-            expWrap.Name = globLexi[0].idsor.ToString();
-            expWrap.Background = new SolidColorBrush(Colors.LightBlue);
-            expWrap.Padding = new Thickness(4, 4, 4, 4);
-            expWrap.Padding = new Thickness(4);
-            expWrap.Margin = new Thickness(0, 0, 8, 8);
-            expWrap.MinWidth = 500;
-
-
-
-
-            Button plus = new Button();
-            plus.Content = "+";
-            plus.Click += Plus_Click1;
-            plus.IsTabStop = false;
-
-            Button minus = new Button();
-            minus.Content = "-";
-            minus.Click += Minus_Click1; ;
-            minus.IsTabStop = false;
-
-            Button connected = new Button();
-            connected.Content = "c";
-            connected.HorizontalAlignment = HorizontalAlignment.Right;
-            connected.IsTabStop = false;
-
-
-
-            Grid head = new Grid();
-
-            ColumnDefinition col1 = new ColumnDefinition();
-            ColumnDefinition col2 = new ColumnDefinition();
-            ColumnDefinition col3 = new ColumnDefinition();
-            col1.Width = new GridLength(0, GridUnitType.Auto);
-            col2.Width = new GridLength(0, GridUnitType.Auto);
-            col3.Width = new GridLength(1, GridUnitType.Star);
-            head.ColumnDefinitions.Add(col1);
-            head.ColumnDefinitions.Add(col2);
-            head.ColumnDefinitions.Add(col3);
-
-            head.Children.Add(plus);
-            head.Children.Add(minus);
-            head.Children.Add(connected);
-
-            Grid.SetColumn(plus, 0);
-            Grid.SetColumn(minus, 1);
-            Grid.SetColumn(connected, 2);
-
-            wrapper.Children.Add(head);
-
-
-            // distractors
-            TextBox tb1 = new TextBox();
-            tb1.HorizontalAlignment = HorizontalAlignment.Stretch;
-
-            TextBox tb2 = new TextBox();
-            tb2.HorizontalAlignment = HorizontalAlignment.Stretch;
-
-            TextBox tb3 = new TextBox();
-            tb3.HorizontalAlignment = HorizontalAlignment.Stretch;
-
-
-            Button corr = new Button();
-            corr.Click += Corr_Click;
-            corr.Tag = 0;
-            corr.IsTabStop = false;
-
-            corr.Content = new FontIcon
-            {
-                FontFamily = new FontFamily("Segoe MDL2 Assets"),
-                Glyph = "\xF13E",
-                Foreground = new SolidColorBrush(Colors.LightGray)
-            };
-
-            Button corr2 = new Button();
-            corr2.Content = new FontIcon
-            {
-                FontFamily = new FontFamily("Segoe MDL2 Assets"),
-                Glyph = "\xF13E",
-                Foreground = new SolidColorBrush(Colors.LightSalmon)
-            };
-            corr2.Tag = 0;
-            corr2.Click += Corr_Click;
-            corr2.IsTabStop = false;
-
-            Button corr3 = new Button();
-            corr3.Content = new FontIcon
-            {
-                FontFamily = new FontFamily("Segoe MDL2 Assets"),
-                Glyph = "\xF13E",
-                Foreground = new SolidColorBrush(Colors.LightSalmon)
-            };
-            corr3.Tag = 0;
-            corr3.Click += Corr_Click;
-            corr3.IsTabStop = false;
-
-            Grid distGrid = new Grid();
-            ColumnDefinition cold1 = new ColumnDefinition();
-            ColumnDefinition cold2 = new ColumnDefinition();
-            ColumnDefinition cold3 = new ColumnDefinition();
-            cold1.Width = new GridLength(0, GridUnitType.Auto);
-            cold2.Width = new GridLength(1, GridUnitType.Star);
-            cold3.Width = new GridLength(0, GridUnitType.Auto);
-            distGrid.ColumnDefinitions.Add(cold1);
-            distGrid.ColumnDefinitions.Add(cold2);
-            distGrid.ColumnDefinitions.Add(cold3);
-            RowDefinition row1 = new RowDefinition();
-            row1.Height = new GridLength(0, GridUnitType.Auto);
-            RowDefinition row2 = new RowDefinition();
-            row2.Height = new GridLength(0, GridUnitType.Auto);
-            RowDefinition row3 = new RowDefinition();
-            row3.Height = new GridLength(0, GridUnitType.Auto);
-            distGrid.RowDefinitions.Add(row1);
-            distGrid.RowDefinitions.Add(row2);
-            distGrid.RowDefinitions.Add(row3);
-
-            TextBlock azA = new TextBlock();
-            azA.Text = "A)";
-            TextBlock azB = new TextBlock();
-            azB.Text = "B)";
-            TextBlock azC = new TextBlock();
-            azC.Text = "C)";
-
-            distGrid.Children.Add(azA);
-            distGrid.Children.Add(tb1);
-            distGrid.Children.Add(corr);
-
-            distGrid.Children.Add(azB);
-            distGrid.Children.Add(tb2);
-            distGrid.Children.Add(corr2);
-
-            distGrid.Children.Add(azC);
-            distGrid.Children.Add(tb3);
-            distGrid.Children.Add(corr3);
-
-            Grid.SetColumn(azA, 0);
-            Grid.SetRow(azA, 0);
-            Grid.SetColumn(azB, 0);
-            Grid.SetRow(azB, 1);
-            Grid.SetColumn(azC, 0);
-            Grid.SetRow(azC, 2);
-
-            Grid.SetColumn(tb1, 1);
-            Grid.SetColumn(corr, 2);
-            Grid.SetRow(tb1, 0);
-            Grid.SetRow(corr, 0);
-
-            Grid.SetColumn(tb2, 1);
-            Grid.SetColumn(corr2, 2);
-            Grid.SetRow(tb2, 1);
-            Grid.SetRow(corr2, 1);
-
-            Grid.SetColumn(tb3, 1);
-            Grid.SetColumn(corr3, 2);
-            Grid.SetRow(tb3, 2);
-            Grid.SetRow(corr3, 2);
-
-            // explanation textboxes
-
-            TextBox tbexp1 = new TextBox();
-            TextBox tbexp2 = new TextBox();
-            TextBox tbexp3 = new TextBox();
-            expWrap.Children.Add(tbexp1);
-            expWrap.Children.Add(tbexp2);
-            expWrap.Children.Add(tbexp3);
-
-
-
-            wrapper.Children.Add(distGrid);
-
-
-
-
-
-            // Add the current box if there's no such and id
-
-            // currid
-            string currid = globLexi[0].id;
-            var van = false;
-            for (int a = 0; a < chosenWords.Children.Count; a++)
-            {
-                StackPanel theWrapper = chosenWords.Children[a] as StackPanel;
-                int asor = Convert.ToInt16(theWrapper.Tag);
-                if (theWrapper.Tag.ToString() == currid)
-                {
-                    van = true;
-                    break;
-                }
-            }
-
-            // insert swhere
-            if(chosenWords.Children.Count == 0)
-            {
-                chosenWords.Children.Add(wrapper);
-                explanationBoxes.Children.Add(expWrap);
-            }
-
-
-
-            // ha nincs ilyen, akkor beletenni, de hova
-            //if (van == false)
-            //{
-
-            //    if (chosenWords.Children.Count > 0)
-            //    {
-            //        bool inserted = false;
-            //        for (int i = 0; i < chosenWords.Children.Count; i++)
-            //        {
-            //            StackPanel theWrapper = chosenWords.Children[i] as StackPanel;
-
-            //            if (Convert.ToInt16(theWrapper.Name) > Convert.ToInt16(wrapper.Name))
-            //            {
-            //                chosenWords.Children.Insert(i, wrapper);
-            //                explanationBoxes.Children.Insert(i, expWrap);
-            //                inserted = true;
-
-            //                break;
-            //            }
-
-            //        }
-                
-            //        if (inserted == false)
-            //        {
-            //            chosenWords.Children.Add(wrapper);
-            //            explanationBoxes.Children.Add(expWrap);
-            //        }
-
-            //    }
-            //    else
-            //    {
-            //        chosenWords.Children.Add(wrapper);
-            //        explanationBoxes.Children.Add(expWrap);
-            //    }
-            //}
-
-            return wrapper;
-        }
+      
 
         private void Minus_Click1(object sender, RoutedEventArgs e)
         {
@@ -2858,12 +2636,15 @@ namespace ehw_t1
                 typ = "Type 2 - Fill in the gaps.";
                 tip = "1";
                 type10.Visibility = Visibility.Visible;
+              
             }
             else if (type_radio_butt.Name == "type_2")
             {
                 typ = "Type 3 - Multiple choice.";
                 tip = "2";
                 MainGrid0.Visibility = Visibility.Visible;
+                type2_EditGrid.Visibility = Visibility.Visible;
+                PopulateGrid();
             }
             else if (type_radio_butt.Name == "type_3")
             {
@@ -2897,8 +2678,8 @@ namespace ehw_t1
         {
             MainGrid0.Visibility = Visibility.Collapsed;
             type10.Visibility = Visibility.Collapsed;
-         
-
+            type2_EditGrid.Visibility = Visibility.Collapsed;
+            UnpopulateGrid();
         }
 
         private void GenerateButton_Click(object sender, RoutedEventArgs e)
@@ -3411,6 +3192,110 @@ namespace ehw_t1
             resultSentence.Text = json;
         }
 
+        private void Type2_PlusButt_Click(object sender, RoutedEventArgs e)
+        {
+            int rownum = type2_distractorGrid.RowDefinitions.Count;
+            if(rownum > 5)
+            {
+                ("You cannot have more than 6 distractors.").Show();
+                return;
+            }
 
+            RowDefinition rowextra = new RowDefinition();
+            type2_distractorGrid.RowDefinitions.Add(rowextra);
+
+            string[] betuk = { "A)", "B)", "C)", "D)", "E)", "F)", "G)", "H)", "I)", "J)", "K)" };
+
+            TextBlock abetu = new TextBlock();
+            abetu.Text = betuk[rownum];
+            abetu.VerticalAlignment = VerticalAlignment.Center;
+
+            Grid.SetRow(abetu, rownum);
+            Grid.SetColumn(abetu, 0);
+            type2_distractorGrid.Children.Add(abetu);
+
+            TextBox adist = new TextBox();
+
+            Grid.SetRow(adist, rownum);
+            Grid.SetColumn(adist, 1);
+            type2_distractorGrid.Children.Add(adist);
+
+            Button corBut = new Button();
+            corBut.Content = new FontIcon
+            {
+                FontFamily = new FontFamily("Segoe MDL2 Assets"),
+                Glyph = "\xF13E",
+                Foreground = new SolidColorBrush(Colors.LightGray)
+            };
+
+            Grid.SetRow(corBut, rownum);
+            Grid.SetColumn(corBut, 2);
+            type2_distractorGrid.Children.Add(corBut);
+
+
+        }
+
+        private void Type2_MinusButt_Click(object sender, RoutedEventArgs e)
+        {
+            int rownum = type2_distractorGrid.RowDefinitions.Count;
+            if (rownum < 3)
+            {
+                ("You cannot have fewer than 2 distractors.").Show();
+                return;
+            }
+
+            type2_distractorGrid.Children.RemoveAt(type2_distractorGrid.Children.Count - 1);
+            type2_distractorGrid.Children.RemoveAt(type2_distractorGrid.Children.Count - 1);
+            type2_distractorGrid.Children.RemoveAt(type2_distractorGrid.Children.Count - 1);
+
+            type2_distractorGrid.RowDefinitions.RemoveAt(type2_distractorGrid.RowDefinitions.Count - 1);
+
+        }
+
+
+        private void UnpopulateGrid()
+        {
+            type2_distractorGrid.Children.Clear();
+            type2_distractorGrid.RowDefinitions.Clear();
+        }
+        private void PopulateGrid()
+        {
+            for(int i = 0; i < 3; i++)
+            {
+                int rownum = type2_distractorGrid.RowDefinitions.Count;
+              
+
+                RowDefinition rowextra = new RowDefinition();
+                type2_distractorGrid.RowDefinitions.Add(rowextra);
+
+                string[] betuk = { "A)", "B)", "C)", "D)", "E)", "F)", "G)", "H)", "I)", "J)", "K)" };
+
+                TextBlock abetu = new TextBlock();
+                abetu.Text = betuk[rownum];
+                abetu.VerticalAlignment = VerticalAlignment.Center;
+
+                Grid.SetRow(abetu, rownum);
+                Grid.SetColumn(abetu, 0);
+                type2_distractorGrid.Children.Add(abetu);
+
+                TextBox adist = new TextBox();
+
+                Grid.SetRow(adist, rownum);
+                Grid.SetColumn(adist, 1);
+                type2_distractorGrid.Children.Add(adist);
+
+                Button corBut = new Button();
+                corBut.Content = new FontIcon
+                {
+                    FontFamily = new FontFamily("Segoe MDL2 Assets"),
+                    Glyph = "\xF13E",
+                    Foreground = new SolidColorBrush(Colors.LightGray)
+                };
+
+                Grid.SetRow(corBut, rownum);
+                Grid.SetColumn(corBut, 2);
+                type2_distractorGrid.Children.Add(corBut);
+            }
+        }
     }
 }

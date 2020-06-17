@@ -325,7 +325,29 @@
 
 
                 </Grid>
-
+                <Grid Grid.Row="7" Background="LightCyan" x:Name="type2_EditGrid" Visibility="Collapsed" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="type2_correct" />
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <Button Content="+" x:Name="type2_PlusButt" Click="Type2_PlusButt_Click" />
+                        <Button Content="-" x:Name="type2_MinusButt" Click="Type2_MinusButt_Click" />
+                    </StackPanel>
+                    <Grid Grid.Row="2" Background="Lavender" x:Name="type2_distractorGrid">
+                       
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        
+                    </Grid>
+                </Grid>
              
 
                 <Grid Grid.Row="8" Background="Coral" >
