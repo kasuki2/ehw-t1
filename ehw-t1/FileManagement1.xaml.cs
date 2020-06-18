@@ -2703,7 +2703,7 @@ namespace ehw_t1
             }
             else if(currType == "3")
             {
-                GenerateType3();
+                GenerateType3(); // ABC MC
             }
             else if(currType == "2")
             {
@@ -2770,72 +2770,52 @@ namespace ehw_t1
             bool markCorrect = false;
             bool distrContent = false;
 
+            List<List<string>> explanations = new List<List<string>>();
             List<List<string>> distra = new List<List<string>>();
             List<string> sol = new List<string>();
             string s = "";
             string so = "";
 
-            for (int u = 0; u < chosenWords.Children.Count; u++)
+
+            List<string> dist = new List<string>();
+            for (int i = 0;i< type2_distractorGrid.Children.Count; i++)
             {
-
-                StackPanel aWrap = chosenWords.Children[u] as StackPanel;
-                Grid contentGrid = aWrap.Children[1] as Grid;
-                bool hasTick = false;
-                int filledTb = 0;
-                int buttonCount = 0;
-
-                List<string> dist = new List<string>();
-
-                for (int i = 0; i < contentGrid.Children.Count; i++)
+                if(type2_distractorGrid.Children[i] is TextBox)
                 {
+                    TextBox adist = type2_distractorGrid.Children[i] as TextBox;
+                 
+                    dist.Add(adist.Text);
 
-                    if (contentGrid.Children[i] is Button)
-                    {
-                        Button okbutt = contentGrid.Children[i] as Button;
-                        if ((int)okbutt.Tag == 1)
-                        {
-                            hasTick = true;
-                            so += buttonCount.ToString(); // solu 0-1-1-0
-                        }
-                        buttonCount++;
-                    }
-
-                    if (contentGrid.Children[i] is TextBox)
-                    {
-                        TextBox tbcont = contentGrid.Children[i] as TextBox;
-                        dist.Add(tbcont.Text.Trim());
-                        if (tbcont.Text.Trim().Length > 0)
-                        {
-                            filledTb++;
-                        }
-                    }
+                }
+                if (type2_distractorGrid.Children[i] is Button)
+                {
+                    Button corBut = type2_distractorGrid.Children[i] as Button;
+                    so += corBut.Tag.ToString() + "-";
                 }
 
-                if (u < chosenWords.Children.Count - 1)
-                {
-                    so += "-";
-                }
 
-                distra.Add(dist);
+                
 
-                if (filledTb < 2)
-                {
-                    aWrap.BorderBrush = new SolidColorBrush(Colors.Red);
-                    distrContent = true;
-                }
-                if (hasTick == false)
-                {
-                    aWrap.BorderBrush = new SolidColorBrush(Colors.Red);
-                    markCorrect = true;
-                }
 
+            }
+            distra.Add(dist);
+
+            List<string> expli = new List<string>();
+            for (int i = 0;i< type2_explainGrid.Children.Count; i++)
+            {
+                TextBox expl = type2_explainGrid.Children[i] as TextBox;
+                expli.Add(expl.Text.Trim());
             }
 
 
-            tasktype.distractors = distra;
 
-            sol.Add(so);
-            tasktype.solu = sol;
+            explanations.Add(expli);
+            List<string> asol = new List<string>();
+            asol.Add(so.Substring(0, so.Length - 1));
+            tasktype.distractors = distra;
+            tasktype.solu = asol;
+
+ 
 
             string errorMessage = "";
 
@@ -2851,25 +2831,8 @@ namespace ehw_t1
 
             if (errorMessage != "")
             {
-                errorMessage.Show();
+               // errorMessage.Show();
             }
-
-            List<List<string>> explanations = new List<List<string>>();
-
-            for (int i = 0; i < explanationBoxes.Children.Count; i++)
-            {
-                StackPanel explWrap = explanationBoxes.Children[i] as StackPanel;
-                List<string> expl = new List<string>();
-
-                for (int e = 0; e < explWrap.Children.Count; e++)
-                {
-                    TextBox exp = explWrap.Children[e] as TextBox;
-                    expl.Add(exp.Text);
-                }
-                explanations.Add(expl);
-            }
-
-
 
 
             tasktype.remarks = explanations;
@@ -2924,7 +2887,7 @@ namespace ehw_t1
                 task3.ge3 = "";
             }
 
-
+           
 
             for (int u = 0; u < editBoxes.Children.Count; u++)
             {
@@ -3291,10 +3254,40 @@ namespace ehw_t1
                     Glyph = "\xF13E",
                     Foreground = new SolidColorBrush(Colors.LightGray)
                 };
-
+                corBut.Click += CorBut_Click;
+                corBut.Tag = 0;
                 Grid.SetRow(corBut, rownum);
                 Grid.SetColumn(corBut, 2);
                 type2_distractorGrid.Children.Add(corBut);
+
+                // explanations 
+                RowDefinition rowExp = new RowDefinition();
+                type2_explainGrid.RowDefinitions.Add(rowExp);
+
+                TextBox expl = new TextBox();
+                expl.HorizontalAlignment = HorizontalAlignment.Stretch;
+                Grid.SetRow(expl, rownum);
+                type2_explainGrid.Children.Add(expl);
+
+            }
+        }
+
+        private void CorBut_Click(object sender, RoutedEventArgs e)
+        {
+            Button corB = sender as Button;
+            if(corB.Tag.ToString() == "0")
+            {
+                corB.Tag = 1;
+              
+                FontIcon pipa = corB.Content as FontIcon;
+                pipa.Foreground = new SolidColorBrush(Colors.Green);
+
+            }
+            else
+            {
+                corB.Tag = 0;
+                FontIcon pipa = corB.Content as FontIcon;
+                pipa.Foreground = new SolidColorBrush(Colors.LightGray);
             }
         }
     }

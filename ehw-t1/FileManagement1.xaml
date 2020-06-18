@@ -337,16 +337,35 @@
                         <Button Content="+" x:Name="type2_PlusButt" Click="Type2_PlusButt_Click" />
                         <Button Content="-" x:Name="type2_MinusButt" Click="Type2_MinusButt_Click" />
                     </StackPanel>
-                    <Grid Grid.Row="2" Background="Lavender" x:Name="type2_distractorGrid">
-                       
+
+                    <Grid Grid.Row="2" >
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="2*"/>
                         </Grid.ColumnDefinitions>
-                        
-                        
+                        <Grid Grid.Column="0" Background="Lavender" x:Name="type2_distractorGrid">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+
+                        </Grid>
+
+                        <Grid Grid.Column="1" Background="Lavender" x:Name="type2_explainGrid">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+
+                        </Grid>
+
                     </Grid>
+                    
+                    
                 </Grid>
              
 
