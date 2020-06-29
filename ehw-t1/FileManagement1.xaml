@@ -195,12 +195,14 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Row="1" Text="Task TYPE ALL" />
-                    <TextBlock Grid.Row="2" Text="1. Paste or write a paragraph here, then press PROCESS." />
+                    <TextBlock Grid.Row="2" x:Name="textInstruction" Text="1. Paste or write a paragraph here, then press PROCESS." />
                     <TextBox Grid.Row="3" x:Name="rawText" />
                     <Button Content="Process" Grid.Row="4" x:Name="processText10" Click="ProcessText10_Click" />
-                    <controls:WrapPanel Grid.Row="5"  x:Name="chosenWordsT_10">
+                    <TextBlock Grid.Row="5" x:Name="instruction2" Visibility="Collapsed" Text="2. Click on the word you want to take out." />
+                    <controls:WrapPanel Grid.Row="6"  x:Name="chosenWordsT_10" Visibility="Collapsed" >
 
                     </controls:WrapPanel>
+                    <Button Grid.Row="7" x:Name="backButton" Content="BACK" Click="BackButton_Click" Background="#FFFF003A" Visibility="Collapsed"  />
                 </Grid>
 
 
@@ -256,7 +258,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="0" Text="Create Multiple Choise Task With Popups" />
+                       
 
                     </Grid>
 
@@ -267,11 +269,8 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="0" Visibility="Collapsed" Text="Write or paste a sentence here, then press PROCESS." />
-                        <TextBox Grid.Row="1" Visibility="Collapsed" x:Name="rawSentence" Text="If we didn't have so many things to do, we could spend more time outside." />
-                        <Button Grid.Row="2" Visibility="Collapsed" x:Name="Process" Click="Process_Click" >
-                            <TextBlock Text="PROCESS" />
-                        </Button>
+                       
+                   
                     </Grid>
 
                     <Grid Grid.Row="2" x:Name="Second_line" >
@@ -281,7 +280,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="0" Text="Click on the words you want to select." />
+                       
                         <controls:WrapPanel Grid.Row="1" x:Name="wrapWords" >
                         </controls:WrapPanel>
 
@@ -299,12 +298,12 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="0" Text="Add distractors." />
+                        <TextBlock Grid.Row="0" x:Name="instType0_1" Visibility="Collapsed" Text="Fill in the correct solution and the distractors. Use the + and - signs to add or remove distractors. Mark the correct solution(s) by clicking on the checkmark next to it." />
                         <controls:WrapPanel Grid.Row="1" x:Name="chosenWords">
 
                         </controls:WrapPanel>
 
-                        <TextBlock Grid.Row="2" Text="Provide short explanations for why a particular solution is incorrect." />
+                        <TextBlock Grid.Row="2" x:Name="instType0_2" Visibility="Collapsed" Text="Provide short explanations for why a particular solution is incorrect. To the correct solution, write 'C' or leave it empty." />
                         <controls:WrapPanel Grid.Row="3" x:Name="explanationBoxes">
 
                         </controls:WrapPanel>
@@ -318,10 +317,9 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <Button Grid.Row="0" Content="FINISH" x:Name="finish" Click="Finish_Click" />
+                       
                         <TextBlock Grid.Row="1" x:Name="result2" />
-                        <TextBlock Grid.Row="2" Margin="0,5,0,5" Text="{}}{ &quot;id &quot;:0,&quot;sentence&quot;:[&quot;If I &quot;,&quot; have so many things to do, I &quot;,&quot; go out with you.&quot;],&quot;solutions&quot;:[&quot;GGG&quot;,&quot;GGG&quot;],&quot;distractors&quot;:[[&quot;didn't&quot;,&quot;can't&quot;],[&quot;would&quot;,&quot;will&quot;]],&quot;solu&quot;:[&quot;0-0&quot;],&quot;remarks&quot;:[[&quot;explan A1&quot;,&quot;explan A2&quot;],[&quot;explan B1&quot;,&quot;explan B2&quot;]]}" />
-                    </Grid>
+                     </Grid>
 
 
                 </Grid>
@@ -332,10 +330,17 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" x:Name="type2_correct" />
-                    <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <Button Content="+" x:Name="type2_PlusButt" Click="Type2_PlusButt_Click" />
-                        <Button Content="-" x:Name="type2_MinusButt" Click="Type2_MinusButt_Click" />
+                    
+                   
+                    
+                    <StackPanel Grid.Row="1" Orientation="Vertical">
+                        <TextBlock Text="Use the + and - buttons below to add or remove distractors." />
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="+" x:Name="type2_PlusButt" Click="Type2_PlusButt_Click" />
+                            <Button Content="-" x:Name="type2_MinusButt" Click="Type2_MinusButt_Click" />
+                        </StackPanel>
+                        
+                        
                     </StackPanel>
 
                     <Grid Grid.Row="2" >
@@ -343,7 +348,21 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="2*"/>
                         </Grid.ColumnDefinitions>
-                        <Grid Grid.Column="0" Background="Lavender" x:Name="type2_distractorGrid">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical" >
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Correct solution:" />
+                                <TextBlock Margin="4,0,0,0" x:Name="type2_correct" />
+                            </StackPanel>
+                            <TextBlock Grid.Column="0" Grid.Row="0" TextWrapping="Wrap" Text="Fill in the distractors. You must include the correct solution, too. You need to mark at least one solution correct by clicking on the checkmark." />
+
+                        </StackPanel>
+                       
+                        <Grid Grid.Column="0" Grid.Row="1" Background="Lavender" x:Name="type2_distractorGrid">
 
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -353,8 +372,8 @@
 
 
                         </Grid>
-
-                        <Grid Grid.Column="1" Background="Lavender" x:Name="type2_explainGrid">
+                        <TextBlock Grid.Column="1" Grid.Row="0" TextWrapping="Wrap" Text="Give an explanation for each choice, explaining shortly why this solution is correct or why it is incorrect." />
+                        <Grid Grid.Column="1" Grid.Row="1" Background="Lavender" x:Name="type2_explainGrid">
 
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
