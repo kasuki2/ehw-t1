@@ -1636,7 +1636,7 @@ namespace ehw_t1
             expWrap.Width = 200;
 
             TextBlock instText = new TextBlock();
-            instText.Text = "Fill in the correct solution and some distractors. Use the + and - signs to add or remove distractors.";
+            instText.Text = "The correct solution: " + globLexi.word;
             instText.TextWrapping = TextWrapping.Wrap;
 
 
@@ -2030,52 +2030,69 @@ namespace ehw_t1
             sentence.Clear();
 
             string temp = "";
-            for (int i = 0; i < wrapWords.Children.Count; i++)
+
+            for (int i = 0; i < chosenWordsT_10.Children.Count; i++)
             {
 
-                ListBoxItem lbitem = wrapWords.Children[i] as ListBoxItem;
-
-                if (lbitem.Tag.ToString() != "1") // ha nem zöld
+                ListBoxItem lbitem = chosenWordsT_10.Children[i] as ListBoxItem;
+                if (lbitem.Tag.ToString() == "0" || lbitem.Tag.ToString() == "x")
                 {
-                    TextBlock lbcontent = lbitem.Content as TextBlock;
+                    string eloke = " ";
                     if (lbitem.Tag.ToString() == "x")
                     {
-                        temp += lbcontent.Text;
-                    }
-                    else
-                    {
-                        temp += " " + lbcontent.Text;
+                        eloke = "";
                     }
 
+                    TextBlock lbcontent = lbitem.Content as TextBlock;
+                    temp += lbcontent.Text;
                 }
                 else
                 {
-                    sentence.Add(temp.Trim());
-                    temp = "";
+                    if (temp != "")
+                    {
+                        sentence.Add(temp.Trim());
+                        temp = "";
+                    }
+
                 }
+
             }
             sentence.Add(temp);
+
+            //for (int i = 0; i < wrapWords.Children.Count; i++)
+            //{
+
+            //    ListBoxItem lbitem = wrapWords.Children[i] as ListBoxItem;
+
+            //    if (lbitem.Tag.ToString() != "1") // ha nem zöld
+            //    {
+            //        TextBlock lbcontent = lbitem.Content as TextBlock;
+            //        if (lbitem.Tag.ToString() == "x")
+            //        {
+            //            temp += lbcontent.Text;
+            //        }
+            //        else
+            //        {
+            //            temp += " " + lbcontent.Text;
+            //        }
+
+            //    }
+            //    else
+            //    {
+            //        sentence.Add(temp.Trim());
+            //        temp = "";
+            //    }
+            //}
+            //sentence.Add(temp);
 
 
 
             azitem.sentence = sentence;
 
-
-
-
-
-
             // write in the sentence
             List<string> solu = new List<string>();
             solu.Add("GGG"); solu.Add("GGG");
             azitem.solutions = solu;
-
-
-
-
-
-
-
 
             checkCheckMarks();
         }

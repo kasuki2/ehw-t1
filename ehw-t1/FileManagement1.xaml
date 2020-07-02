@@ -237,9 +237,9 @@
                     </controls:WrapPanel>
 
                   
-                    <Button Grid.Row="8" Content="SAVE" x:Name="Type10Save" Click="Type10Save_Click" />
-                    <TextBlock Grid.Row="9" Text="result" x:Name="jsonType10" TextWrapping="Wrap" />
-                    <Button Grid.Row="10" Content="send" x:Name="send10" Click="Send10_Click" />
+                    <Button Grid.Row="8" Visibility="Collapsed" Content="SAVE" x:Name="Type10Save" Click="Type10Save_Click" />
+                    <TextBlock Visibility="Collapsed" Grid.Row="9" Text="result" x:Name="jsonType10" TextWrapping="Wrap" />
+                    <Button Visibility="Collapsed" Grid.Row="10" Content="send" x:Name="send10" Click="Send10_Click" />
                 </Grid>
 
                 <Grid Grid.Row="6" x:Name="MainGrid0" Padding="32,16" Visibility="Collapsed" >
