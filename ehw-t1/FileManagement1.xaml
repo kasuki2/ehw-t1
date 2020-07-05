@@ -36,7 +36,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-            <WebView Grid.Row="0" x:Name="webView1" ScriptNotify="WebView1_ScriptNotify"  MaxWidth="700" Height="600"  />
+            <WebView Grid.Row="0" x:Name="webView1" ScriptNotify="WebView1_ScriptNotify"  MaxWidth="700" Height="200"  />
 
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <Button  Content="Get Files" x:Name="getFiles" Click="GetFiles_Click" />
@@ -116,6 +116,8 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <RadioButton Grid.Row="1" GroupName="level"  Content="Elementary" x:Name="Level0" Tag="Green" />
                             <RadioButton Grid.Row="2" GroupName="level"  Content="Pre-intermediate" x:Name="Level1" Tag="Yellow" />
@@ -123,6 +125,19 @@
                             <RadioButton Grid.Row="4" GroupName="level"  Content="Upper-intermediate" x:Name="Level3" Tag="White"  />
                             <RadioButton Grid.Row="5" GroupName="level"  Content="Advanced" x:Name="Level4" Tag="White"  />
                             <RadioButton Grid.Row="6" GroupName="level"  Content="Legend" x:Name="Level5" Tag="White"  />
+                            <StackPanel Grid.Row="7" Orientation="Horizontal">
+                                <TextBlock Text="Selected Level:" />
+                                <TextBlock x:Name="chosen_level" Margin="4,0,0,0" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="8" Orientation="Horizontal" Tag="0" x:Name="levelBoxesStack" >
+                                <Border Width="36" Height="36" x:Name="levelBox" Tapped="LevelBox_Tapped" BorderThickness="8" BorderBrush="Transparent" Background="AliceBlue" Tag="0" PointerEntered="LevelBox_PointerEntered" PointerExited="LevelBox_PointerExited" />
+                                <Border Width="36" Height="36" Tapped="LevelBox_Tapped" BorderThickness="8" BorderBrush="Transparent"  Background="AliceBlue" Tag="1" PointerEntered="LevelBox_PointerEntered" PointerExited="LevelBox_PointerExited" />
+                                <Border Width="36" Height="36" Tapped="LevelBox_Tapped" BorderThickness="8" BorderBrush="Transparent" Background="AliceBlue" Tag="2" PointerEntered="LevelBox_PointerEntered" PointerExited="LevelBox_PointerExited"/>
+                                <Border Width="36" Height="36" Tapped="LevelBox_Tapped" BorderThickness="8" BorderBrush="Transparent" Background="AliceBlue" Tag="3" PointerEntered="LevelBox_PointerEntered" PointerExited="LevelBox_PointerExited"/>
+                                <Border Width="36" Height="36" Tapped="LevelBox_Tapped" BorderThickness="8" BorderBrush="Transparent" Background="AliceBlue" Tag="4" PointerEntered="LevelBox_PointerEntered" PointerExited="LevelBox_PointerExited" />
+                                <Border Width="36" Height="36" Tapped="LevelBox_Tapped" BorderThickness="8" BorderBrush="Transparent" Background="AliceBlue" Tag="5" PointerEntered="LevelBox_PointerEntered" PointerExited="LevelBox_PointerExited" />
+                                
+                            </StackPanel>
 
                         </Grid>
 

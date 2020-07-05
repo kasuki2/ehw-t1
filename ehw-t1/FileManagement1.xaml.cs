@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Shapes;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -265,35 +266,35 @@ namespace ehw_t1
                     string taskTypeText = "No type specified error.";
                     if(taskFrame.type == 0)
                     {
-                        taskTypeText = "Type 1 - Multiple choice with popup.";
+                        setTaskType("type_0");
                     }
                     else if(taskFrame.type == 1)
                     {
-                        taskTypeText = "Type 2 - Fill in the gaps.";
+                        setTaskType("type_1");
                     }
                     else if (taskFrame.type == 2)
                     {
-                        taskTypeText = "Type 3 - Multiple choice.";
+                        setTaskType("type_2");
                     }
                     else if (taskFrame.type == 3)
                     {
-                        taskTypeText = "Type 4 - Vocabulary.";
+                        setTaskType("type_3");
                     }
                     else if (taskFrame.type == 6)
                     {
-                        taskTypeText = "Type 5 - Rewrite the sentences.";
+                        setTaskType("type_6");
                     }
                     else if (taskFrame.type == 9)
                     {
-                        taskTypeText = "Type 6 - Complete the sentences.";
+                        setTaskType("type_9");
                     }
                     else if (taskFrame.type == 10)
                     {
-                        taskTypeText = "Type 7 - Complete the text.";
+                        setTaskType("type_10");
                     }
 
-                        selected_task_type.Text = taskTypeText;
-
+                
+                    // level or weight
                     string lev = "Level" + taskFrame.weight.ToString();
                     RadioButton leve = this.FindName(lev) as RadioButton;
                     leve.IsChecked = true;
@@ -2773,49 +2774,59 @@ namespace ehw_t1
             string typ = "";
             string tip = "0";
             RadioButton type_radio_butt = sender as RadioButton;
+            setTaskType(type_radio_butt.Name);
+           
+        }
+
+
+        private void setTaskType(string the_type)
+        {
+            string typ = "";
+            string tip = "0";
+           
 
             ClearTaskTypes();
 
-            if (type_radio_butt.Name == "type_0")
+            if (the_type == "type_0")
             {
                 typ = "Type 1 - Multiple choice with popup.";
                 tip = "0";
                 MainGrid0.Visibility = Visibility.Visible;
             }
-            else if (type_radio_butt.Name == "type_1")
+            else if (the_type == "type_1")
             {
                 typ = "Type 2 - Fill in the gaps.";
                 tip = "1";
                 type10.Visibility = Visibility.Visible;
-              
+
             }
-            else if (type_radio_butt.Name == "type_2")
+            else if (the_type == "type_2")
             {
                 typ = "Type 3 - Multiple choice.";
                 tip = "2";
-              //  MainGrid0.Visibility = Visibility.Visible;
+                //  MainGrid0.Visibility = Visibility.Visible;
                 type2_EditGrid.Visibility = Visibility.Visible;
                 PopulateGrid();
             }
-            else if (type_radio_butt.Name == "type_3")
+            else if (the_type == "type_3")
             {
                 typ = "Type 4 - Vocabulary.";
                 tip = "3";
-               
+
                 type10.Visibility = Visibility.Visible;
             }
-            else if (type_radio_butt.Name == "type_6")
+            else if (the_type == "type_6")
             {
                 typ = "Type 5 - Rewrite the sentences.";
                 tip = "6";
             }
-            else if (type_radio_butt.Name == "type_9")
+            else if (the_type == "type_9")
             {
                 typ = "Type 6 - Complete the sentences.";
                 tip = "9";
                 type10.Visibility = Visibility.Visible;
             }
-            else if (type_radio_butt.Name == "type_10")
+            else if (the_type == "type_10")
             {
                 typ = "Type 7 - Complete the text.";
                 tip = "10";
@@ -3497,6 +3508,37 @@ namespace ehw_t1
             }
         }
 
-     
+        private void LevelBox_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            Border levelRect = sender as Border;
+            int upto = Convert.ToInt16(levelRect.Tag.ToString());
+            for(int i = 0;i<= upto; i++)
+            {
+                Border arect = levelBoxesStack.Children[i] as Border;
+                arect.Background = new SolidColorBrush(Colors.Blue);
+            }
+
+            
+        }
+
+        private void LevelBox_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            // volt-e click, ami megjelölte a szintet?
+            int afrom = Convert.ToInt16(levelBoxesStack.Tag.ToString());
+
+            for (int i = afrom + 1; i < levelBoxesStack.Children.Count; i++)
+            {
+                Border arect = levelBoxesStack.Children[i] as Border;
+                arect.Background = new SolidColorBrush(Colors.AliceBlue);
+            }
+        }
+
+        private void LevelBox_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Border levelRect = sender as Border;
+            levelBoxesStack.Tag = levelRect.Tag;
+
+
+        }
     }
 }
