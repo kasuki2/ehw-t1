@@ -412,7 +412,8 @@
                     </Grid.RowDefinitions>
                     <Button Grid.Row="0" Content="Generate json" x:Name="generateButton" Click="GenerateButton_Click" />
                     <TextBlock Grid.Row="1" TextWrapping="Wrap" x:Name="resultSentence" />
-                    <Button Grid.Row="2" Content="SEND" x:Name="sendButton" />
+                    <Button Grid.Row="2" Content="SEND" x:Name="sendButton" Click="SendButton_Click" />
+                    <TextBlock Grid.Row="3" Text="válasz" x:Name="ujResponse" />
 
 
                 </Grid>

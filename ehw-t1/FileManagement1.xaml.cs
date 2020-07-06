@@ -2649,6 +2649,49 @@ namespace ehw_t1
 
         }
 
+        private async void sendNewLine()
+        {
+
+            string filePath = File_name.Text;
+
+            string contentStr = resultSentence.Text;
+            if (contentStr.Length < 10)
+            {
+                ("The task is too short.").Show();
+                return;
+            }
+
+            string logindat = ("logindata").GetStore();
+            if (logindat != null)
+            {
+
+                UserData userdata = JsonConvert.DeserializeObject<UserData>(logindat);
+                userdata.code = 8; // 6 send new item for a file
+
+                userdata.path = filePath;
+
+                //  userdata.foldername = newFileName;
+
+                // result.Text = apath;
+
+                string thejson = JsonConvert.SerializeObject(userdata);
+
+                Dictionary<string, string> pairs = new Dictionary<string, string>();
+
+                pairs.Add("json", thejson);
+                pairs.Add("content", contentStr);
+                //pairs.Add("instructions", instru);
+                //pairs.Add("weight", weight.ToString());
+                //pairs.Add("type", "10"); // task type
+
+                string valasz = await pairs.PostJsonAsync("http://kashusoft.org/uwpehw/src/client_teacher.php");
+                ujResponse.Text = valasz;
+               
+
+            }
+           
+        }
+
         private async void Save_new_file_Click(object sender, RoutedEventArgs e)
         {
             // get new file data and send
@@ -3539,6 +3582,11 @@ namespace ehw_t1
             levelBoxesStack.Tag = levelRect.Tag;
 
 
+        }
+
+        private void SendButton_Click(object sender, RoutedEventArgs e)
+        {
+            sendNewLine();
         }
     }
 }
