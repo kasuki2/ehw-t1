@@ -184,6 +184,7 @@ namespace ehw_t1
                     egydir.Padding = new Thickness(0);
                     egydir.Background = new SolidColorBrush(Windows.UI.Colors.AliceBlue);
                     egydir.Content = FilesAndFolders[i].name;
+                    egydir.Padding = new Thickness(4);
                     egydir.Tag = FilesAndFolders[i].path + "/" + FilesAndFolders[i].name;
                     egydir.Tapped += Egydir_Tapped; // file
                     contentSt.Children.Add(egydir);
@@ -221,13 +222,26 @@ namespace ehw_t1
             public List<List<string>> remarks { get; set; }
         }
 
+        ListBoxItem previousFileTapped;
+
         private async void Egydir_Tapped(object sender, TappedRoutedEventArgs e)
         {
             //file tapped
-            ListBoxItem fileTapped = sender as ListBoxItem;
-            string filePath = fileTapped.Tag.ToString();
 
-            filePath.Show();
+          
+            if(previousFileTapped != null)
+            {
+                previousFileTapped.Foreground = new SolidColorBrush(Colors.Black);
+                previousFileTapped.Background = new SolidColorBrush(Colors.AliceBlue);
+            }
+
+            ListBoxItem fileTapped = sender as ListBoxItem;
+            previousFileTapped = fileTapped;
+            string filePath = fileTapped.Tag.ToString();
+            fileTapped.Foreground = new SolidColorBrush(Colors.White);
+            fileTapped.Background = new SolidColorBrush(Colors.DarkBlue);
+
+           // filePath.Show();
 
             string logindat = ("logindata").GetStore();
             if (logindat != null)
@@ -293,11 +307,15 @@ namespace ehw_t1
                         setTaskType("type_10");
                     }
 
-                
+
                     // level or weight
-                    string lev = "Level" + taskFrame.weight.ToString();
-                    RadioButton leve = this.FindName(lev) as RadioButton;
-                    leve.IsChecked = true;
+                    if (taskFrame.weight != null)
+                    {
+                        string lev = "Level" + taskFrame.weight.ToString();
+                        RadioButton leve = this.FindName(lev) as RadioButton;
+                        leve.IsChecked = true;
+                    }
+                   
                 } 
                
 

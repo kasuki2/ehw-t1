@@ -83,7 +83,7 @@ namespace ehw_t1
 
         }
 
-        private async void ReadFile_Click(object sender, RoutedEventArgs e)
+        private void ReadFile_Click(object sender, RoutedEventArgs e)
         {
 
             ReadAllFiles();
