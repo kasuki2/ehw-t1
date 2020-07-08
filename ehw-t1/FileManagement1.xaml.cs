@@ -270,7 +270,7 @@ namespace ehw_t1
                 if(valasz != "")
                 {
                     TaskFrame taskFrame = JsonConvert.DeserializeObject<TaskFrame>(valasz);
-                    jsonType10.Text = taskFrame.instructions;
+                  //  jsonType10.Text = taskFrame.instructions;
 
 
                     File_name.Text = filePath;
@@ -420,6 +420,25 @@ namespace ehw_t1
 
             File_name.Visibility = Visibility.Visible;
             save_base_data.Visibility = Visibility.Visible;
+        }
+
+
+        private void CreateModeOn()
+        {
+            GeneralTaskHead.Visibility = Visibility.Visible;
+            type10.Visibility = Visibility.Visible;
+            MainGrid0.Visibility = Visibility.Visible;
+            type2_EditGrid.Visibility = Visibility.Visible;
+            createSendGrid.Visibility = Visibility.Visible;
+
+        }
+        private void CreateModeOff()
+        {
+            GeneralTaskHead.Visibility = Visibility.Collapsed;
+            type10.Visibility = Visibility.Collapsed;
+            MainGrid0.Visibility = Visibility.Collapsed;
+            type2_EditGrid.Visibility = Visibility.Collapsed;
+            createSendGrid.Visibility = Visibility.Collapsed;
         }
 
 
@@ -2483,133 +2502,7 @@ namespace ehw_t1
 
         }
 
-        private async void Type10Save_Click(object sender, RoutedEventArgs e)
-        {
-            TaskType10 taskContent = new TaskType10();
-            taskContent.id = 0;
-
-            // checkings
-            ClearErrors();
-            string mind = "";
-            List<string> theClues = new List<string>();
-            theClues.Clear();
-            List<string> baseForms = new List<string>();
-            baseForms.Clear();
-            List<List<string>> alterns = new List<List<string>>();
-            List<string> explans = new List<string>();
-
-            for (int u = 0; u < editBoxes.Children.Count; u++)
-            {
-                List<string> altern = new List<string>();
-
-                StackPanel aWrap = editBoxes.Children[u] as StackPanel;
-                // clues - are there any clues that are the same?
-                Grid wideGr = aWrap.Children[0] as Grid;
-
-                // baseform
-                StackPanel baseStack = wideGr.Children[1] as StackPanel;
-                TextBox baseF = baseStack.Children[1] as TextBox;
-                if(baseF.Text.Length < 1)
-                {
-                    MarkError(u);
-                    mind = "Error: You have not filled in at least one base form.";
-                    break;
-                }
-                baseForms.Add(baseF.Text.Trim());
-
-                // clues
-                TextBlock theClue = wideGr.Children[0] as TextBlock;
-                theClues.Add(theClue.Text.Trim());
-
-                // alternatives
-                StackPanel alternativeStack = wideGr.Children[2] as StackPanel;
-                for(int a = 2; a < alternativeStack.Children.Count; a++)
-                {
-                    TextBox oneAlt = alternativeStack.Children[a] as TextBox;
-                    altern.Add(oneAlt.Text.Trim());
-                }
-
-                alterns.Add(altern);
-
-                // explanations
-                StackPanel explStack = wideGr.Children[3] as StackPanel;
-                TextBox theExpl = explStack.Children[1] as TextBox;
-
-
-                explans.Add(theExpl.Text.Trim());
-
-
-
-            }
-          //  mind.Show();
-
-            // get the sentence
-
-
-
-            List<string> sentence = new List<string>();
-            sentence.Clear();
-            string ch = "";
-            int ha = 0;
-            string temp = "";
-            for (int i = 0; i < chosenWordsT_10.Children.Count; i++)
-            {
-
-                ListBoxItem lbitem = chosenWordsT_10.Children[i] as ListBoxItem;
-                if(lbitem.Tag.ToString() == "0" || lbitem.Tag.ToString() == "x")
-                {
-                    string eloke = " ";
-                    if(lbitem.Tag.ToString() == "x")
-                    {
-                        eloke = "";
-                    }
-
-                    TextBlock lbcontent = lbitem.Content as TextBlock;
-                    temp += lbcontent.Text;
-                }
-                else
-                {
-                    if(temp != "")
-                    {
-                        sentence.Add(temp.Trim());
-                        ha++;
-                        temp = "";
-                    }
-                  
-                }
-
-             
-            }
-            sentence.Add(temp);
-            ha++;
-         //   ha.ToString().Show();
-
-            taskContent.sentence = sentence;
-            taskContent.words = baseForms;
-            taskContent.clues = theClues;
-            taskContent.alternatives = alterns;
-            taskContent.expls = explans;
-
-            string json = Newtonsoft.Json.JsonConvert.SerializeObject(taskContent);
-            jsonType10.Text = json;
-
-
-            string logindat = ("logindata").GetStore();
-            if (logindat != null)
-            {
-
-                UserData userdata = JsonConvert.DeserializeObject<UserData>(logindat);
-                userdata.code = 6; // 6 send new item for a file
-
-                string thejson = JsonConvert.SerializeObject(userdata);
-
-                Dictionary<string, string> pairs = new Dictionary<string, string>();
-
-                string valasz = await pairs.PostJsonAsync("http://kashusoft.org/uwpehw/src/client_teacher.php");
-
-            }
-
-        }
+     
 
         private void MarkError(int wrapper)
         {
@@ -2626,46 +2519,46 @@ namespace ehw_t1
             }
         }
 
-        private async void Send10_Click(object sender, RoutedEventArgs e)
-        {
-            string filePath = File_name.Text;
+        //private async void Send10_Click(object sender, RoutedEventArgs e)
+        //{
+        //    string filePath = File_name.Text;
             
-            string contentStr = jsonType10.Text;
-            if(contentStr.Length < 10)
-            {
-                ("The task is too short.").Show();
-                return;
-            }
+        //    string contentStr = jsonType10.Text;
+        //    if(contentStr.Length < 10)
+        //    {
+        //        ("The task is too short.").Show();
+        //        return;
+        //    }
 
-            string logindat = ("logindata").GetStore();
-            if (logindat != null)
-            {
+        //    string logindat = ("logindata").GetStore();
+        //    if (logindat != null)
+        //    {
 
-                UserData userdata = JsonConvert.DeserializeObject<UserData>(logindat);
-                userdata.code = 8; // 6 send new item for a file
+        //        UserData userdata = JsonConvert.DeserializeObject<UserData>(logindat);
+        //        userdata.code = 8; // 6 send new item for a file
 
-                userdata.path = filePath;
+        //        userdata.path = filePath;
 
-                //  userdata.foldername = newFileName;
+        //        //  userdata.foldername = newFileName;
 
-                // result.Text = apath;
+        //        // result.Text = apath;
 
-                string thejson = JsonConvert.SerializeObject(userdata);
+        //        string thejson = JsonConvert.SerializeObject(userdata);
 
-                Dictionary<string, string> pairs = new Dictionary<string, string>();
+        //        Dictionary<string, string> pairs = new Dictionary<string, string>();
 
-                pairs.Add("json", thejson);
-                pairs.Add("content", contentStr);
-                //pairs.Add("instructions", instru);
-                //pairs.Add("weight", weight.ToString());
-                //pairs.Add("type", "10"); // task type
+        //        pairs.Add("json", thejson);
+        //        pairs.Add("content", contentStr);
+        //        //pairs.Add("instructions", instru);
+        //        //pairs.Add("weight", weight.ToString());
+        //        //pairs.Add("type", "10"); // task type
                
-                string valasz = await pairs.PostJsonAsync("http://kashusoft.org/uwpehw/src/client_teacher.php");
-                jsonType10.Text = valasz;
+        //        string valasz = await pairs.PostJsonAsync("http://kashusoft.org/uwpehw/src/client_teacher.php");
+        //        jsonType10.Text = valasz;
 
-            }
+        //    }
 
-        }
+        //}
 
         private async void sendNewLine()
         {

@@ -221,40 +221,16 @@
                 </Grid>
 
 
-            <Grid Grid.Row="6" x:Name="type10" Background="AntiqueWhite" Visibility="Visible" Padding="4">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-
+                <Grid Grid.Row="6" x:Name="type10" Background="AntiqueWhite" Visibility="Visible" Padding="4">
+                    <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-
-                <TextBlock Grid.Row="1" Visibility="Collapsed" Text="Task TYPE 10 - Complete the text with the given words. Put the words in the corect form." />
-                <TextBlock Grid.Row="2" Visibility="Collapsed" Text="1. Paste or write a paragraph here, then press PROCESS." />
-                <TextBox Grid.Row="3" Visibility="Collapsed" x:Name="rawTextOld" />
-                <Button Content="Process" Visibility="Collapsed" Grid.Row="4" x:Name="processText10Old" Click="ProcessText10_Click" />
-                    <controls:WrapPanel Grid.Row="5"  x:FieldModifier="public" x:Name="chosenWordsT_10Old">
-
-                </controls:WrapPanel>
-                    <controls:WrapPanel x:Name="editBoxes" Grid.Row="6" >
-                        
+                    <controls:WrapPanel Grid.Row="0"  x:FieldModifier="public" x:Name="chosenWordsT_10Old">
                     </controls:WrapPanel>
-
-                  
-                    <Button Grid.Row="8" Visibility="Collapsed" Content="SAVE" x:Name="Type10Save" Click="Type10Save_Click" />
-                    <TextBlock Visibility="Collapsed" Grid.Row="9" Text="result" x:Name="jsonType10" TextWrapping="Wrap" />
-                    <Button Visibility="Collapsed" Grid.Row="10" Content="send" x:Name="send10" Click="Send10_Click" />
+                    <controls:WrapPanel x:Name="editBoxes" Background="Aqua" Grid.Row="1" >
+                    </controls:WrapPanel>
                 </Grid>
 
                 <Grid Grid.Row="6" x:Name="MainGrid0" Padding="32,16" Visibility="Collapsed" >
@@ -403,7 +379,7 @@
                 </Grid>
              
 
-                <Grid Grid.Row="8" Background="Coral" >
+                <Grid Grid.Row="8" x:Name="createSendGrid" Background="Coral" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -417,9 +393,22 @@
 
 
                 </Grid>
-                  
 
+                <Grid Grid.Row="9" x:Name="EditGridWrap" Background="LightGreen" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="edit"/>
+
+                </Grid>
+            
+            
             </Grid>
+            
+            
         </ScrollViewer>
         
         <Grid Grid.Row="0" Grid.Column="0" Background="#FFEAE7E7" Padding="12" >
